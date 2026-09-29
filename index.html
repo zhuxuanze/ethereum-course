@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ethereum Casino</title>
+</head>
+<body>
+  <h1>Ethereum Casino</h1>
+
+  <button id="connectButton">Connect MetaMask</button>
+  <p id="account">Not connected</p>
+
+  <hr>
+
+  <label for="betNumber">Choose a number from 1 to 10:</label>
+  <input id="betNumber" type="number" min="1" max="10">
+
+  <br><br>
+
+  <button id="betButton">Place Bet</button>
+  <p id="status"></p>
+
+<script src="https://cdn.jsdelivr.net/npm/web3@1.10.4/dist/web3.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
