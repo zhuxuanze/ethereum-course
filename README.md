@@ -2,11 +2,24 @@
 
 Casino DApp for SWUFE / GEC Academy's Introduction to Ethereum and Cloud Blockchain Solutions Engineering.
 
-The frontend follows the assignment supplement's **React → Babel → webpack → dist/build.js → http-server ./dist** workflow. The tutorial's old wallet API is adapted to MetaMask's `window.ethereum` API and Web3.js 4. All frontend dependencies are bundled locally; no CDN is needed by the published webpage.
+The final implementation uses React, Babel, webpack, Web3.js and MetaMask on Sepolia. The Solidity contract is adapted from the Casino tutorial and includes settlement corrections.
 
-## Run on a Mac
+## Final deployment and observed results
 
-Requires Node.js 22 or later and Edge with MetaMask. In the repository folder:
+- Network: Sepolia, chain ID 11155111.
+- Contract: `0xa21408BdCcBf43b5767159Aeb2BE0E24f4F91eE8`.
+- Deployment transaction: `0x03ad41652e65079580a0846e54e00515d7dc5bf7f89ed9ee26ef4078f9b73d3f`.
+- Successful React bet: `0xa28e71afabc8dcf2f62305720dd6e760e487a522039c1df65700bf8e9dce2df4`.
+- Test account: `0xf022a488D7730A66D9Aa986077162425CA910200`.
+- Bet: number 5, 0.1 Sepolia ETH. Receipt status was 0x1 and the revised contract emitted BetPlaced.
+- Public website: https://2603e5ea.pinit.eth.limo
+- Source revision: https://github.com/zhuxuanze/ethereum-course/commit/a07abc7
+
+On October 8, 2026, the final public page connected through MetaMask and showed 1 bet, a 0.1 ETH pool, a 0.1 ETH minimum and a 100-bet threshold. The account had already bet locally, so the public test only connected and read state. Earlier contracts and their bets are separate records and were not transferred to this deployment.
+
+## Run locally
+
+Requires Node.js 22 or later and a browser with MetaMask.
 
 ```sh
 npm ci
@@ -14,99 +27,63 @@ npm run build
 npm start
 ```
 
-Open http://127.0.0.1:8080. Select **Sepolia Test Network** in MetaMask and click **Connect MetaMask**. Confirm that the five displayed values load. In particular, the assignment describes **100 bets**, so `Max amount of bets` should show `100`.
-
-If an older server already occupies port 8080, stop it in its terminal with **Control+C**, then run `npm start` again.
-
-The equivalent explicit build and server commands from the supplement are:
+The default server opens http://127.0.0.1:8080 . The recorded final test used port 8082 because other local servers already occupied earlier ports:
 
 ```sh
-npx webpack --config webpack.config.js
-npx http-server ./dist -a 127.0.0.1 -p 8080 -c-1
+npx http-server ./dist -a 127.0.0.1 -p 8082 -c-1
 ```
 
-## Contract and wallet connection
+Select Sepolia in MetaMask and click Connect MetaMask. The frontend reads the contract statistics and player status from a common block and refreshes every seven seconds. Reading the page does not place a bet.
 
-`src/js/config.cjs` contains the existing Casino address:
+`src/js/config.cjs` holds the final contract address and Sepolia network configuration. `src/js/index.jsx` renders the React UI. `src/js/casino-client.cjs` reads state, validates input and submits bets. `src/js/casino-abi.cjs` defines the frontend ABI.
 
-`0xc9D1Be30FF054a67B3C68974F37401929Aff2D51`
+A transaction hash is shown as pending before a receipt is available. Success is reported only after a successful receipt. The frontend checks the current network, account, minimum stake, repeated-player status and round capacity before sending.
 
-This is a Sepolia contract, not a mainnet contract or the student's wallet. The webpage reads `minimumBet`, `totalBet`, `numberOfBets`, `maxAmountOfBets`, `numberWinner`, and the account's existing-player status from the same block, then refreshes every seven seconds.
+## Solidity source and compilation
 
-To bet, select a number from 1 to 10, enter at least the displayed minimum in Sepolia ETH, and click **Place Bet**. The wallet must confirm the transaction. A transaction hash is linked to Sepolia Etherscan. A submitted hash is shown as pending; success is reported only after a successful receipt.
+The files are `casino.sol` and `contracts/oraclizeAPI_0.4.sol`. Keep this relationship so the local import resolves.
 
-The tutorial contract rejects an account that already has a recorded bet. The frontend checks this before asking MetaMask to send. Changing accounts or networks clears the previous session's displayed state. The frontend refuses to send from mainnet.
+The final deployed Casino was compiled with Solidity 0.4.22 and optimization disabled. Its runtime bytecode was 18,018 bytes and matched the compiled source exactly. Constructor values were 100000000000000000 wei and 100 bets; deployment Value was zero. The contract is already deployed, so these values document the existing deployment.
 
-## Compile the tutorial contract in Remix
+The revision records all participants, clears player mappings and number lists after settlement, carries a pool with no winners into the following round, and accounts for integer division remainders. It checks the callback sender, query ID and pending-round state. `fundOracle` lets the owner supply a separate query reserve.
 
-The repository includes both files requested by the supplement:
+The contract requests random data after the 100th bet. This revision has not yet completed a live 100-bet Sepolia round, real oracle proof/callback or payout. The API's Sepolia resolver branch alone does not establish live oracle availability or fees.
 
-- `casino.sol`
-- `contracts/oraclizeAPI_0.4.sol` (the downloaded Solidity 0.4-compatible Provable/Oraclize API)
-
-Keep their folder relationship so the local import resolves. In Remix, select **Solidity 0.4.22**, compile `casino.sol`, and select **Casino** in the deployment dropdown. This source was compiled with 0.4.22 in the preparation environment: **0 errors**. Warnings arise from the old Solidity syntax and library.
-
-If a new deployment is needed, use MetaMask on **Sepolia**, set `_minimumBet` to `100000000000000000` wei (0.1 ETH), and set `_maxAmountOfBets` to **100**. Do not use the zero/default threshold, which defaults to 10 in the tutorial source. Record the new address and deployment transaction, then update `src/js/config.cjs` and rebuild. Changing a constructor argument in the source cannot change an already deployed contract.
-
-The contract source is adapted from the teacher's linked tutorial; its core betting/oracle/payout logic is retained. The import is vendored as a local file as the supplement requests. The retrieved API includes a Sepolia resolver branch; that does not establish that a real randomness query/callback succeeded for this deployment.
-
-## Publish on IPFS
-
-Run `npm run build` first. Upload **the contents of `dist/` together**, including `index.html`, `build.js`, and `build.js.LICENSE.txt`. `index.html` must be at the website root and its `./build.js` path must remain valid. Do not upload the repository root, `node_modules`, or an older `ipfs-site` folder containing the previous plain-JavaScript frontend.
-
-For the already authenticated PinMe CLI used in this project:
-
-```sh
-npx pinme upload ./dist
-```
-
-Record the URL returned by that new upload and test it in Edge. The previous PinMe URL points to the previous published frontend until it is replaced or a new upload is performed. Capture a genuine screenshot including the **public URL**, the connected wallet and the contract statistics. Local automated testing is not public deployment evidence.
-
-## Custom domain with IPFS
-
-The assignment includes learning to connect a custom domain to IPFS. A gateway-assigned PinMe subdomain is not proof that a personally controlled custom domain was configured.
-
-With control of a domain's DNS, a typical DNSLink setup publishes a TXT record at `_dnslink.<domain>` containing `dnslink=/ipfs/<CID>`, then routes the website host to an IPFS gateway that supports custom hostnames and HTTPS. An IPNS target can instead be used to keep a stable name as the content changes. Use the actual CID from the final React upload, not the CID of the earlier HTML/JavaScript site. Buying a paid domain is not stated as a separate assignment requirement. See https://docs.ipfs.tech/how-to/websites-on-ipfs/custom-domains/ .
-
-No personally controlled custom domain is currently configured; do not claim this step has been demonstrated.
-
-## Verification and remaining evidence
+## Checks and their scope
 
 ```sh
 npm test
 ```
 
-Ten tests cover ABI state decoding at a common block, mainnet rejection, missing contract code, exact wei conversion, invalid input, repeat-player and full-round checks, wallet account changes, transaction fields and receipt status. They use **mocked provider responses**, not real Sepolia transactions. The compiled React bundle also passed DOM integration checks for first connection, displayed state, duplicate-player rejection, input validation, network changes and rejected wallet permission. These checks do not replace a real wallet test.
+Ten prepared mocked-provider tests passed for frontend state decoding, network rejection, contract existence, exact wei conversion, invalid input, repeat/full-round checks, account changes, transaction fields and receipt status. DOM checks also covered rendered connection and error behavior.
 
-The previously recorded Sepolia bet transaction was successful:
+A separate Solidity 0.4.22/Ganache test harness passed seven scenarios: settlement and repeated rounds; a pool with no winners carried forward; simulated query fees with and without an oracle reserve; failed-query rollback and callback checks; equal winner shares with a one-wei remainder; and a complete local 100-account round. Its 2,109,275-gas settlement measurement excludes real oracle proof verification.
 
-https://sepolia.etherscan.io/tx/0x7f976cc61d72de4ae8036d6faceb6fefe97f74aded1c215a8054e6179d8aec29
+The student also confirmed winner payout/reset, a following-round bet and a no-winner 0.2 ETH carryover using CasinoLocalCheckFixed in Remix VM. Manual draw functions and the simulated oracle belong to that local harness, not the deployed Casino. Local checks are separate from the real final Sepolia bet and public-page evidence.
 
-That transaction and the existing screenshots came from the **earlier frontend**. A successful bet from the new React frontend and its public IPFS URL still need to be recorded. A second funded test account is needed if the first account is already recorded. A full 100-bet round, a real oracle callback and prize distribution have **not** been demonstrated. The assignment describes the threshold; it does not separately instruct the student to manually fund 100 accounts or attach 100 receipts.
+## Publish on IPFS
 
-Known limitations retained from the tutorial include a player mapping not cleared after distribution and an unhandled zero-winner case. A full game audit is not claimed, and the recovered source has not been verified against the existing deployment's bytecode.
+The final public website is https://2603e5ea.pinit.eth.limo . The published bundle contains the final address and does not contain either previous Casino address.
 
-## Submit
+After future frontend changes, rebuild and upload the complete dist directory:
 
-- Push the programming source to this same course repository and include its URL in the report.
-- Add the instructor and TA as repository collaborators using their actual GitHub usernames; these usernames are still needed.
-- Submit the report to **Univ.AI LMS** by the beginning of the next class, using the LMS clock as official.
-- Use the teacher's supplied cover as the first page; fill name as **Zhu, Xuanze**, date and email **3463866996@qq.com**.
-- Include the student's own truthful, signed statement of independent effort.
-- Use **US Letter (8.5 × 11 inches)**, with cover followed by answers.
-- Include every Part I question and subquestion and the actual Part II implementation/testing/deployment evidence. Do not label pending steps complete.
-- `node_modules/` is ignored. Commit source, configuration, lockfile, the static `dist/index.html` and the downloaded API. `dist/build.js` is reproducible with `npm ci` and `npm run build`; publish it on IPFS with its license file.
+```sh
+npm run build
+npx pinme upload ./dist
+```
 
-The earlier report must be revised after the React test and upload; it is not the final report for this implementation.
+Publish index.html, build.js and its license file together. Do not upload node_modules or an earlier frontend folder. Record and test the URL returned by each new upload.
 
-## Sources
+The website uses a gateway-provided PinMe subdomain. An owned custom domain has not been configured. For DNSLink, a controlled domain would use a TXT record at `_dnslink.<domain>` containing `dnslink=/ipfs/<CID>` (or an IPNS target), with a compatible gateway and HTTPS. This is a learning procedure, not a claimed completed deployment.
 
-- Teacher-provided Assignment / Lab #2, Assignment 2 supplement, and lecture slides.
-- Casino tutorial: https://github.com/merlox/casino-ethereum
-- Provable API: https://github.com/provable-things/ethereum-api/blob/master/old-contracts/previous-api-contracts/oraclizeAPI_0.4.sol
-- React: https://react.dev/reference/react-dom/client/createRoot
-- webpack: https://webpack.js.org/guides/getting-started/
-- Babel: https://babel.dev/docs/babel-preset-react
-- MetaMask provider: https://docs.metamask.io/metamask-connect/evm/reference/provider-api/
+## Submission
 
-See `THIRD_PARTY_NOTICES.md` and the API source for preserved copyright/license notices.
+Use the same GitHub repository for the course, include its link in the report, and verify instructor and TA collaborator access using their actual usernames. Submit the report to Univ.AI LMS by the beginning of the next class, using the LMS clock.
+
+The report must use the supplied cover, US Letter pages, the student's name/date/email and a truthful signed statement of independent effort. Include all Part I answers and the final Part II deployment, transaction and public-page evidence. Do not describe a live oracle draw or owned custom domain as completed.
+
+The cover's declaration/signature fields require the student's own completion. The report acknowledges ChatGPT assistance.
+
+## Sources and attribution
+
+See the teacher's Assignment / Lab 2, supplement and lecture slides. The contract is adapted from https://github.com/merlox/casino-ethereum . The local API is from https://github.com/provable-things/ethereum-api/blob/master/old-contracts/previous-api-contracts/oraclizeAPI_0.4.sol . Preserve THIRD_PARTY_NOTICES.md and the API's license notices.
