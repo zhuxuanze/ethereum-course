@@ -1,0 +1,24 @@
+body { margin: 0; font-family: Arial, 'Microsoft YaHei', sans-serif; color: #444; background: white; }
+.main-container { padding: 24px; max-width: 1250px; margin: auto; }
+h1 { font-size: 28px; margin-bottom: 10px; }
+h2 { font-size: 21px; }
+a { color: #146ab4; }
+button { cursor: pointer; border: 1px solid #b8c4ce; border-radius: 6px; background: white; color: #333; padding: 10px 16px; font-size: 15px; }
+button:disabled { cursor: default; opacity: .55; }
+button:focus-visible, input:focus-visible { outline: 3px solid #f6b64d; outline-offset: 3px; }
+.network, .hint { color: #666; font-size: 14px; }
+.address { overflow-wrap: anywhere; font-size: 14px; }
+.stats { margin: 22px 0; }
+.stats div { display: flex; gap: 8px; margin: 7px 0; }
+dt { font-weight: bold; } dd { margin: 0; }
+hr { border: 0; border-top: 1px solid #ddd; margin: 24px 0; }
+.bet-input { padding: 12px; border: 1px solid lightgray; border-radius: 8px; font-size: 18px; width: 130px; margin: 12px; }
+fieldset { padding: 0; margin: 20px 0; border: none; }
+legend { font-size: 14px; margin-bottom: 10px; }
+.numbers { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 8px; }
+.numbers button { padding: 30px 0; border: 2px solid rgb(30,134,255); border-radius: 10px; }
+.numbers button:hover:not(:disabled), .number-selected { background: rgb(30,134,255); color: white; }
+.submit { background: #146ab4; color: white; border-color: #146ab4; }
+.notice { padding: 12px; background: #fff3df; border-left: 4px solid #df9e26; font-size: 14px; }
+.status { padding: 12px 0; overflow-wrap: anywhere; }
+@media (max-width: 700px) { .numbers { grid-template-columns: repeat(5, minmax(0, 1fr)); } .main-container { padding: 16px; } h1 { font-size: 24px; } .bet-input { margin-left: 0; display: block; } }

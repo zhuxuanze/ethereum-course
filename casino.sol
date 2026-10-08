@@ -1,6 +1,6 @@
 pragma solidity ^0.4.11;
 
-import "https://github.com/provable-things/ethereum-api/blob/master/old-contracts/previous-api-contracts/oraclizeAPI_0.4.sol";
+import "./contracts/oraclizeAPI_0.4.sol";
 
 // Based on the Casino tutorial by Merunas Grincalaitis.
 contract Casino is usingOraclize {

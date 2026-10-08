@@ -1,2 +1,6 @@
 node_modules/
+dist/build.js
+dist/build.js.LICENSE.txt
+dist/build.js.map
+verification/
 .DS_Store
