@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" translate="no">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google" content="notranslate">
+  <meta http-equiv="Content-Language" content="en">
+  <title>Assignment 3 — Hello World on Sepolia</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/ethers.umd.min.js" defer></script>
+  <script src="/app.js" defer></script>
+</head>
+<body class="notranslate" translate="no">
+  <main>
+    <h1>Assignment 3: Hello World</h1>
+    <p>MetaMask · Sepolia (chain 11155111) · Transaction value: 0 ETH</p>
+    <p>This page uses the locally compiled, optimized Solidity 0.5.17 contract. Only button clicks can request transactions. It never reads or exports private keys.</p>
+    <div id="status" role="status">Loading local ABI and bytecode…</div>
+    <div id="providers" class="detail">Waiting for wallet announcements.</div>
+    <div class="buttons">
+      <button id="connect" disabled>1. Connect MetaMask</button>
+      <button id="deploy" disabled>2. Deploy HelloWorld</button>
+      <button id="recover" disabled>Recover existing deployment</button>
+      <button id="read" disabled>3. Read hello()</button>
+      <button id="send" disabled>4. Send hello transaction</button>
+      <button id="recover-hello" disabled>Recover hello transaction</button>
+      <button id="retry" disabled>Retry hello after confirmed failure</button>
+      <button id="download" disabled>Download evidence JSON</button>
+    </div>
+    <label for="recover-hash">Existing deployment transaction hash (read-only recovery)</label>
+    <input id="recover-hash" type="text" autocomplete="off" spellcheck="false" aria-label="Existing deployment transaction hash" placeholder="0x…">
+    <div id="explorer-links" class="detail"></div>
+    <section class="summary" aria-label="Sepolia execution summary">
+      <h2>Sepolia execution summary</h2>
+      <div><strong>Contract:</strong> <code id="summary-contract">Not recorded</code> · <span id="summary-code">Runtime not verified</span></div>
+      <table>
+        <thead><tr><th>Operation</th><th>Transaction / result</th><th>Status / gas used</th></tr></thead>
+        <tbody>
+          <tr><th>Deployment</th><td><code id="summary-deployment-hash">Not recorded</code></td><td id="summary-deployment-status">Not recorded</td></tr>
+          <tr><th>hello() read</th><td><strong id="summary-greeting">Not read</strong></td><td id="summary-read-status">eth_call</td></tr>
+          <tr><th>hello() transaction</th><td><code id="summary-call-hash">Not sent</code></td><td id="summary-call-status">Not recorded</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <h2>Public execution evidence</h2>
+    <pre id="evidence" aria-live="polite">{}</pre>
+  </main>
+</body>
+</html>

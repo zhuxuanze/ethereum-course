@@ -1,0 +1,9 @@
+Official source: https://etherscan.io/gastracker
+Retrieved at UTC: 2026-10-18T11:17:35.380952+00:00
+HTTP Date: Sun, 18 Oct 2026 11:17:35 GMT
+Standard gas: 0.038 gwei
+Average/page avgPrice (displayed Fast): 0.038 gwei
+ETH/USD: 2416.07
+640000 gas: 0.000024320000 ETH; USD 0.05875882240000
+758364 gas: 0.000028817832 ETH; USD 0.06962589936024
+These are hypothetical mainnet-equivalent costs, not actual test-network spending.

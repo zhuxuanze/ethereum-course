@@ -1,0 +1,93 @@
+{
+  "observedAtUtc": "2026-10-18T11:23:34.011Z",
+  "checks": {
+    "javascriptSyntax": true,
+    "allowlistedRoutes": true,
+    "reportAndNodeModulesBlocked": true,
+    "pathTraversalBlocked": true,
+    "nonGetMethodBlocked": true,
+    "translationSuppression": true,
+    "localEthersBundleMatchesInstalledPackage": true,
+    "noAutomaticWalletRequests": true,
+    "mainnetRejectedBeforeSigning": true,
+    "unexpectedAccountShownAndRejected": true
+  },
+  "routeChecks": [
+    {
+      "route": "/",
+      "status": 200,
+      "bytes": 1467
+    },
+    {
+      "route": "/app.js",
+      "status": 200,
+      "bytes": 14119
+    },
+    {
+      "route": "/styles.css",
+      "status": 200,
+      "bytes": 1248
+    },
+    {
+      "route": "/ethers.umd.min.js",
+      "status": 200,
+      "bytes": 526551
+    },
+    {
+      "route": "/artifacts/HelloWorld/abi.json",
+      "status": 200,
+      "bytes": 268
+    },
+    {
+      "route": "/artifacts/HelloWorld/creation.bin",
+      "status": 200,
+      "bytes": 579
+    },
+    {
+      "route": "/artifacts/HelloWorld/runtime.bin",
+      "status": 200,
+      "bytes": 515
+    },
+    {
+      "route": "/report/Assignment3.pdf",
+      "status": 404
+    },
+    {
+      "route": "/report_answers.md",
+      "status": 404
+    },
+    {
+      "route": "/sources.json",
+      "status": 404
+    },
+    {
+      "route": "/node_modules/ethers/package.json",
+      "status": 404
+    },
+    {
+      "route": "/package.json",
+      "status": 404
+    },
+    {
+      "route": "/evidence/local-results.json",
+      "status": 404
+    },
+    {
+      "route": "/%2e%2e/report_answers.md",
+      "status": 404
+    },
+    {
+      "route": "/artifacts/HelloWorld/../../../report_answers.md",
+      "status": 404
+    },
+    {
+      "route": "/etc/passwd",
+      "status": 404
+    }
+  ],
+  "ethersBundleSha256": "532950515fd29ae9f7a21ceb2b68100815024d7944c3d5a92246d5b900bd703b",
+  "notes": [
+    "The UI smoke test used a mock wallet only for rejection paths. No real wallet, account access or transaction was requested by these checks.",
+    "The deployment page itself is running on loopback for the coordinating agent to operate through MetaMask."
+  ]
+}

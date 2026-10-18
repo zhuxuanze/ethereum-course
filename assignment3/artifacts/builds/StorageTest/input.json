@@ -1,0 +1,28 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/StorageTest.sol": {
+      "content": "pragma solidity ^0.5.1;\n\ncontract StorageTest {\n    bytes32[] b;\n\n    function put(bytes32[] memory _b) public {\n        b = _b;\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "evmVersion": "istanbul",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "metadata",
+          "evm.bytecode",
+          "evm.deployedBytecode"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    }
+  }
+}

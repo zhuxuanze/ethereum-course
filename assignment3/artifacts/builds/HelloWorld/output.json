@@ -1,0 +1,170 @@
+{
+  "contracts": {
+    "contracts/HelloWorld.sol": {
+      "HelloWorld": {
+        "abi": [
+          {
+            "constant": true,
+            "inputs": [],
+            "name": "hello",
+            "outputs": [
+              {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+              }
+            ],
+            "payable": false,
+            "stateMutability": "pure",
+            "type": "function"
+          }
+        ],
+        "evm": {
+          "bytecode": {
+            "linkReferences": {},
+            "object": "608060405234801561001057600080fd5b50610101806100206000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c806319ff1d2114602d575b600080fd5b603360a5565b6040805160208082528351818301528351919283929083019185019080838360005b83811015606b5781810151838201526020016055565b50505050905090810190601f16801560975780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b60408051808201909152600d81526c48656c6c6f2c20776f726c642160981b60208201529056fea265627a7a72315820824919830441bafa6cc32ac480b7ff930152538af508f6480dcf8eecc0347dc664736f6c63430005110032",
+            "opcodes": "PUSH1 0x80 PUSH1 0x40 MSTORE CALLVALUE DUP1 ISZERO PUSH2 0x10 JUMPI PUSH1 0x0 DUP1 REVERT JUMPDEST POP PUSH2 0x101 DUP1 PUSH2 0x20 PUSH1 0x0 CODECOPY PUSH1 0x0 RETURN INVALID PUSH1 0x80 PUSH1 0x40 MSTORE CALLVALUE DUP1 ISZERO PUSH1 0xF JUMPI PUSH1 0x0 DUP1 REVERT JUMPDEST POP PUSH1 0x4 CALLDATASIZE LT PUSH1 0x28 JUMPI PUSH1 0x0 CALLDATALOAD PUSH1 0xE0 SHR DUP1 PUSH4 0x19FF1D21 EQ PUSH1 0x2D JUMPI JUMPDEST PUSH1 0x0 DUP1 REVERT JUMPDEST PUSH1 0x33 PUSH1 0xA5 JUMP JUMPDEST PUSH1 0x40 DUP1 MLOAD PUSH1 0x20 DUP1 DUP3 MSTORE DUP4 MLOAD DUP2 DUP4 ADD MSTORE DUP4 MLOAD SWAP2 SWAP3 DUP4 SWAP3 SWAP1 DUP4 ADD SWAP2 DUP6 ADD SWAP1 DUP1 DUP4 DUP4 PUSH1 0x0 JUMPDEST DUP4 DUP2 LT ISZERO PUSH1 0x6B JUMPI DUP2 DUP2 ADD MLOAD DUP4 DUP3 ADD MSTORE PUSH1 0x20 ADD PUSH1 0x55 JUMP JUMPDEST POP POP POP POP SWAP1 POP SWAP1 DUP2 ADD SWAP1 PUSH1 0x1F AND DUP1 ISZERO PUSH1 0x97 JUMPI DUP1 DUP3 SUB DUP1 MLOAD PUSH1 0x1 DUP4 PUSH1 0x20 SUB PUSH2 0x100 EXP SUB NOT AND DUP2 MSTORE PUSH1 0x20 ADD SWAP2 POP JUMPDEST POP SWAP3 POP POP POP PUSH1 0x40 MLOAD DUP1 SWAP2 SUB SWAP1 RETURN JUMPDEST PUSH1 0x40 DUP1 MLOAD DUP1 DUP3 ADD SWAP1 SWAP2 MSTORE PUSH1 0xD DUP2 MSTORE PUSH13 0x48656C6C6F2C20776F726C6421 PUSH1 0x98 SHL PUSH1 0x20 DUP3 ADD MSTORE SWAP1 JUMP INVALID LOG2 PUSH6 0x627A7A723158 KECCAK256 DUP3 0x49 NOT DUP4 DIV COINBASE 0xBA STATICCALL PUSH13 0xC32AC480B7FF930152538AF508 0xF6 0x48 0xD 0xCF DUP15 0xEC 0xC0 CALLVALUE PUSH30 0xC664736F6C63430005110032000000000000000000000000000000000000 ",
+            "sourceMap": "25:120:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;25:120:0;;;;;;;"
+          },
+          "deployedBytecode": {
+            "linkReferences": {},
+            "object": "6080604052348015600f57600080fd5b506004361060285760003560e01c806319ff1d2114602d575b600080fd5b603360a5565b6040805160208082528351818301528351919283929083019185019080838360005b83811015606b5781810151838201526020016055565b50505050905090810190601f16801560975780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b60408051808201909152600d81526c48656c6c6f2c20776f726c642160981b60208201529056fea265627a7a72315820824919830441bafa6cc32ac480b7ff930152538af508f6480dcf8eecc0347dc664736f6c63430005110032",
+            "opcodes": "PUSH1 0x80 PUSH1 0x40 MSTORE CALLVALUE DUP1 ISZERO PUSH1 0xF JUMPI PUSH1 0x0 DUP1 REVERT JUMPDEST POP PUSH1 0x4 CALLDATASIZE LT PUSH1 0x28 JUMPI PUSH1 0x0 CALLDATALOAD PUSH1 0xE0 SHR DUP1 PUSH4 0x19FF1D21 EQ PUSH1 0x2D JUMPI JUMPDEST PUSH1 0x0 DUP1 REVERT JUMPDEST PUSH1 0x33 PUSH1 0xA5 JUMP JUMPDEST PUSH1 0x40 DUP1 MLOAD PUSH1 0x20 DUP1 DUP3 MSTORE DUP4 MLOAD DUP2 DUP4 ADD MSTORE DUP4 MLOAD SWAP2 SWAP3 DUP4 SWAP3 SWAP1 DUP4 ADD SWAP2 DUP6 ADD SWAP1 DUP1 DUP4 DUP4 PUSH1 0x0 JUMPDEST DUP4 DUP2 LT ISZERO PUSH1 0x6B JUMPI DUP2 DUP2 ADD MLOAD DUP4 DUP3 ADD MSTORE PUSH1 0x20 ADD PUSH1 0x55 JUMP JUMPDEST POP POP POP POP SWAP1 POP SWAP1 DUP2 ADD SWAP1 PUSH1 0x1F AND DUP1 ISZERO PUSH1 0x97 JUMPI DUP1 DUP3 SUB DUP1 MLOAD PUSH1 0x1 DUP4 PUSH1 0x20 SUB PUSH2 0x100 EXP SUB NOT AND DUP2 MSTORE PUSH1 0x20 ADD SWAP2 POP JUMPDEST POP SWAP3 POP POP POP PUSH1 0x40 MLOAD DUP1 SWAP2 SUB SWAP1 RETURN JUMPDEST PUSH1 0x40 DUP1 MLOAD DUP1 DUP3 ADD SWAP1 SWAP2 MSTORE PUSH1 0xD DUP2 MSTORE PUSH13 0x48656C6C6F2C20776F726C6421 PUSH1 0x98 SHL PUSH1 0x20 DUP3 ADD MSTORE SWAP1 JUMP INVALID LOG2 PUSH6 0x627A7A723158 KECCAK256 DUP3 0x49 NOT DUP4 DIV COINBASE 0xBA STATICCALL PUSH13 0xC32AC480B7FF930152538AF508 0xF6 0x48 0xD 0xCF DUP15 0xEC 0xC0 CALLVALUE PUSH30 0xC664736F6C63430005110032000000000000000000000000000000000000 ",
+            "sourceMap": "25:120:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;25:120:0;;;;;;;;;;;;;;;;;;;51:92;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:100:-1;33:3;30:1;27:10;8:100;;;90:11;;;84:18;71:11;;;64:39;52:2;45:10;8:100;;;12:14;51:92:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;114:22;;;;;;;;;;;;-1:-1:-1;;;114:22:0;;;;51:92;:::o"
+          }
+        },
+        "metadata": "{\"compiler\":{\"version\":\"0.5.17+commit.d19bba13\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"hello\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"contracts/HelloWorld.sol\":\"HelloWorld\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/HelloWorld.sol\":{\"keccak256\":\"0xf5e037aed63813e63beb7e3920e29cac29e443f731506f084045ecbd8cca361c\",\"urls\":[\"bzz-raw://73826afc80c33c8abd153055620ee4cd1b4fa8162b9f101bd38651bd6fd3ead3\",\"dweb:/ipfs/QmTHAwSk4YF1MQpamvK1fLRCiBsLwc6NXNUw7ka97uTEmY\"]}},\"version\":1}"
+      }
+    }
+  },
+  "sources": {
+    "contracts/HelloWorld.sol": {
+      "ast": {
+        "absolutePath": "contracts/HelloWorld.sol",
+        "exportedSymbols": {
+          "HelloWorld": [
+            10
+          ]
+        },
+        "id": 11,
+        "nodeType": "SourceUnit",
+        "nodes": [
+          {
+            "id": 1,
+            "literals": [
+              "solidity",
+              "^",
+              "0.5",
+              ".1"
+            ],
+            "nodeType": "PragmaDirective",
+            "src": "0:23:0"
+          },
+          {
+            "baseContracts": [],
+            "contractDependencies": [],
+            "contractKind": "contract",
+            "documentation": null,
+            "fullyImplemented": true,
+            "id": 10,
+            "linearizedBaseContracts": [
+              10
+            ],
+            "name": "HelloWorld",
+            "nodeType": "ContractDefinition",
+            "nodes": [
+              {
+                "body": {
+                  "id": 8,
+                  "nodeType": "Block",
+                  "src": "104:39:0",
+                  "statements": [
+                    {
+                      "expression": {
+                        "argumentTypes": null,
+                        "hexValue": "48656c6c6f2c20776f726c6421",
+                        "id": 6,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "121:15:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_b6e16d27ac5ab427a7f68900ac5559ce272dc6c37c82b3e052246c82244c50e4",
+                          "typeString": "literal_string \"Hello, world!\""
+                        },
+                        "value": "Hello, world!"
+                      },
+                      "functionReturnParameters": 5,
+                      "id": 7,
+                      "nodeType": "Return",
+                      "src": "114:22:0"
+                    }
+                  ]
+                },
+                "documentation": null,
+                "id": 9,
+                "implemented": true,
+                "kind": "function",
+                "modifiers": [],
+                "name": "hello",
+                "nodeType": "FunctionDefinition",
+                "parameters": {
+                  "id": 2,
+                  "nodeType": "ParameterList",
+                  "parameters": [],
+                  "src": "65:2:0"
+                },
+                "returnParameters": {
+                  "id": 5,
+                  "nodeType": "ParameterList",
+                  "parameters": [
+                    {
+                      "constant": false,
+                      "id": 4,
+                      "name": "",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 9,
+                      "src": "89:13:0",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_memory_ptr",
+                        "typeString": "string"
+                      },
+                      "typeName": {
+                        "id": 3,
+                        "name": "string",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "89:6:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_storage_ptr",
+                          "typeString": "string"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "src": "88:15:0"
+                },
+                "scope": 10,
+                "src": "51:92:0",
+                "stateMutability": "pure",
+                "superFunction": null,
+                "visibility": "public"
+              }
+            ],
+            "scope": 11,
+            "src": "25:120:0"
+          }
+        ],
+        "src": "0:146:0"
+      },
+      "id": 0
+    }
+  }
+}

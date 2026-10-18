@@ -1,0 +1,38 @@
+{
+  "source": "Remix IDE browser UI transaction receipts",
+  "url": "https://app.remix.live/",
+  "remixVersion": "2.6.7",
+  "environment": "Remix VM",
+  "hardfork": "Shanghai",
+  "compiler": "0.5.17+commit.d19bba13",
+  "evmTarget": "istanbul",
+  "optimizer": {
+    "enabled": false
+  },
+  "account": "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4",
+  "contractAddress": "0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8",
+  "deployment": {
+    "transactionHash": "0xea803d60a4c3dd1ff75594234cd928a76191ac24dfd1c30e35ce143c836b3712",
+    "blockNumber": 2,
+    "status": 1,
+    "gasUsed": 144997,
+    "executionGas": 85135
+  },
+  "firstPut": {
+    "transactionHash": "0x1a3042b54f6b3dba8dbedf901cf6c018b6e7f8fe4895e532a009fb31a053295e",
+    "blockNumber": 3,
+    "status": 1,
+    "gasUsed": 758364,
+    "executionGas": 732552,
+    "wordCount": 32,
+    "bytes": 1024,
+    "inputFile": "storage-input.json",
+    "output": "0x"
+  },
+  "notes": [
+    "The measured contract was newly deployed and put was called once.",
+    "One earlier UI setup instance was deployed separately; its measurements are not used for firstPut.",
+    "Remix VM transactions are local simulation, not Sepolia transactions or real USD spending."
+  ],
+  "recordedAtUtc": "2026-10-18T11:19:46.760904+00:00"
+}

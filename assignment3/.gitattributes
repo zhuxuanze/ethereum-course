@@ -1,0 +1,2 @@
+# Preserve the downloaded source snapshot byte for byte.
+evidence/etherscan-gas-tracker.html -text -diff

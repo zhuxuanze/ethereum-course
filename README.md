@@ -87,3 +87,7 @@ The cover's declaration/signature fields require the student's own completion. T
 ## Sources and attribution
 
 See the teacher's Assignment / Lab 2, supplement and lecture slides. The contract is adapted from https://github.com/merlox/casino-ethereum . The local API is from https://github.com/provable-things/ethereum-api/blob/master/old-contracts/previous-api-contracts/oraclizeAPI_0.4.sol . Preserve THIRD_PARTY_NOTICES.md and the API's license notices.
+
+## Assignment 3
+
+Assignment 3 has its own [source, tests, and experiment records](assignment3/README.md). Run its commands from `assignment3/`; the Assignment 2 application and root commands above are retained.

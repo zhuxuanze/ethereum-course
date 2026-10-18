@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "compilerVersions": {
+    "0.5.17": "0.5.17+commit.d19bba13.Emscripten.clang",
+    "0.4.24": "0.4.24+commit.e67f0147.Emscripten.clang"
+  },
+  "compilationMethod": "Independent solc-js standard JSON; Hardhat does not compile contracts.",
+  "legacyProfile": {
+    "version": "0.4.24",
+    "sourceDirectory": "contracts/legacy",
+    "sourceFiles": [],
+    "status": "available; no legacy source supplied",
+    "settings": {
+      "optimizer": {
+        "enabled": false,
+        "runs": 200
+      },
+      "evmVersion": "byzantium"
+    }
+  },
+  "builds": [
+    {
+      "name": "StorageTest",
+      "compilerPackage": "solc-0.5.17",
+      "compilerVersion": "0.5.17+commit.d19bba13.Emscripten.clang",
+      "settings": {
+        "optimizer": {
+          "enabled": false,
+          "runs": 200
+        },
+        "evmVersion": "istanbul",
+        "outputSelection": {
+          "*": {
+            "*": [
+              "abi",
+              "metadata",
+              "evm.bytecode",
+              "evm.deployedBytecode"
+            ],
+            "": [
+              "ast"
+            ]
+          }
+        }
+      },
+      "sources": {
+        "contracts/StorageTest.sol": {
+          "sha256": "7e22900c41a1a69d2745e26d4ed07f548e04d5d5172f2c9d89aceaee99c5429c"
+        }
+      },
+      "inputFile": "artifacts/builds/StorageTest/input.json",
+      "outputFile": "artifacts/builds/StorageTest/output.json",
+      "warnings": [],
+      "contracts": [
+        {
+          "name": "StorageTest",
+          "artifactFile": "artifacts/StorageTest/artifact.json"
+        }
+      ]
+    },
+    {
+      "name": "HelloWorld",
+      "compilerPackage": "solc-0.5.17",
+      "compilerVersion": "0.5.17+commit.d19bba13.Emscripten.clang",
+      "settings": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "evmVersion": "istanbul",
+        "outputSelection": {
+          "*": {
+            "*": [
+              "abi",
+              "metadata",
+              "evm.bytecode",
+              "evm.deployedBytecode"
+            ],
+            "": [
+              "ast"
+            ]
+          }
+        }
+      },
+      "sources": {
+        "contracts/HelloWorld.sol": {
+          "sha256": "bb6c5c4af24a77143384dc5733ba55aff97a534920929818006d6a028d75dd74"
+        }
+      },
+      "inputFile": "artifacts/builds/HelloWorld/input.json",
+      "outputFile": "artifacts/builds/HelloWorld/output.json",
+      "warnings": [],
+      "contracts": [
+        {
+          "name": "HelloWorld",
+          "artifactFile": "artifacts/HelloWorld/artifact.json"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "verifiedAtUtc": "2026-10-18T11:35:12.132Z",
+  "source": {
+    "rpc": "https://ethereum-sepolia-rpc.publicnode.com",
+    "transactionEvidenceFile": "evidence/sepolia-hello-retry-rpc.json",
+    "readEvidenceFile": "evidence/sepolia-independent-read-checks.json"
+  },
+  "chainId": 11155111,
+  "contractAddress": "0x5eeb0043117380d3e1cbf0b8424459291e1aabb5",
+  "transaction": {
+    "hash": "0x8b950980dd75980694d889c651c7bf42f96c0b62ef242e0b0d12290f3108c9f8",
+    "status": 1,
+    "blockNumber": 11940802,
+    "type": 2,
+    "gasLimit": "293469",
+    "gasUsed": "195438",
+    "outerTarget": "0xdb9b1e94b5b69df7e401ddbede43491141047db3",
+    "outerSelector": "0xcef6d209",
+    "sender": "0xf022a488d7730a66d9aa986077162425ca910200",
+    "valueWei": "0"
+  },
+  "innerCall": {
+    "operationCount": 1,
+    "target": "0x5eeb0043117380d3e1cbf0b8424459291e1aabb5",
+    "valueWei": "0",
+    "calldata": "0x19ff1d21",
+    "executionMode": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "defaultSingleCallRevertOnFailure": true
+  },
+  "runtime": {
+    "codeMatchesCompiledArtifact": true,
+    "keccak256": "0x65b277af49b8263ff47a97928a45fc9a8027792c521b54446be3fc4865125a91",
+    "delegatedAccountImplementationVerified": true
+  },
+  "separateRead": {
+    "method": "eth_call",
+    "blockNumber": 11940802,
+    "result": "Hello, world!",
+    "receiptContainsReturnValue": false
+  },
+  "checksPassed": true,
+  "notes": [
+    "The successful outer transaction is type 2 through MetaMask DelegationManager. Its sender was previously delegated through EIP-7702.",
+    "Success is supported by outer receipt status 1 and a decoded, exact, single zero-value hello() call in default revert-on-failure mode, not by status alone.",
+    "The greeting is independently decoded from eth_call; it is not claimed as a return field in the transaction receipt.",
+    "All verification used read-only public RPC; no transaction was signed or submitted here."
+  ]
+}

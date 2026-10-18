@@ -1,0 +1,28 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/HelloWorld.sol": {
+      "content": "pragma solidity ^0.5.1;\n\ncontract HelloWorld {\n    function hello() public pure returns (string memory) {\n        return \"Hello, world!\";\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "evmVersion": "istanbul",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "metadata",
+          "evm.bytecode",
+          "evm.deployedBytecode"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    }
+  }
+}

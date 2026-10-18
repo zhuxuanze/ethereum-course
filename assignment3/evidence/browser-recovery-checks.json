@@ -1,0 +1,21 @@
+{
+  "observedAtUtc": "2026-10-18T11:27:31.930Z",
+  "checks": {
+    "javascriptSyntax": true,
+    "prefilledKnownHash": true,
+    "duplicateDeploymentBlocked": true,
+    "recoverUsesReadOnlyRpc": true,
+    "nullTransactionChainIdAndNonceHandled": true,
+    "effectiveGasPriceFallback": true,
+    "rawReceiptPreserved": true,
+    "zeroValueAndCreationInputVerified": true,
+    "runtimeCodeMatch": true,
+    "greetingDecoded": true,
+    "publicEvidencePersisted": true,
+    "noWalletTransactionSentByTests": true
+  },
+  "notes": [
+    "Positive recovery checks used an in-memory mock wallet/RPC with nullable fields. They do not represent real Sepolia execution.",
+    "No actual wallet was accessed and no blockchain transaction was sent by these checks."
+  ]
+}

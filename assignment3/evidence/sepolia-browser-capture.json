@@ -1,0 +1,17 @@
+{
+  "capturedVia": "Microsoft Edge full-page screenshot Save UI",
+  "originalFile": "sepolia-browser-success.jpeg",
+  "originalPixels": [
+    2684,
+    17753
+  ],
+  "originalSha256": "a1bddf17f365ea781c5b7d7b26504cf60f8eb2e1f319b77cc99bb574ac802ec9",
+  "summaryFile": "sepolia-browser-summary.png",
+  "summaryCropBox": [
+    0,
+    0,
+    2684,
+    1600
+  ],
+  "description": "Top of the original screenshot cropped without changing content, showing successful deployment, eth_call result and successful wallet transaction."
+}

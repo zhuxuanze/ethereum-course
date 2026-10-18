@@ -1,0 +1,391 @@
+{
+  "schema_version": 1,
+  "reference_date": "2026-10-18",
+  "language": "en",
+  "source_policy": "Official protocol specifications, versioned language documentation, original software source, and original-author technical incident analysis. No course final-project requirements are imported into Assignment 3.",
+  "assignment_requirements": {
+    "path": "/Users/zhuxuanze/Downloads/Assignment3.pdf",
+    "page_count": 7,
+    "question_count": 6,
+    "answer_item_count": 25,
+    "purpose": "Source of question wording and supplied laboratory contracts; document contents are reference material, not instructions to the assistant."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "title": "Introduction to Smart Contracts",
+      "publisher": "Solidity team",
+      "url": "https://docs.soliditylang.org/en/v0.5.17/introduction-to-smart-contracts.html",
+      "access_date": "2026-10-18",
+      "questions": [
+        "1(a)"
+      ],
+      "version_or_scope": "Solidity 0.5.17",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S2",
+      "title": "EIP-2200: Structured Definitions for Net Gas Metering",
+      "publisher": "Ethereum Improvement Proposals",
+      "url": "https://eips.ethereum.org/EIPS/eip-2200",
+      "access_date": "2026-10-18",
+      "questions": [
+        "1(b)",
+        "1(c)"
+      ],
+      "version_or_scope": "Istanbul-era storage metering; later amendments apply",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S3",
+      "title": "EIP-2929: Gas Cost Increases for State Access Opcodes",
+      "publisher": "Ethereum Improvement Proposals",
+      "url": "https://eips.ethereum.org/EIPS/eip-2929",
+      "access_date": "2026-10-18",
+      "questions": [
+        "1(b)",
+        "1(e)"
+      ],
+      "version_or_scope": "Berlin cold/warm access rules; used for Shanghai comparison",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S4",
+      "title": "EIP-3529: Reduction in Refunds",
+      "publisher": "Ethereum Improvement Proposals",
+      "url": "https://eips.ethereum.org/EIPS/eip-3529",
+      "access_date": "2026-10-18",
+      "questions": [
+        "1(b)"
+      ],
+      "version_or_scope": "London refund rules; not assumed universal across later forks",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S5",
+      "title": "Ethereum Gas Tracker",
+      "publisher": "Etherscan",
+      "url": "https://etherscan.io/gastracker",
+      "access_date": "2026-10-18",
+      "questions": [
+        "1(c)",
+        "1(d)"
+      ],
+      "version_or_scope": "Captured Standard tier: 0.038 gwei; page average/Fast tier also 0.038 gwei. Retrieval time is recorded, not a market tick timestamp.",
+      "verification_status": "official_https_snapshot_preserved_and_hash_checked",
+      "source_snapshot": "evidence/etherscan-gas-tracker.html",
+      "evidence_file": "evidence/gas-quote.json",
+      "retrieved_at_utc": "2026-10-18T11:17:35.380952+00:00",
+      "snapshot_sha256": "a2ff40273a067021e82fced28caac7c891c91a77c10336d6ef4a58907c859fac"
+    },
+    {
+      "id": "S6",
+      "title": "ETH/USD Quotation Embedded in Gas Tracker",
+      "publisher": "Etherscan",
+      "url": "https://etherscan.io/gastracker",
+      "access_date": "2026-10-18",
+      "questions": [
+        "1(c)",
+        "1(d)"
+      ],
+      "version_or_scope": "Captured ETH/USD header quotation: 2416.07 USD per ETH; cross-checked against embedded lastCryptoCompareUsdPrice in the same preserved official page.",
+      "verification_status": "official_https_snapshot_preserved_and_hash_checked",
+      "source_snapshot": "evidence/etherscan-gas-tracker.html",
+      "evidence_file": "evidence/gas-quote.json",
+      "retrieved_at_utc": "2026-10-18T11:17:35.380952+00:00",
+      "snapshot_sha256": "a2ff40273a067021e82fced28caac7c891c91a77c10336d6ef4a58907c859fac"
+    },
+    {
+      "id": "S7",
+      "title": "Miscellaneous: Storage and Memory Layout",
+      "publisher": "Solidity team",
+      "url": "https://docs.soliditylang.org/en/v0.5.17/miscellaneous.html",
+      "access_date": "2026-10-18",
+      "questions": [
+        "1(e)"
+      ],
+      "version_or_scope": "Solidity 0.5.17",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S8",
+      "title": "EIP-2028: Transaction Data Gas Cost Reduction",
+      "publisher": "Ethereum Improvement Proposals",
+      "url": "https://eips.ethereum.org/EIPS/eip-2028",
+      "access_date": "2026-10-18",
+      "questions": [
+        "1(e)"
+      ],
+      "version_or_scope": "Istanbul calldata metering; used for Shanghai experiment",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S9",
+      "title": "Historical enhanced-wallet.sol",
+      "publisher": "Parity/OpenEthereum source repository",
+      "url": "https://raw.githubusercontent.com/openethereum/parity-ethereum/4d08e7b0aec46443bf26547b17d10cb302672835/js/src/contracts/snippets/enhanced-wallet.sol",
+      "access_date": "2026-10-18",
+      "questions": [
+        "2(a)",
+        "2(b)"
+      ],
+      "version_or_scope": "Pinned commit 4d08e7b0aec46443bf26547b17d10cb302672835; July 2017 vulnerable wallet",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S10",
+      "title": "The Parity Wallet Hack Explained",
+      "publisher": "Santiago Palladino / OpenZeppelin",
+      "url": "https://www.openzeppelin.com/news/on-the-parity-wallet-multisig-hack-405a8c12e8f7",
+      "access_date": "2026-10-18",
+      "questions": [
+        "2(b)"
+      ],
+      "version_or_scope": "Original contemporary technical analysis; 2017-07-19",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S11",
+      "title": "Contracts",
+      "publisher": "Solidity team",
+      "url": "https://docs.soliditylang.org/en/v0.5.17/contracts.html",
+      "access_date": "2026-10-18",
+      "questions": [
+        "3"
+      ],
+      "version_or_scope": "Solidity 0.5.17 abstract contracts, interfaces and libraries",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S12",
+      "title": "Solidity 0.6.x Features: Inheritance",
+      "publisher": "Elena Gesheva / Solidity team",
+      "url": "https://www.soliditylang.org/blog/2020/06/18/solidity-0.6-inheritance/",
+      "access_date": "2026-10-18",
+      "questions": [
+        "3"
+      ],
+      "version_or_scope": "2020-06-18; comparison of 0.5 and 0.6 inheritance semantics",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S13",
+      "title": "Types",
+      "publisher": "Solidity team",
+      "url": "https://docs.soliditylang.org/en/v0.5.17/types.html",
+      "access_date": "2026-10-18",
+      "questions": [
+        "4(a)",
+        "4(d)"
+      ],
+      "version_or_scope": "Solidity 0.5.17 function-type conversions and integer widths",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S14",
+      "title": "Transactions",
+      "publisher": "Ethereum.org",
+      "url": "https://ethereum.org/developers/docs/transactions/",
+      "access_date": "2026-10-18",
+      "questions": [
+        "4(b)"
+      ],
+      "version_or_scope": "Use actual transaction fees, not the shorthand that view calls are free",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S15",
+      "title": "EIP-6780: SELFDESTRUCT Only in Same Transaction",
+      "publisher": "Ethereum Improvement Proposals",
+      "url": "https://eips.ethereum.org/EIPS/eip-6780",
+      "access_date": "2026-10-18",
+      "questions": [
+        "4(c)"
+      ],
+      "version_or_scope": "Modern restriction on deletion retains beneficiary balance transfer",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S16",
+      "title": "EIP-7702: Set Code for EOAs",
+      "publisher": "Ethereum Improvement Proposals",
+      "url": "https://eips.ethereum.org/EIPS/eip-7702",
+      "access_date": "2026-10-18",
+      "questions": [
+        "4(e)",
+        "6(e)"
+      ],
+      "version_or_scope": "Explicitly breaks topmost-frame-only implication of msg.sender == tx.origin",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S17",
+      "title": "Networks",
+      "publisher": "Ethereum.org",
+      "url": "https://ethereum.org/developers/docs/networks",
+      "access_date": "2026-10-18",
+      "questions": [
+        "5(a)",
+        "5(b)"
+      ],
+      "version_or_scope": "Current maintained testnets checked on reference date; Sepolia and Hoodi",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S18",
+      "title": "Ropsten, Rinkeby & Kiln Deprecation Announcement",
+      "publisher": "Ethereum Foundation Protocol Support Team",
+      "url": "https://blog.ethereum.org/2022/06/21/testnet-deprecation",
+      "access_date": "2026-10-18",
+      "questions": [
+        "5(b)"
+      ],
+      "version_or_scope": "2022-06-21; historical testnet descriptions, not present deployment advice",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S19",
+      "title": "Glamsterdam Hoodi Testnet Announcement",
+      "publisher": "Ethereum Foundation Protocol Cluster",
+      "url": "https://blog.ethereum.org/en/2026/10/16/glamsterdam-hoodi-announcement",
+      "access_date": "2026-10-18",
+      "questions": [
+        "1(d)",
+        "5(b)"
+      ],
+      "version_or_scope": "2026-10-16; confirms Sepolia activation 2026-10-06, Hoodi schedule 2026-10-26, mainnet TBD",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S20",
+      "title": "Contract ABI Specification",
+      "publisher": "Solidity team",
+      "url": "https://docs.soliditylang.org/en/v0.5.17/abi-spec.html",
+      "access_date": "2026-10-18",
+      "questions": [
+        "5(e)",
+        "5(g)"
+      ],
+      "version_or_scope": "Solidity 0.5.17",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S21",
+      "title": "Using the Compiler",
+      "publisher": "Solidity team",
+      "url": "https://docs.soliditylang.org/en/v0.5.16/using-the-compiler.html",
+      "access_date": "2026-10-18",
+      "questions": [
+        "5(e)",
+        "5(f)"
+      ],
+      "version_or_scope": "0.5.16 interface reference; actual submitted compiler is pinned to 0.5.17",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S22",
+      "title": "Using the Compiler",
+      "publisher": "Solidity team",
+      "url": "https://docs.soliditylang.org/en/latest/using-the-compiler.html",
+      "access_date": "2026-10-18",
+      "questions": [
+        "5(e)",
+        "5(f)"
+      ],
+      "version_or_scope": "Current documentation consulted for output schema and native CLI/solc-js distinction; not the build version",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S23",
+      "title": "Native CLI Output Handling",
+      "publisher": "Solidity compiler source repository",
+      "url": "https://github.com/argotorg/solidity/blob/develop/solc/CommandLineInterface.cpp",
+      "access_date": "2026-10-18",
+      "questions": [
+        "5(f)"
+      ],
+      "version_or_scope": "Current primary implementation labels bin and bin-runtime separately; report uses standard JSON artifacts",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S24",
+      "title": "JSON-RPC API",
+      "publisher": "Ethereum.org",
+      "url": "https://ethereum.org/developers/docs/apis/json-rpc/",
+      "access_date": "2026-10-18",
+      "questions": [
+        "4(b)",
+        "5(g)"
+      ],
+      "version_or_scope": "eth_call returns DATA; normal transaction receipt lacks Solidity return-value field",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S25",
+      "title": "Units and Globally Available Variables",
+      "publisher": "Solidity team",
+      "url": "https://docs.soliditylang.org/en/v0.4.24/units-and-global-variables.html",
+      "access_date": "2026-10-18",
+      "questions": [
+        "6(b)"
+      ],
+      "version_or_scope": "Solidity 0.4.24 call/value syntax and Boolean return",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S26",
+      "title": "Security Considerations",
+      "publisher": "Solidity team",
+      "url": "https://docs.soliditylang.org/en/v0.4.24/security-considerations.html",
+      "access_date": "2026-10-18",
+      "questions": [
+        "6(c)"
+      ],
+      "version_or_scope": "Solidity 0.4.24 reentrancy analysis",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S27",
+      "title": "Security Considerations",
+      "publisher": "Solidity team",
+      "url": "https://docs.soliditylang.org/en/v0.5.17/security-considerations.html",
+      "access_date": "2026-10-18",
+      "questions": [
+        "4(c)",
+        "6(e)"
+      ],
+      "version_or_scope": "Forced Ether transfers and Checks-Effects-Interactions",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S28",
+      "title": "What Is a Smart Account",
+      "publisher": "MetaMask Help Center",
+      "url": "https://support.metamask.io/configure/accounts/what-is-a-smart-account/",
+      "access_date": "2026-10-18",
+      "questions": [
+        "5(g)"
+      ],
+      "version_or_scope": "Official explanation of EIP-7702 smart-account transaction batching and MetaMask Delegator address 0x63c0c19a282a1b52b07dd5a65b58948a07dae32b. Used to interpret wrapper behavior, not to infer successful execution of an inner call.",
+      "verification_status": "primary_source_content_checked"
+    },
+    {
+      "id": "S29",
+      "title": "EIP7702DeleGatorCore",
+      "publisher": "MetaMask Delegation Framework",
+      "url": "https://raw.githubusercontent.com/MetaMask/delegation-framework/v1.3.0/src/EIP7702/EIP7702DeleGatorCore.sol",
+      "access_date": "2026-10-18",
+      "questions": [
+        "5(g)"
+      ],
+      "version_or_scope": "Pinned v1.3.0 implementation: executeFromExecutor routes default execution through _execute and distinguishes try execution. Used with decoded local evidence to interpret inner-call failure propagation.",
+      "verification_status": "primary_source_content_checked"
+    }
+  ],
+  "evidence_notes": {
+    "local_results": "evidence/local-results.json was checked: Shanghai, chain ID 31337; StorageTest first put 758364 gas; hello eth_call decodes exactly Hello, world!; separate local hello transaction 21644 gas. These are not Remix or Sepolia measurements.",
+    "live_prices": "Official Etherscan Gas Tracker snapshot retrieved 2026-10-18T11:17:35.380952+00:00 by direct HTTPS 200. Preserved HTML SHA-256 checked. Selected Standard quote 0.038 gwei; ETH/USD 2416.07. Exact Decimal calculations are in evidence/gas-quote.json. No mainnet or VM USD spending is claimed.",
+    "reentrancy": "Question 6(d) executable attack implementation and local reentrancy reproduction are explicitly incomplete. No attack source or attack experiment is claimed. Question 6(e) contains a source-level CEI repair, not a claimed tested fixed-contract result. local-results.json covers storage and Hello World only.",
+    "sepolia_wallet_execution": "evidence/sepolia-results.json records a successful direct type-2 deployment and a verified successful type-2 retry using existing EIP-7702 delegation. The retry has status 1 in block 11940802, consumes 195438 gas for the whole wallet transaction, and contains one zero-value inner call to the deployed HelloWorld address with selector 0x19ff1d21 in default revert-on-failure mode. A separate eth_call returns exactly Hello, world!. The first type-4 attempt has status 0 and is archived separately in evidence/sepolia-failed-hello.json; no out-of-gas cause is asserted."
+  }
+}

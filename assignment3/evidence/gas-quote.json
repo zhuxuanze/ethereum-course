@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "sourceUrl": "https://etherscan.io/gastracker",
+    "finalUrl": "https://etherscan.io/gastracker",
+    "retrievedAtUtc": "2026-10-18T11:17:35.380952+00:00",
+    "httpStatus": 200,
+    "httpDate": "Sun, 18 Oct 2026 11:17:35 GMT",
+    "contentType": "text/html; charset=utf-8",
+    "sizeBytes": 366618,
+    "title": "Ethereum Gas Tracker | Etherscan",
+    "network": "Ethereum mainnet",
+    "htmlFile": "evidence/etherscan-gas-tracker.html",
+    "fetchMetadataFile": "evidence/etherscan-gas-tracker-fetch.json",
+    "htmlSha256": "a2ff40273a067021e82fced28caac7c891c91a77c10336d6ef4a58907c859fac",
+    "captureMethod": "Direct HTTPS GET of the public official page; browser-search fetch returned HTTP 403, direct HTTPS returned 200."
+  },
+  "quote": {
+    "standardGwei": "0.038",
+    "averageGwei": "0.038",
+    "averageCardDisplayedLabel": "Fast",
+    "ethUsd": "2416.07",
+    "selectedTier": "Standard",
+    "selectedGasPriceGwei": "0.038",
+    "extraction": {
+      "standard": "span#spanLowPrice in the Standard card",
+      "average": "span#spanAvgPrice (page avgPrice / averageGas value, in the Fast card)",
+      "ethUsd": "ETH Price header link /chart/etherprice; cross-checked against lastCryptoCompareUsdPrice"
+    }
+  },
+  "calculations": {
+    "sstoreOnlyEstimate": {
+      "gasUsed": 640000,
+      "gasPriceGwei": "0.038",
+      "gasPriceWei": "38000000.000",
+      "ethUsd": "2416.07",
+      "costEthExact": "0.000024320000",
+      "costUsdExact": "0.05875882240000",
+      "costUsdRounded8dp": "0.05875882",
+      "formula": "gasUsed * gasPriceGwei * 10^-9 * ethUsd",
+      "arithmetic": "Python decimal.Decimal; no binary floating-point arithmetic",
+      "assumption": "32 payload slots * 20,000 gas per zero-to-nonzero SSTORE under the assignment's historical simplified model; excludes the array length and every other cost."
+    },
+    "remixFirstPutEquivalent": {
+      "gasUsed": 758364,
+      "gasPriceGwei": "0.038",
+      "gasPriceWei": "38000000.000",
+      "ethUsd": "2416.07",
+      "costEthExact": "0.000028817832",
+      "costUsdExact": "0.06962589936024",
+      "costUsdRounded8dp": "0.06962590",
+      "formula": "gasUsed * gasPriceGwei * 10^-9 * ethUsd",
+      "arithmetic": "Python decimal.Decimal; no binary floating-point arithmetic",
+      "gasEvidenceFile": "evidence/remix-results.json",
+      "gasEvidenceField": "firstPut.gasUsed",
+      "remixTransactionHash": "0x1a3042b54f6b3dba8dbedf901cf6c018b6e7f8fe4895e532a009fb31a053295e",
+      "measurementEnvironment": "Remix VM (Shanghai)",
+      "interpretation": "Mainnet-equivalent USD estimate at the captured Etherscan quote; not actual spending on Remix or the Sepolia testnet."
+    }
+  },
+  "notes": [
+    "All price and money values are decimal strings; timestamps are UTC as requested.",
+    "The timestamp is when this HTML quote was retrieved, not an invented Etherscan market tick timestamp.",
+    "Gas and ETH/USD prices fluctuate; these are the values in the preserved source snapshot.",
+    "The historical 640,000-gas calculation follows the question's simplifying assumption; it is not a universal current SSTORE schedule."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "observedAtUtc": "2026-10-18T11:33:15.517Z",
+  "checks": {
+    "noAutomaticWalletCalls": true,
+    "failedReceiptRecoveredReadOnly": true,
+    "retryRequiresConfirmedFailure": true,
+    "retryOmitsGasAndGasLimit": true,
+    "rawReceiptSavedBeforeValidation": true,
+    "failedAttemptPreservedInHistory": true,
+    "exactSingleInnerCallVerified": true,
+    "defaultAtomicModeAccepted": true,
+    "tryModeRejectedEvenWithOuterStatusOne": true,
+    "delegatedImplementationVerified": true,
+    "noActualWalletOrNetworkUse": true
+  },
+  "notes": [
+    "All wallet requests and successful receipts in these checks were in-memory mocks. No real transaction was sent.",
+    "Real failed-attempt data is preserved separately in sepolia-failed-hello.json."
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "ethereum-course-assignment3",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Assignment 3: reproducible Solidity compilation and local-only storage and Hello World experiments.",
+  "engines": {
+    "node": ">=22.10.0"
+  },
+  "scripts": {
+    "compile": "node scripts/compile.mjs",
+    "node": "hardhat node --network local --hostname 127.0.0.1 --port 8545",
+    "test": "node --test --test-concurrency=1 tests/*.test.mjs",
+    "evidence": "node scripts/collect-evidence.mjs",
+    "browser": "node scripts/browser-server.mjs"
+  },
+  "devDependencies": {
+    "ethers": "6.17.0",
+    "hardhat": "3.20.0",
+    "solc-0.4.24": "npm:solc@0.4.24",
+    "solc-0.5.17": "npm:solc@0.5.17"
+  }
+}
