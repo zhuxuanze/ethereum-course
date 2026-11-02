@@ -1,0 +1,59 @@
+
+> ethereum-course-assignment4@1.0.0 test
+> truffle test --network test
+
+This version of µWS is not compatible with your Node.js build:
+
+Error: Cannot find module '../binaries/uws_darwin_arm64_137.node'
+Require stack:
+- /Users/zhuxuanze/Documents/ChatGPT/ijcnn/coursework/ethereum-course/assignment4/node_modules/truffle/node_modules/ganache/node_modules/@trufflesuite/uws-js-unofficial/src/uws.js
+- /Users/zhuxuanze/Documents/ChatGPT/ijcnn/coursework/ethereum-course/assignment4/node_modules/truffle/node_modules/ganache/dist/node/core.js
+- /Users/zhuxuanze/Documents/ChatGPT/ijcnn/coursework/ethereum-course/assignment4/node_modules/truffle/build/test.bundled.js
+- /Users/zhuxuanze/Documents/ChatGPT/ijcnn/coursework/ethereum-course/assignment4/node_modules/original-require/index.js
+- /Users/zhuxuanze/Documents/ChatGPT/ijcnn/coursework/ethereum-course/assignment4/node_modules/truffle/build/cli.bundled.js
+Falling back to a NodeJS implementation; performance may be degraded.
+
+
+This version of µWS is not compatible with your Node.js build:
+
+Error: Cannot find module '../binaries/uws_darwin_arm64_137.node'
+Require stack:
+- /Users/zhuxuanze/Documents/ChatGPT/ijcnn/coursework/ethereum-course/assignment4/node_modules/ganache/node_modules/@trufflesuite/uws-js-unofficial/src/uws.js
+- /Users/zhuxuanze/Documents/ChatGPT/ijcnn/coursework/ethereum-course/assignment4/node_modules/ganache/dist/node/core.js
+- /Users/zhuxuanze/Documents/ChatGPT/ijcnn/coursework/ethereum-course/assignment4/truffle-config.js
+- /Users/zhuxuanze/Documents/ChatGPT/ijcnn/coursework/ethereum-course/assignment4/node_modules/original-require/index.js
+- /Users/zhuxuanze/Documents/ChatGPT/ijcnn/coursework/ethereum-course/assignment4/node_modules/truffle/build/cli.bundled.js
+Falling back to a NodeJS implementation; performance may be degraded.
+
+
+Using network 'test'.
+
+
+Compiling your contracts...
+===========================
+> Everything is up to date, there is nothing to compile.
+
+
+  Contract: Voting arithmetic regression
+    ✔ reproduces the original underflow and unauthorized payout on the local chain (50ms)
+    ✔ rejects the same attack and preserves the funded contract balance (58ms)
+    ✔ refunds fractional Ether, counts votes and pays out unspent votes (38ms)
+    ✔ rejects invalid candidates and restricts ending to the owner (43ms)
+
+  Contract: XYZCoin
+    ✔ sets metadata and gives the complete supply to the creator
+    ✔ transfers tokens and emits Transfer with exact values
+    ✔ sets, reads, replaces and revokes allowance and emits Approval
+    ✔ transfers on behalf of the owner and consumes allowance
+    ✔ reverts an insufficient-balance transfer without changing balances
+    ✔ reverts a positive transfer without authorization
+    ✔ reverts spending beyond allowance
+    ✔ rolls allowance back if the owner's balance is insufficient
+    ✔ emits Transfer for a zero-value transfer (40ms)
+    ✔ emits Transfer for zero-value transferFrom with zero allowance
+    ✔ preserves the balance on self-transfer (41ms)
+    ✔ rejects the zero recipient and conserves total supply across transfers
+
+
+  16 passing (590ms)
+

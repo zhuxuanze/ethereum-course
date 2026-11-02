@@ -1,0 +1,11 @@
+{
+  "checkedAtUtc": "2026-11-02T08:04:25.712Z",
+  "providerHost": "mainnet.infura.io",
+  "chainId": "1",
+  "latestBlock": "26325779",
+  "genesisHash": "0xd4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3",
+  "genesisTransactions": 0,
+  "feeHistoryOldestBlock": "0",
+  "feeHistoryCount": 1024,
+  "feeHistoryAllEmpty": true
+}

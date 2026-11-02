@@ -1,0 +1,29 @@
+{
+  "observedAtUtc": "2026-11-02T08:07:22.916Z",
+  "providerHost": "mainnet.infura.io",
+  "chainId": "1",
+  "start": 0,
+  "end": 100000,
+  "latestBlockAtStart": 26325789,
+  "mode": "history",
+  "result": {
+    "blockNumber": 46402,
+    "blockHash": "0x249ea54eada07708b29d7c424b8466dec9f1d98067b0be1b89c7ee660cca858d",
+    "transactionIndex": 0,
+    "transactionHash": "0x6c929e1c3d860ee225d7f3a7addf9e3f740603d243260536dfa2f3cf02b51de4",
+    "from": "0xa1e4380a3b1f749673e270229993ee55f35663b4",
+    "criterion": "transaction.to === null (creation attempt; success is not required)",
+    "verifiedFromBlock": 0,
+    "verifiedThroughBlock": 46402,
+    "globallyEarliest": true,
+    "blocksFetched": 80,
+    "historyRequests": 46,
+    "emptyBlocksVerified": 46324,
+    "verificationMethod": "Every block covered by fee-history ratios; all positive-gas blocks checked in transaction order"
+  },
+  "receipt": {
+    "status": null,
+    "contractAddress": "0x9a049f5d18c239efaa258af9f3e7002949a977a0"
+  },
+  "proofFile": "first-contract-proof.ndjson"
+}

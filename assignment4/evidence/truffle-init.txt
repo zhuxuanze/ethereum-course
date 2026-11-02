@@ -1,0 +1,14 @@
+
+Starting init...
+================
+
+> Copying project files to /private/tmp/assignment4-truffle-init
+
+Init successful, sweet!
+
+Try our scaffold commands to get started:
+  $ truffle create contract YourContractName # scaffold a contract
+  $ truffle create test YourTestName         # scaffold a test
+
+http://trufflesuite.com/docs
+

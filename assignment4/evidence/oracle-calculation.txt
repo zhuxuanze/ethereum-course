@@ -1,0 +1,15 @@
+
+> ethereum-course-assignment4@1.0.0 oracle
+> node scripts/oracle-budget.cjs 0.10 12.03
+
+{
+  "averageFeeUsd": 0.1,
+  "averageBlockSeconds": 12.03,
+  "budgetUsd": 10,
+  "blocksPerDay": 7182.044887780549,
+  "affordableUpdates": 100,
+  "blockInterval": 72,
+  "estimatedIntervalSeconds": 866.16,
+  "expectedDailyCostUsd": 9.975062344139651,
+  "caveat": "Average-fee and average-block-time estimate; real update gas usage and fees may differ."
+}

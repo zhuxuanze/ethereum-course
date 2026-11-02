@@ -1,0 +1,17 @@
+{
+  "fee": {
+    "value": 0.1,
+    "observationDateLabel": "Sunday, November 1, 2026",
+    "source": "https://etherscan.io/chart/avg-txfee-usd",
+    "htmlSha256": "04712224f7d755267c680c774974840157bdc6c93c1eb645c32107dc834d6a85",
+    "tailSourceExcerpt": "6641282561 Eth'},{y: 0.22, formattedValue: '$0.22', dt: 'Thursday, October 22, 2026', txnFeeEth: '0.0000939432324500715 Eth'},{y: 0.13, formattedValue: '$0.13', dt: 'Friday, October 23, 2026', txnFeeEth: '0.0000553533100816055 Eth'},{y: 0.15, formattedValue: '$0.15', dt: 'Saturday, October 24, 2026', txnFeeEth: '0.0000632104627284107 Eth'},{y: 0.11, formattedValue: '$0.11', dt: 'Sunday, October 25, 2026', txnFeeEth: '0.0000471156515679601 Eth'},{y: 0.15, formattedValue: '$0.15', dt: 'Monday, October 26, 2026', txnFeeEth: '0.0000652279980333316 Eth'},{y: 0.14, formattedValue: '$0.14', dt: 'Tuesday, October 27, 2026', txnFeeEth: '0.000061119515174511 Eth'},{y: 0.13, formattedValue: '$0.13', dt: 'Wednesday, October 28, 2026', txnFeeEth: '0.0000553180915057316 Eth'},{y: 3.79, formattedValue: '$3.79', dt: 'Thursday, October 29, 2026', txnFeeEth: '0.00168320649837683 Eth'},{y: 2.42, formattedValue: '$2.42', dt: 'Friday, October 30, 2026', txnFeeEth: '0.0010819861530689 Eth'},{y: 0.22, formattedValue: '$0.22', dt: 'Saturday, October 31, 2026', txnFeeEth: '0.0000974086142398552 Eth'},{y: 0.10, formattedValue: '$0.10', dt: 'Sunday, November 1, 2026', txnFeeEth: '0.0000459173460330185 Eth'}]"
+  },
+  "blocktime": {
+    "value": 12.03,
+    "observationDateLabel": "Sunday, November 1, 2026",
+    "source": "https://etherscan.io/chart/blocktime",
+    "htmlSha256": "61058c37d06128c1b2d95b1ba336c0a19b1dd606315b9c88176f3f075e4b52d0",
+    "tailSourceExcerpt": "16, 2026', },{y : 12.04, formattedValue : '12.04', dt : 'Saturday, October 17, 2026', },{y : 12.03, formattedValue : '12.03', dt : 'Sunday, October 18, 2026', },{y : 12.04, formattedValue : '12.04', dt : 'Monday, October 19, 2026', },{y : 12.03, formattedValue : '12.03', dt : 'Tuesday, October 20, 2026', },{y : 12.03, formattedValue : '12.03', dt : 'Wednesday, October 21, 2026', },{y : 12.03, formattedValue : '12.03', dt : 'Thursday, October 22, 2026', },{y : 12.04, formattedValue : '12.04', dt : 'Friday, October 23, 2026', },{y : 12.02, formattedValue : '12.02', dt : 'Saturday, October 24, 2026', },{y : 12.03, formattedValue : '12.03', dt : 'Sunday, October 25, 2026', },{y : 12.03, formattedValue : '12.03', dt : 'Monday, October 26, 2026', },{y : 12.02, formattedValue : '12.02', dt : 'Tuesday, October 27, 2026', },{y : 12.02, formattedValue : '12.02', dt : 'Wednesday, October 28, 2026', },{y : 12.04, formattedValue : '12.04', dt : 'Thursday, October 29, 2026', },{y : 12.03, formattedValue : '12.03', dt : 'Friday, October 30, 2026', },{y : 12.04, formattedValue : '12.04', dt : 'Saturday, October 31, 2026', },{y : 12.03, formattedValue : '12.03', dt : 'Sunday, November 1, 2026', },]"
+  },
+  "retrievedAtUtc": "2026-11-02T07:00:13.475450+00:00"
+}

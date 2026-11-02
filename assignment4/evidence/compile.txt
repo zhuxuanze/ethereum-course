@@ -1,0 +1,28 @@
+
+> ethereum-course-assignment4@1.0.0 compile
+> truffle compile --all
+
+This version of µWS is not compatible with your Node.js build:
+
+Error: Cannot find module '../binaries/uws_darwin_arm64_137.node'
+Require stack:
+- /Users/zhuxuanze/Documents/ChatGPT/ijcnn/coursework/ethereum-course/assignment4/node_modules/ganache/node_modules/@trufflesuite/uws-js-unofficial/src/uws.js
+- /Users/zhuxuanze/Documents/ChatGPT/ijcnn/coursework/ethereum-course/assignment4/node_modules/ganache/dist/node/core.js
+- /Users/zhuxuanze/Documents/ChatGPT/ijcnn/coursework/ethereum-course/assignment4/truffle-config.js
+- /Users/zhuxuanze/Documents/ChatGPT/ijcnn/coursework/ethereum-course/assignment4/node_modules/original-require/index.js
+- /Users/zhuxuanze/Documents/ChatGPT/ijcnn/coursework/ethereum-course/assignment4/node_modules/truffle/build/cli.bundled.js
+Falling back to a NodeJS implementation; performance may be degraded.
+
+
+
+Compiling your contracts...
+===========================
+> Compiling ./contracts/ERC20.sol
+> Compiling ./contracts/FixedVoting.sol
+> Compiling ./contracts/FlawedVoting.sol
+> Compiling ./contracts/Migrations.sol
+> Compiling ./contracts/SafeMath.sol
+> Compiling ./contracts/XYZCoin.sol
+> Artifacts written to /Users/zhuxuanze/Documents/ChatGPT/ijcnn/coursework/ethereum-course/assignment4/build/contracts
+> Compiled successfully using:
+   - solc: 0.5.1+commit.c8a2cb62.Emscripten.clang

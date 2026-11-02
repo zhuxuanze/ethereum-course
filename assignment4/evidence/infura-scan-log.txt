@@ -1,0 +1,78 @@
+
+> ethereum-course-assignment4@1.0.0 scan
+> node scripts/first-contract.cjs --end 100000 --out evidence/first-contract.json
+
+Verified through block 1023
+Verified through block 2047
+Verified through block 3071
+Verified through block 4095
+Verified through block 5119
+Verified through block 6143
+Verified through block 7167
+Verified through block 8191
+Verified through block 9215
+Verified through block 10239
+Verified through block 11263
+Verified through block 12287
+Verified through block 13311
+Verified through block 14335
+Verified through block 15359
+Verified through block 16383
+Verified through block 17407
+Verified through block 18431
+Verified through block 19455
+Verified through block 20479
+Verified through block 21503
+Verified through block 22527
+Verified through block 23551
+Verified through block 24575
+Verified through block 25599
+Verified through block 26623
+Verified through block 27647
+Verified through block 28671
+Verified through block 29695
+Verified through block 30719
+Verified through block 31743
+Verified through block 32767
+Verified through block 33791
+Verified through block 34815
+Verified through block 35839
+Verified through block 36863
+Verified through block 37887
+Verified through block 38911
+Verified through block 39935
+Verified through block 40959
+Verified through block 41983
+Verified through block 43007
+Verified through block 44031
+Verified through block 45055
+Verified through block 46079
+{
+  "observedAtUtc": "2026-11-02T08:07:22.916Z",
+  "providerHost": "mainnet.infura.io",
+  "chainId": "1",
+  "start": 0,
+  "end": 100000,
+  "latestBlockAtStart": 26325789,
+  "mode": "history",
+  "result": {
+    "blockNumber": 46402,
+    "blockHash": "0x249ea54eada07708b29d7c424b8466dec9f1d98067b0be1b89c7ee660cca858d",
+    "transactionIndex": 0,
+    "transactionHash": "0x6c929e1c3d860ee225d7f3a7addf9e3f740603d243260536dfa2f3cf02b51de4",
+    "from": "0xa1e4380a3b1f749673e270229993ee55f35663b4",
+    "criterion": "transaction.to === null (creation attempt; success is not required)",
+    "verifiedFromBlock": 0,
+    "verifiedThroughBlock": 46402,
+    "globallyEarliest": true,
+    "blocksFetched": 80,
+    "historyRequests": 46,
+    "emptyBlocksVerified": 46324,
+    "verificationMethod": "Every block covered by fee-history ratios; all positive-gas blocks checked in transaction order"
+  },
+  "receipt": {
+    "status": null,
+    "contractAddress": "0x9a049f5d18c239efaa258af9f3e7002949a977a0"
+  },
+  "proofFile": "first-contract-proof.ndjson"
+}

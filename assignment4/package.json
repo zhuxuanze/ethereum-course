@@ -1,0 +1,26 @@
+{
+  "name": "ethereum-course-assignment4",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Assignment 4: oracles, voting arithmetic, historical block scanning, and ERC20",
+  "scripts": {
+    "compile": "truffle compile --all && node scripts/prepare-console.cjs",
+    "test": "truffle test",
+    "test:unit": "node --test tests/*.test.cjs",
+    "scan": "node scripts/first-contract.cjs",
+    "oracle": "node scripts/oracle-budget.cjs"
+  },
+  "dependencies": {
+    "https-proxy-agent": "7.0.6",
+    "web3": "4.16.0"
+  },
+  "devDependencies": {
+    "ganache": "7.9.2",
+    "solc": "0.5.1",
+    "truffle": "5.11.5",
+    "truffle-assertions": "0.9.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

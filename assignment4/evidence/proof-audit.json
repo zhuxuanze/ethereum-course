@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "verifiedFromBlock": 0,
+  "verifiedThroughBlock": 46402,
+  "coveredBlockCount": 46403,
+  "emptyBlocksThroughTarget": 46324,
+  "nonemptyBlocksThroughTarget": 79,
+  "transactionsThroughTargetBlock": 79,
+  "firstNullRecipient": {
+    "blockNumber": 46402,
+    "transactionIndex": 0,
+    "transactionHash": "0x6c929e1c3d860ee225d7f3a7addf9e3f740603d243260536dfa2f3cf02b51de4"
+  },
+  "proofSha256": "5d3576e029f7cc001e07ad7ff504f987f715c93ebb2d739f97450f62801910f5",
+  "scope": "Offline consistency and complete-prefix audit of saved Infura responses; provider data are trusted."
+}

@@ -1,0 +1,25 @@
+
+> ethereum-course-assignment4@1.0.0 test:unit
+> node --test tests/*.test.cjs
+
+✔ parallel scan returns earliest block, not earliest response, and first transaction within it (22.443583ms)
+✔ literal zero address is not the null recipient (0.173708ms)
+✔ missing to field is a provider-data error, not evidence of contract creation (0.227375ms)
+✔ a transient missing block is retried rather than skipped (1.601625ms)
+✔ a persistent gap aborts even when a later block has a creation (0.24775ms)
+✔ a nonzero scan start never claims a globally earliest result (0.094292ms)
+✔ invalid scan parameters fail before any RPC request (0.076708ms)
+✔ history scan proves the entire prefix and fetches only positive-gas blocks (3.523333ms)
+✔ history scan rejects missing prefix, truncated ranges and malformed ratios (0.133709ms)
+✔ history scan never skips an unreadable nonempty block (0.1175ms)
+✔ history scan with a nonzero start does not claim a global minimum (0.089208ms)
+✔ oracle budget uses ceiling so the estimated daily cost stays within budget (0.124792ms)
+✔ oracle calculator handles too costly and sub-block update scenarios (0.06ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 379.318
