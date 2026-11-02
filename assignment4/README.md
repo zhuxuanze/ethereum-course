@@ -10,7 +10,7 @@
 - 第 4 题：ERC20 编译、Truffle Develop 本地部署、12 项代币测试已通过。
 - 总计 16 项合约测试和 13 项 Node 程序测试通过。
 - 报告封面的姓名、邮箱、声明和签名待学生填写。尚未提交 LMS。
-- GitHub 作业目录：[assignment4](https://github.com/zhuxuanze/ethereum-course/tree/codex/assignment4/assignment4)。报告及验证摘要中的发布状态记录的是生成时的状态；GitHub 交付以本分支为准。
+- GitHub 作业目录：[assignment4](https://github.com/zhuxuanze/ethereum-course/tree/assignment4/assignment4)。报告及验证摘要中的发布状态记录的是生成时的状态；GitHub 交付以本分支为准。
 
 ## 文件
 
