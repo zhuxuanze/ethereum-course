@@ -1,15 +1,12 @@
 // Local injected EIP-1193 integration checks. No extension wallet or public network is used.
 const fs = require('node:fs');
 const path = require('node:path');
-const os = require('node:os');
 const crypto = require('node:crypto');
 const assert = require('node:assert/strict');
 function loadPlaywright() {
   if (process.env.PLAYWRIGHT_MODULE) return require(process.env.PLAYWRIGHT_MODULE);
   try { return require('playwright'); }
   catch (error) {
-    const bundled = path.join(os.homedir(), '.cache', 'codex-runtimes', 'codex-primary-runtime', 'dependencies', 'node', 'node_modules', 'playwright');
-    if (fs.existsSync(path.join(bundled, 'package.json'))) return require(bundled);
     throw new Error('Browser QA requires optional Playwright. Install it locally or set PLAYWRIGHT_MODULE to its package path.', { cause: error });
   }
 }

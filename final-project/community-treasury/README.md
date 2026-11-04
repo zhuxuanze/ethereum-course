@@ -6,7 +6,7 @@ The application runs the compiled Solidity contract on a real, temporary EVM ins
 
 ## Published coursework snapshot
 
-- [Source branch](https://github.com/zhuxuanze/ethereum-course/tree/codex/final-community-treasury/final-project/community-treasury)
+- [Source branch](https://github.com/zhuxuanze/ethereum-course/tree/final-community-treasury/final-project/community-treasury)
 - [Hosted frontend](https://community-treasury-course-20261104.zxzccn.chatgpt.site) — owner-only private access; this URL is not a public class-sharing link.
 - `evidence/publication-receipts.json` records the verified source publication and successful private frontend deployment. Mainnet and additional cloud-blockchain contract deployments remain pending instructor confirmation.
 - The downloadable course delivery package includes the built `dist/` directory and `启动本地演示.command` for local use without reinstalling app dependencies. The Git repository contains editable sources and a pinned lockfile; build instructions follow below.
@@ -80,7 +80,7 @@ node scripts/browser-qa.cjs
 node scripts/wallet-browser-qa.cjs
 ```
 
-Both scripts use `http://127.0.0.1:8874` by default; set `QA_URL` if the local server uses another address. `PLAYWRIGHT_MODULE` can point to a separately installed Playwright package. Without that override, the scripts try the project's ordinary `playwright` package, then an optional Codex runtime under the current user's home directory. `BROWSER_EXECUTABLE` selects an existing Chromium-compatible browser. Otherwise, the scripts use Microsoft Edge when installed in its standard macOS location, or Playwright's installed Chromium. The Chromium installation command can be omitted when using an existing compatible browser. The recorded run used Playwright 1.62.1 and headless Microsoft Edge in an isolated profile.
+Both scripts use `http://127.0.0.1:8874` by default; set `QA_URL` if the local server uses another address. `PLAYWRIGHT_MODULE` can point to a separately installed Playwright package. Without that override, the scripts load the project's ordinary `playwright` package. `BROWSER_EXECUTABLE` selects an existing Chromium-compatible browser. Otherwise, the scripts use Microsoft Edge when installed in its standard macOS location, or Playwright's installed Chromium. The Chromium installation command can be omitted when using an existing compatible browser. The recorded run used Playwright 1.62.1 and headless Microsoft Edge in an isolated profile.
 
 Local test pass counts are functional evidence, not an independent security audit, a claim of novel multisignature research, or proof of mainnet deployment. Gas observations depend on compiler, optimizer and EVM fork and are not USD cost estimates.
 

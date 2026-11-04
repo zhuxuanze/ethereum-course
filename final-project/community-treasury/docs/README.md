@@ -7,9 +7,9 @@ The editable deliverables are generated from `report-content.json`, `presentatio
 - Every slide includes English speaker notes, Chinese translation, demonstration actions, and source information.
 - Names, contribution statements, and any required signatures must be supplied by the actual team members.
 
-## Rebuilding in the current Codex workspace
+## Rebuilding the deliverables
 
-Use the bundled Python and Node runtimes identified by Codex's `load_workspace_dependencies` tool. The presentation builder imports the installed presentation validation utilities and expects `RUNTIME_NODE_MODULES` to identify the bundled modules. It currently records these workspace runtime locations explicitly. To reproduce the presentation outside this workspace, install the equivalent authoring runtime and update those paths; they are not dependencies of the treasury application.
+The document and presentation builders require a compatible authoring environment, separate from the treasury application's runtime. Set `RUNTIME_NODE_MODULES` to its Node modules directory, `PRESENTATION_SKILL_ROOT` to the installed presentation utilities directory, and `AUTHORING_PYTHON` to its Python executable. These locations are supplied through environment variables rather than stored in the project.
 
 Run `build_documents.py` with the bundled Python. Run `build_presentation.mjs` with the bundled Node and a new `DECK_REVISION` value, for example `v3`; finalization retains previous revisions rather than overwriting them. Generated artifacts are written to `output/final/community-treasury/`. Temporary renders and validation records are retained in `tmp/final-treasury-docs/`.
 

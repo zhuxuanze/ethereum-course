@@ -3,7 +3,7 @@
   "report": {
     "pages": 8,
     "main_body_words_excluding_table_cells": 2311,
-    "all_paragraph_words_including_front_matter_references_appendix": 2711,
+    "all_paragraph_words_including_front_matter_references_appendix": 2710,
     "visual_pages_reviewed": [
       1,
       2,
@@ -13,8 +13,7 @@
       6,
       7,
       8
-    ],
-    "render_directory": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/tmp/final-treasury-docs/report-render-final"
+    ]
   },
   "guide": {
     "pages": 4,
@@ -26,8 +25,7 @@
       3,
       4
     ],
-    "render_directory": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/tmp/final-treasury-docs/guide-render-final",
-    "rebuild_pixel_check": "All four final PNGs are byte-identical to the four individually reviewed guide-render-v2 pages."
+    "rebuild_pixel_check": "All four rebuilt pages exactly match the previously reviewed pages."
   },
   "presentation": {
     "slides": 12,
@@ -45,7 +43,6 @@
       11,
       12
     ],
-    "render_directory": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/tmp/final-treasury-docs/ppt-render-final",
     "contact_sheet_reviewed": true,
     "editable": "Native text, shapes, two tables, and one chart with embedded data workbook; two cropped views of the actual screenshot remain image elements.",
     "english_and_chinese_speaker_notes": 12,
@@ -66,39 +63,72 @@
   ],
   "artifacts": [
     {
-      "file": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/output/final/community-treasury/Community_Treasury_Final_Demo_Guide_EN_ZH.docx",
+      "file": "deliverables/Community_Treasury_Final_Demo_Guide_EN_ZH.docx",
       "bytes": 43034,
-      "sha256": "d4c8148fad17480c268e979f4d33d6be7244d1c767d9efba29d91fdb0303c001"
+      "sha256": "3306f8ce1973ae9f02637139566a5afcf266556f3f48e597d4104fb31910d54d"
     },
     {
-      "file": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/output/final/community-treasury/Community_Treasury_Final_Demo_Guide_EN_ZH.pdf",
+      "file": "deliverables/Community_Treasury_Final_Demo_Guide_EN_ZH.pdf",
       "bytes": 240333,
-      "sha256": "6a9495f46adf3c6620fbde9b8410e927ee683ad53c2ecd08e080cb7ee33d12d2"
+      "sha256": "389645f395f0203d4152040da78c24553c2958e9b656518f35ec682b1b7945af"
     },
     {
-      "file": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/output/final/community-treasury/Community_Treasury_Final_Presentation_EN.pdf",
-      "bytes": 823441,
-      "sha256": "eaa61e8a417c5be26fb3a9300cd4f7adc6b012bf47c615b05772cdd379e3e367"
+      "file": "deliverables/Community_Treasury_Final_Presentation_EN.pdf",
+      "bytes": 823124,
+      "sha256": "28543d662101d208b3ce5132d144313faa167f43594ccef186f49e3d45af8c24"
     },
     {
-      "file": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/output/final/community-treasury/Community_Treasury_Final_Presentation_EN.pptx",
-      "bytes": 637665,
-      "sha256": "b93e4bd22b646a7be4dad6ed6ecde60b3f6c8a08c461a2c51c4b3a4706e84925"
+      "file": "deliverables/Community_Treasury_Final_Presentation_EN.pptx",
+      "bytes": 637646,
+      "sha256": "e5c9729fb91f34af9b9bfc220b285c60fa70eb5a32f9ea5a3bfb78344f81eea6"
     },
     {
-      "file": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/output/final/community-treasury/Community_Treasury_Final_Report_EN.docx",
-      "bytes": 46886,
-      "sha256": "e9e00b279ba317b23dc9777ac1cd420b1c79442f8c32cead6bbc7ef525c4e368"
+      "file": "deliverables/Community_Treasury_Final_Report_EN.docx",
+      "bytes": 46877,
+      "sha256": "81cc2e48652cacdd08e7bec66623a8331eed568350d2890f1a1758ea98545048"
     },
     {
-      "file": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/output/final/community-treasury/Community_Treasury_Final_Report_EN.pdf",
-      "bytes": 236497,
-      "sha256": "df06efbcd16ac412082a6b85f37563fe947ea995a638725525fd951890d47c96"
+      "file": "deliverables/Community_Treasury_Final_Report_EN.pdf",
+      "bytes": 236483,
+      "sha256": "7985ec39151ccddcad060bd9868f70f3dc50a707702254e03aeb80328d03102a"
     },
     {
-      "file": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/output/final/community-treasury/Community_Treasury_Presentation_Overview.jpg",
-      "bytes": 311168,
-      "sha256": "abf0d4a3f09470bd941ef687c1706776d0415a70ab9738d86a50dcbfcae637ef"
+      "file": "deliverables/Community_Treasury_Presentation_Overview.jpg",
+      "bytes": 311031,
+      "sha256": "e305559cb2cb2d4e2eca8a62ea1a420a23b53bd00aa5138a0d2a19d0ba45834c"
     }
-  ]
+  ],
+  "revision_review": {
+    "direct_visual_review": [
+      "Report page 1",
+      "Presentation slide 12"
+    ],
+    "unchanged_render_equality": {
+      "report_pages_2_to_8": true,
+      "guide_pages_1_to_4": true,
+      "presentation_slides_1_to_11": true
+    },
+    "neutral_repository_link_verified": true,
+    "office_source_and_pdf_content_scan_findings": 0,
+    "pdf_scan": [
+      {
+        "file": "Community_Treasury_Final_Report_EN.pdf",
+        "pages": 8,
+        "decoded_streams_checked": 25,
+        "findings": 0
+      },
+      {
+        "file": "Community_Treasury_Final_Demo_Guide_EN_ZH.pdf",
+        "pages": 4,
+        "decoded_streams_checked": 25,
+        "findings": 0
+      },
+      {
+        "file": "Community_Treasury_Final_Presentation_EN.pdf",
+        "pages": 12,
+        "decoded_streams_checked": 68,
+        "findings": 0
+      }
+    ]
+  }
 }
