@@ -1,10 +1,11 @@
 {
   "github": {
     "repository": "zhuxuanze/ethereum-course",
-    "branch": "codex/final-community-treasury",
-    "commit": "876a2c90b37ede811c2ed52193ddadb7bc23e5e1",
+    "branch": "final-community-treasury",
+    "commit": "10c9ab988cd331589a603d865207bcfab332d08a",
     "readbackVerified": true,
-    "url": "https://github.com/zhuxuanze/ethereum-course/tree/codex/final-community-treasury/final-project/community-treasury"
+    "url": "https://github.com/zhuxuanze/ethereum-course/tree/final-community-treasury/final-project/community-treasury",
+    "recordedAt": "2026-11-04T09:50:23.954648+00:00"
   },
   "site": {
     "id": "appgdep_6aeacf274c1081918fe70f8a5023d934",

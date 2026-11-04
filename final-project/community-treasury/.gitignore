@@ -10,3 +10,8 @@ deployments/private/
 *.key
 *.pem
 site-source.zip
+
+# Local course documents are excluded from public source publication.
+/docs/
+/deliverables/
+/evidence/final-artifact-qa.json
