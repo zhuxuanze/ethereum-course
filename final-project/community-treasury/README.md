@@ -6,6 +6,7 @@ The application runs the compiled Solidity contract on a real, temporary EVM ins
 
 ## Published coursework snapshot
 
+- This repository publishes the application source, tests, and execution records. Course reports, presentation files, and speaker notes are maintained separately.
 - [Source branch](https://github.com/zhuxuanze/ethereum-course/tree/final-community-treasury/final-project/community-treasury)
 - [Hosted frontend](https://community-treasury-course-20261104.zxzccn.chatgpt.site) — owner-only private access; this URL is not a public class-sharing link.
 - `evidence/publication-receipts.json` records the verified source publication and successful private frontend deployment. Mainnet and additional cloud-blockchain contract deployments remain pending instructor confirmation.
@@ -107,7 +108,6 @@ Cloud **web hosting** and browser-local EVM execution are different from an Ethe
 | `artifacts/` | Reproducible ABI and bytecode |
 | `evidence/` | Recorded tests, gas, browser checks and build hashes |
 | `deployments/` | Actual local or external deployment receipts, labeled by network |
-| `docs/` | Report content, references and final delivery facts |
 
 ## Primary technical references
 
