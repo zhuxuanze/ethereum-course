@@ -1,0 +1,24 @@
+{
+  "name": "community-treasury-final-project",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Ethereum course final project: a two-of-three community treasury with a real EVM browser sandbox",
+  "scripts": {
+    "compile": "node scripts/compile.mjs",
+    "test": "node --test test/*.test.mjs",
+    "build": "node scripts/build.mjs",
+    "start": "node scripts/serve.mjs",
+    "demo:chain": "node scripts/local-chain.mjs",
+    "deploy": "node scripts/deploy.mjs",
+    "verify:deployment": "node scripts/verify-deployment.mjs"
+  },
+  "dependencies": {
+    "ethers": "6.15.0",
+    "ganache": "7.9.2"
+  },
+  "devDependencies": {
+    "solc": "0.8.30"
+  },
+  "engines": { "node": ">=20" }
+}

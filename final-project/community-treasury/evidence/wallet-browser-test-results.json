@@ -1,0 +1,83 @@
+{
+  "startedAt": "2026-11-04T06:17:46.027Z",
+  "finishedAt": "2026-11-04T06:17:54.815Z",
+  "environment": {
+    "kind": "LOCAL injected EIP-1193 wallet wrapper over an isolated browser Ganache EVM",
+    "browser": "Headless Microsoft Edge via Playwright",
+    "url": "http://127.0.0.1:8874",
+    "chainId": 1337,
+    "servedAppSha256": "386bf4f82c0164bc5527a7a7b20217870185db9e2b582f7135864090a06a487e",
+    "sourceContractSha256": "68f52ec3c1b91c0f371b6bdc7f403ea62a868fe0b0db02d99d381f15efe080f8"
+  },
+  "total": 12,
+  "passed": 12,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "rejects an ABI-compatible contract with different runtime bytecode",
+      "status": "passed",
+      "durationMs": 127
+    },
+    {
+      "name": "rejects an unsupported EVM chain before enabling payments",
+      "status": "passed",
+      "durationMs": 267
+    },
+    {
+      "name": "connects the exact contract on local chain 1337 and displays its three owners",
+      "status": "passed",
+      "durationMs": 955
+    },
+    {
+      "name": "wallet-mode deposit produces a mined local transaction and exact displayed balance",
+      "status": "passed",
+      "durationMs": 429
+    },
+    {
+      "name": "preflight rejects an unannounced account mismatch without broadcasting",
+      "status": "passed",
+      "durationMs": 63
+    },
+    {
+      "name": "preflight rejects an unannounced network mismatch without broadcasting",
+      "status": "passed",
+      "durationMs": 266
+    },
+    {
+      "name": "account-change event interrupts an open wallet request and unlocks the new account",
+      "status": "passed",
+      "durationMs": 725
+    },
+    {
+      "name": "chain-change event resets the session and unlocks reconnection during an open request",
+      "status": "passed",
+      "durationMs": 314
+    },
+    {
+      "name": "account disconnect clears payment controls without blocking reconnection",
+      "status": "passed",
+      "durationMs": 80
+    },
+    {
+      "name": "exact raw purpose text including surrounding whitespace verifies against an external commitment",
+      "status": "passed",
+      "durationMs": 869
+    },
+    {
+      "name": "altered local purpose metadata is rejected and never rendered as trusted content",
+      "status": "passed",
+      "durationMs": 161
+    },
+    {
+      "name": "previous confirmed transaction hashes remain visible after session changes",
+      "status": "passed",
+      "durationMs": 98
+    }
+  ],
+  "pageErrors": [],
+  "limitations": [
+    "No real browser wallet extension was installed or exercised.",
+    "No public Ethereum or cloud blockchain network was contacted.",
+    "The wrapper deterministically controls account/network events for local integration testing; this does not establish external wallet acceptance."
+  ]
+}

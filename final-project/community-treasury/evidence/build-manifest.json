@@ -1,0 +1,50 @@
+{
+  "builtAt": "2026-11-04T06:14:42.476Z",
+  "files": [
+    {
+      "path": "app.js",
+      "bytes": 35454,
+      "sha256": "386bf4f82c0164bc5527a7a7b20217870185db9e2b582f7135864090a06a487e"
+    },
+    {
+      "path": "artifacts/CommunityTreasury.json",
+      "bytes": 22208,
+      "sha256": "080075086012cd8f58730a0d78b67d05f8783ce095056650998120d1a5dbe408"
+    },
+    {
+      "path": "index.html",
+      "bytes": 9597,
+      "sha256": "94ee844d6410c93f6a002f56f0ce335c221071425093571285678590dc701d57"
+    },
+    {
+      "path": "styles.css",
+      "bytes": 16112,
+      "sha256": "fc736a3b7f1363b3f90fa03bcb51b0e1759008b7d3b13fbeac8e0881c2ec4978"
+    },
+    {
+      "path": "vendor/ethers.LICENSE.md",
+      "bytes": 1075,
+      "sha256": "44eea86637405118248327fbe9d9fa95d04c7a57221c7e8c155f736db9f1b612"
+    },
+    {
+      "path": "vendor/ethers.umd.min.js",
+      "bytes": 517486,
+      "sha256": "fcfd9597005606eabed524ed9f97df69dbc5cac461119a9bb8a4c6b280cfa3f1"
+    },
+    {
+      "path": "vendor/ganache-project.LICENSE.txt",
+      "bytes": 1132,
+      "sha256": "ed316dbcf48e03bb1a39122019f56fcbb9c32190f75c33f2d5e0c953d994f8ce"
+    },
+    {
+      "path": "vendor/ganache.LICENSE.txt",
+      "bytes": 1954,
+      "sha256": "b75235ef82bf86e238f350aba0671c398dcc49ff45f8890bb51599f4134a6380"
+    },
+    {
+      "path": "vendor/ganache.min.js",
+      "bytes": 7844725,
+      "sha256": "9a9b3defcbef72f69e4df91a72e6d26f5335ff115bfed979f4cbb830ae2b4177"
+    }
+  ]
+}

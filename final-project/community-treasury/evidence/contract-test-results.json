@@ -1,0 +1,167 @@
+{
+  "startedAt": "2026-11-04T06:06:48.818Z",
+  "finishedAt": "2026-11-04T06:06:55.028Z",
+  "environment": {
+    "chain": "isolated in-process Ganache",
+    "chainId": 1337,
+    "hardfork": "shanghai",
+    "compiler": "0.8.30+commit.73712a01.Emscripten.clang",
+    "optimizerRuns": 200,
+    "node": "v24.21.0",
+    "sourceSha256": "68f52ec3c1b91c0f371b6bdc7f403ea62a868fe0b0db02d99d381f15efe080f8"
+  },
+  "total": 29,
+  "passed": 29,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "constructor stores three distinct owners and a fixed threshold of two",
+      "status": "passed",
+      "durationMs": 354
+    },
+    {
+      "name": "constructor rejects a zero owner",
+      "status": "passed",
+      "durationMs": 235
+    },
+    {
+      "name": "constructor rejects duplicate owners",
+      "status": "passed",
+      "durationMs": 181
+    },
+    {
+      "name": "any supporter can deposit ETH and the receipt emits the correct balance",
+      "status": "passed",
+      "durationMs": 182
+    },
+    {
+      "name": "submission records exact payment fields and does not implicitly approve",
+      "status": "passed",
+      "durationMs": 153
+    },
+    {
+      "name": "a non-owner cannot submit a request",
+      "status": "passed",
+      "durationMs": 80
+    },
+    {
+      "name": "a non-owner cannot confirm a request",
+      "status": "passed",
+      "durationMs": 113
+    },
+    {
+      "name": "a non-owner cannot revoke another owner approval",
+      "status": "passed",
+      "durationMs": 136
+    },
+    {
+      "name": "a non-owner cannot execute an otherwise approved payment",
+      "status": "passed",
+      "durationMs": 154
+    },
+    {
+      "name": "submission rejects the zero recipient",
+      "status": "passed",
+      "durationMs": 68
+    },
+    {
+      "name": "submission rejects a zero amount",
+      "status": "passed",
+      "durationMs": 67
+    },
+    {
+      "name": "submission rejects an empty description commitment",
+      "status": "passed",
+      "durationMs": 66
+    },
+    {
+      "name": "nonexistent request identifiers are rejected by reads and all actions",
+      "status": "passed",
+      "durationMs": 91
+    },
+    {
+      "name": "one owner cannot count a duplicate approval twice",
+      "status": "passed",
+      "durationMs": 163
+    },
+    {
+      "name": "zero approvals cannot release funds",
+      "status": "passed",
+      "durationMs": 169
+    },
+    {
+      "name": "one approval cannot release funds even in a mined transaction",
+      "status": "passed",
+      "durationMs": 171
+    },
+    {
+      "name": "two distinct approvals allow exactly the requested ETH transfer",
+      "status": "passed",
+      "durationMs": 187
+    },
+    {
+      "name": "the third owner can execute a payment approved by the other two",
+      "status": "passed",
+      "durationMs": 186
+    },
+    {
+      "name": "revocation removes authority until a second distinct approval is restored",
+      "status": "passed",
+      "durationMs": 238
+    },
+    {
+      "name": "an owner cannot revoke an approval they did not give",
+      "status": "passed",
+      "durationMs": 110
+    },
+    {
+      "name": "insufficient balance rejects execution and a later deposit permits retry",
+      "status": "passed",
+      "durationMs": 216
+    },
+    {
+      "name": "an executed request cannot pay twice",
+      "status": "passed",
+      "durationMs": 198
+    },
+    {
+      "name": "executed requests reject further confirmations and revocations",
+      "status": "passed",
+      "durationMs": 328
+    },
+    {
+      "name": "a reverting receiver rolls back execution and can be paid after recovery",
+      "status": "passed",
+      "durationMs": 260
+    },
+    {
+      "name": "an owner-recipient cannot reenter the same request",
+      "status": "passed",
+      "durationMs": 541
+    },
+    {
+      "name": "an owner-recipient cannot reenter a different approved request",
+      "status": "passed",
+      "durationMs": 465
+    },
+    {
+      "name": "approval count matches the set of owners across revoke and reconfirm sequences",
+      "status": "passed",
+      "durationMs": 443
+    },
+    {
+      "name": "competing approved requests cannot spend more than the current treasury balance",
+      "status": "passed",
+      "durationMs": 318
+    },
+    {
+      "name": "canonical lifecycle records actual gas used by mined transactions",
+      "status": "passed",
+      "durationMs": 256
+    }
+  ],
+  "limitations": [
+    "Local EVM tests only; no public-network deployment established.",
+    "Not a formal verification or independent security audit."
+  ]
+}

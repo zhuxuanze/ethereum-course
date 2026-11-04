@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log
+.cache/
+deployments/private/
+*.key
+*.pem
+site-source.zip

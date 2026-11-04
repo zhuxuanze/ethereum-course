@@ -1,0 +1,63 @@
+{
+  "measuredAt": "2026-11-04T06:06:55.028Z",
+  "environment": {
+    "chain": "isolated in-process Ganache",
+    "chainId": 1337,
+    "hardfork": "shanghai",
+    "compiler": "0.8.30+commit.73712a01.Emscripten.clang",
+    "optimizerRuns": 200,
+    "node": "v24.21.0",
+    "sourceSha256": "68f52ec3c1b91c0f371b6bdc7f403ea62a868fe0b0db02d99d381f15efe080f8"
+  },
+  "observations": [
+    {
+      "operation": "deployment",
+      "gasUsed": "783516",
+      "status": 1,
+      "transactionHash": "0xd91d9199eff14a44aeb4c23eae94a6fe873a1053541a3d9322935162e8c692e1"
+    },
+    {
+      "operation": "deposit",
+      "gasUsed": "22767",
+      "status": 1,
+      "transactionHash": "0x378c1ddbc79e2dbf4ca92c68a6892cc69313255835bd56adcd56ff8ef24d394d"
+    },
+    {
+      "operation": "submit",
+      "gasUsed": "142609",
+      "status": 1,
+      "transactionHash": "0x88f8bf4e6187fd733ba02b9946a0aacaa625dff519d05523cb17ed15618afdbf"
+    },
+    {
+      "operation": "confirm_first",
+      "gasUsed": "74425",
+      "status": 1,
+      "transactionHash": "0x78f30b457b8dc3c9bb4cb567a1bf9ad80f6b3cced03a0894c04f071a803c5545"
+    },
+    {
+      "operation": "confirm_second",
+      "gasUsed": "57325",
+      "status": 1,
+      "transactionHash": "0xc2a4d65f032341bb54a938c7bc60228bb9ccfd5bd635ff32c47583f08f6de4a8"
+    },
+    {
+      "operation": "revoke",
+      "gasUsed": "35369",
+      "status": 1,
+      "transactionHash": "0xc09429d30856651a5da6316941d6df632829bb3c32ccdb40a8e65c0a01c7b340"
+    },
+    {
+      "operation": "reconfirm",
+      "gasUsed": "57325",
+      "status": 1,
+      "transactionHash": "0x14ce02c9072b4b69c9ec739cc662a7a3058b8cd09ae1e1700728460d16ddba12"
+    },
+    {
+      "operation": "execute",
+      "gasUsed": "70600",
+      "status": 1,
+      "transactionHash": "0xb007e543e474817d461f70981b108d1d586aa5ad5b1d0d2030d8567e043db06f"
+    }
+  ],
+  "interpretation": "Single-run local transaction gas observations, not monetary cost estimates or a throughput benchmark."
+}

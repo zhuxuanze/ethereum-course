@@ -1,0 +1,20 @@
+{
+  "verifiedAt": "2026-11-04T06:09:41.744Z",
+  "networkKind": "local-development",
+  "chainId": "1337",
+  "address": "0xe78A0F7E598Cc8b0Bb87894B0F60dD2a88d6a8Ab",
+  "transactionHash": "0xd91d9199eff14a44aeb4c23eae94a6fe873a1053541a3d9322935162e8c692e1",
+  "blockNumber": 1,
+  "gasUsed": "783516",
+  "status": 1,
+  "owners": [
+    "0x90F8bf6A479f320ead074411a4B0e7944Ea8c9C1",
+    "0xFFcf8FDEE72ac11b5c542428B35EEF5769C409f0",
+    "0x22d491Bde2303f2f43325b2108D26f1eAbA1e32b"
+  ],
+  "threshold": 2,
+  "runtimeKeccak256": "0x6a5c0394b9160a7918a1427b7e1a2daeb79bf9b8dd95c62ce9f73f81b990b3d2",
+  "runtimeMatches": true,
+  "sourceSha256": "68f52ec3c1b91c0f371b6bdc7f403ea62a868fe0b0db02d99d381f15efe080f8",
+  "compiler": "0.8.30+commit.73712a01.Emscripten.clang"
+}

@@ -1,0 +1,263 @@
+{
+  "recordedAt": "2026-11-04T06:16:44.374Z",
+  "status": "passed",
+  "environment": "Headless Chromium; actual compiled contract executed on browser-local Ganache EVM",
+  "publicNetwork": false,
+  "checks": [
+    {
+      "name": "Compiled Solidity contract deployed and treasury funded in browser EVM",
+      "passed": true,
+      "snapshot": {
+        "address": "0x4848574185945f79b73A5B3b4447c5aacfC5F93c",
+        "chainId": "1337",
+        "account": "0x5300FE9697900e9Da1c2450A9B65E4FB4e95ff05",
+        "balance": "10000000000000000000",
+        "pending": 0,
+        "paid": 0,
+        "status": "Sandbox ready: 10 demo ETH deposited. Create a request, then switch managers to collect two approvals.",
+        "receipt": "0x8f8637049954ea0e22409950afecd078b86aa7a986e26c21f583582e81538382",
+        "requests": []
+      }
+    },
+    {
+      "name": "Supporter can deposit and cannot submit payment requests",
+      "passed": true,
+      "snapshot": {
+        "address": "0x4848574185945f79b73A5B3b4447c5aacfC5F93c",
+        "chainId": "1337",
+        "account": "0x07ADbE734F2D819253bB77593400d82EcD856f05",
+        "balance": "11000000000000000000",
+        "pending": 0,
+        "paid": 0,
+        "status": "Deposit confirmed in block 3.",
+        "receipt": "0xddf944c07dc0ce5ecc324d72e884dff7c36b58912967de4302164270e27ea0c4",
+        "requests": []
+      }
+    },
+    {
+      "name": "Submission records recipient amount and purpose without implicit approval",
+      "passed": true,
+      "snapshot": {
+        "address": "0x4848574185945f79b73A5B3b4447c5aacfC5F93c",
+        "chainId": "1337",
+        "account": "0x5300FE9697900e9Da1c2450A9B65E4FB4e95ff05",
+        "balance": "11000000000000000000",
+        "pending": 1,
+        "paid": 0,
+        "status": "Payment request confirmed in block 4.",
+        "receipt": "0x901c2b5d4233225d4c90c43f7e35c274505185877c68d6f861da54759bdb8f2d",
+        "requests": [
+          {
+            "id": 0,
+            "value": "250000000000000000",
+            "confirmed": 0,
+            "executed": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "One approval does not enable execution",
+      "passed": true,
+      "snapshot": {
+        "address": "0x4848574185945f79b73A5B3b4447c5aacfC5F93c",
+        "chainId": "1337",
+        "account": "0x5300FE9697900e9Da1c2450A9B65E4FB4e95ff05",
+        "balance": "11000000000000000000",
+        "pending": 1,
+        "paid": 0,
+        "status": "Approval confirmed in block 5.",
+        "receipt": "0x4c31d44e45b18ac1e5a91a144b5b904e3e177a9b014cb0e2f76ed65aa511e62c",
+        "requests": [
+          {
+            "id": 0,
+            "value": "250000000000000000",
+            "confirmed": 1,
+            "executed": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "Revocation disables execution until two approvals are restored",
+      "passed": true,
+      "snapshot": {
+        "address": "0x4848574185945f79b73A5B3b4447c5aacfC5F93c",
+        "chainId": "1337",
+        "account": "0x5fF978483d2022f24269340523a0b89592E61C78",
+        "balance": "11000000000000000000",
+        "pending": 1,
+        "paid": 0,
+        "status": "Approval confirmed in block 8.",
+        "receipt": "0x929377f0322f3fad8a3e276003dbff571aeee810a39f9b0573019dfb1166d159",
+        "requests": [
+          {
+            "id": 0,
+            "value": "250000000000000000",
+            "confirmed": 2,
+            "executed": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "Third owner executes approved payment once with correct balance and mined receipt",
+      "passed": true,
+      "snapshot": {
+        "address": "0x4848574185945f79b73A5B3b4447c5aacfC5F93c",
+        "chainId": "1337",
+        "account": "0xCC73a3dD29e278bc353b8e7BCa6C184258eD09A9",
+        "balance": "10750000000000000000",
+        "pending": 0,
+        "paid": 1,
+        "status": "Payment execution confirmed in block 9.",
+        "receipt": "0xed393ebb564378f05fe4982f2bca9032205a80cc24d089b1b1ba275ba6520b89",
+        "requests": [
+          {
+            "id": 0,
+            "value": "250000000000000000",
+            "confirmed": 2,
+            "executed": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "Sub-microether payment amount displayed without truncation",
+      "passed": true,
+      "snapshot": {
+        "address": "0x4848574185945f79b73A5B3b4447c5aacfC5F93c",
+        "chainId": "1337",
+        "account": "0xCC73a3dD29e278bc353b8e7BCa6C184258eD09A9",
+        "balance": "10750000000000000000",
+        "pending": 1,
+        "paid": 1,
+        "status": "Payment request confirmed in block 10.",
+        "receipt": "0x02cc8cc583ae34d0dbf2d0c92c48d22cd62a4cac28b2a75340b8dfb1c407f10a",
+        "requests": [
+          {
+            "id": 1,
+            "value": "900000000000",
+            "confirmed": 0,
+            "executed": false
+          },
+          {
+            "id": 0,
+            "value": "250000000000000000",
+            "confirmed": 2,
+            "executed": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "Altered off-chain description rejected and exact original text recovered by hash",
+      "passed": true,
+      "snapshot": {
+        "address": "0x4848574185945f79b73A5B3b4447c5aacfC5F93c",
+        "chainId": "1337",
+        "account": "0xCC73a3dD29e278bc353b8e7BCa6C184258eD09A9",
+        "balance": "10750000000000000000",
+        "pending": 1,
+        "paid": 1,
+        "status": "Purpose text verified and saved in this browser.",
+        "receipt": "0x02cc8cc583ae34d0dbf2d0c92c48d22cd62a4cac28b2a75340b8dfb1c407f10a",
+        "requests": [
+          {
+            "id": 1,
+            "value": "900000000000",
+            "confirmed": 0,
+            "executed": false
+          },
+          {
+            "id": 0,
+            "value": "250000000000000000",
+            "confirmed": 2,
+            "executed": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "Supporter has read-only payment request controls",
+      "passed": true,
+      "snapshot": {
+        "address": "0x4848574185945f79b73A5B3b4447c5aacfC5F93c",
+        "chainId": "1337",
+        "account": "0x07ADbE734F2D819253bB77593400d82EcD856f05",
+        "balance": "10750000000000000000",
+        "pending": 1,
+        "paid": 1,
+        "status": "Now acting as Supporter.",
+        "receipt": "0x02cc8cc583ae34d0dbf2d0c92c48d22cd62a4cac28b2a75340b8dfb1c407f10a",
+        "requests": [
+          {
+            "id": 1,
+            "value": "900000000000",
+            "confirmed": 0,
+            "executed": false
+          },
+          {
+            "id": 0,
+            "value": "250000000000000000",
+            "confirmed": 2,
+            "executed": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "390 pixel mobile viewport has no horizontal overflow",
+      "passed": true,
+      "snapshot": {
+        "address": "0x4848574185945f79b73A5B3b4447c5aacfC5F93c",
+        "chainId": "1337",
+        "account": "0x07ADbE734F2D819253bB77593400d82EcD856f05",
+        "balance": "10750000000000000000",
+        "pending": 1,
+        "paid": 1,
+        "status": "Now acting as Supporter.",
+        "receipt": "0x02cc8cc583ae34d0dbf2d0c92c48d22cd62a4cac28b2a75340b8dfb1c407f10a",
+        "requests": [
+          {
+            "id": 1,
+            "value": "900000000000",
+            "confirmed": 0,
+            "executed": false
+          },
+          {
+            "id": 0,
+            "value": "250000000000000000",
+            "confirmed": 2,
+            "executed": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "Wallet mode handles missing injected wallet without claiming connection",
+      "passed": true,
+      "snapshot": {
+        "address": null,
+        "chainId": "null",
+        "account": null,
+        "balance": "10750000000000000000",
+        "pending": 0,
+        "paid": 0,
+        "status": "No Ethereum wallet was found. Open this page in a wallet-enabled browser, or use the sandbox.",
+        "receipt": "0x02cc8cc583ae34d0dbf2d0c92c48d22cd62a4cac28b2a75340b8dfb1c407f10a",
+        "requests": []
+      }
+    }
+  ],
+  "receipts": [
+    "0x8f8637049954ea0e22409950afecd078b86aa7a986e26c21f583582e81538382",
+    "0xddf944c07dc0ce5ecc324d72e884dff7c36b58912967de4302164270e27ea0c4",
+    "0x901c2b5d4233225d4c90c43f7e35c274505185877c68d6f861da54759bdb8f2d",
+    "0x4c31d44e45b18ac1e5a91a144b5b904e3e177a9b014cb0e2f76ed65aa511e62c",
+    "0x929377f0322f3fad8a3e276003dbff571aeee810a39f9b0573019dfb1166d159",
+    "0xed393ebb564378f05fe4982f2bca9032205a80cc24d089b1b1ba275ba6520b89",
+    "0x02cc8cc583ae34d0dbf2d0c92c48d22cd62a4cac28b2a75340b8dfb1c407f10a"
+  ],
+  "pageErrors": []
+}
