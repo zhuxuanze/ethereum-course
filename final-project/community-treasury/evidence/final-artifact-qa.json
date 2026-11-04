@@ -1,0 +1,104 @@
+{
+  "status": "passed",
+  "report": {
+    "pages": 8,
+    "main_body_words_excluding_table_cells": 2311,
+    "all_paragraph_words_including_front_matter_references_appendix": 2711,
+    "visual_pages_reviewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "render_directory": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/tmp/final-treasury-docs/report-render-final"
+  },
+  "guide": {
+    "pages": 4,
+    "english_speech_words": 668,
+    "planned_total_seconds": 380,
+    "visual_pages_reviewed": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "render_directory": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/tmp/final-treasury-docs/guide-render-final",
+    "rebuild_pixel_check": "All four final PNGs are byte-identical to the four individually reviewed guide-render-v2 pages."
+  },
+  "presentation": {
+    "slides": 12,
+    "visual_slides_reviewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "render_directory": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/tmp/final-treasury-docs/ppt-render-final",
+    "contact_sheet_reviewed": true,
+    "editable": "Native text, shapes, two tables, and one chart with embedded data workbook; two cropped views of the actual screenshot remain image elements.",
+    "english_and_chinese_speaker_notes": 12,
+    "verified_clickable_external_links": 2,
+    "integrity_findings": 0,
+    "layout_findings": 0,
+    "structural_errors": 0,
+    "structural_warnings": 0,
+    "first_party_import": "passed"
+  },
+  "compatibility": "Rendered using bundled LibreOffice and Poppler; Microsoft PowerPoint, Word, and WPS were not exercised.",
+  "evidence_boundaries": [
+    "29 contract cases, 11 browser workflow checks, and 12 injected-provider wrapper checks are separate local evidence categories.",
+    "No real wallet-extension acceptance or public-chain deployment is claimed.",
+    "The hosted site is owner-only private.",
+    "Team names, contribution statements and signatures remain for the actual members.",
+    "External Ethereum/cloud deployment requirements remain subject to instructor confirmation."
+  ],
+  "artifacts": [
+    {
+      "file": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/output/final/community-treasury/Community_Treasury_Final_Demo_Guide_EN_ZH.docx",
+      "bytes": 43034,
+      "sha256": "d4c8148fad17480c268e979f4d33d6be7244d1c767d9efba29d91fdb0303c001"
+    },
+    {
+      "file": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/output/final/community-treasury/Community_Treasury_Final_Demo_Guide_EN_ZH.pdf",
+      "bytes": 240333,
+      "sha256": "6a9495f46adf3c6620fbde9b8410e927ee683ad53c2ecd08e080cb7ee33d12d2"
+    },
+    {
+      "file": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/output/final/community-treasury/Community_Treasury_Final_Presentation_EN.pdf",
+      "bytes": 823441,
+      "sha256": "eaa61e8a417c5be26fb3a9300cd4f7adc6b012bf47c615b05772cdd379e3e367"
+    },
+    {
+      "file": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/output/final/community-treasury/Community_Treasury_Final_Presentation_EN.pptx",
+      "bytes": 637665,
+      "sha256": "b93e4bd22b646a7be4dad6ed6ecde60b3f6c8a08c461a2c51c4b3a4706e84925"
+    },
+    {
+      "file": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/output/final/community-treasury/Community_Treasury_Final_Report_EN.docx",
+      "bytes": 46886,
+      "sha256": "e9e00b279ba317b23dc9777ac1cd420b1c79442f8c32cead6bbc7ef525c4e368"
+    },
+    {
+      "file": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/output/final/community-treasury/Community_Treasury_Final_Report_EN.pdf",
+      "bytes": 236497,
+      "sha256": "df06efbcd16ac412082a6b85f37563fe947ea995a638725525fd951890d47c96"
+    },
+    {
+      "file": "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/output/final/community-treasury/Community_Treasury_Presentation_Overview.jpg",
+      "bytes": 311168,
+      "sha256": "abf0d4a3f09470bd941ef687c1706776d0415a70ab9738d86a50dcbfcae637ef"
+    }
+  ]
+}

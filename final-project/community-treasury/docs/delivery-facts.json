@@ -1,0 +1,21 @@
+{
+  "recorded_at": "2026-11-04T06:24:09.735Z",
+  "repository_url": "https://github.com/zhuxuanze/ethereum-course/tree/codex/final-community-treasury/final-project/community-treasury",
+  "repository_verified": true,
+  "repository_commit": "876a2c90b37ede811c2ed52193ddadb7bc23e5e1",
+  "site_url": "https://community-treasury-course-20261104.zxzccn.chatgpt.site",
+  "site_deployed": true,
+  "site_access": "owner-only private",
+  "site_deployment_id": "appgdep_6aeacf274c1081918fe70f8a5023d934",
+  "site_source_commit": "7adbefaf84190b3e9ef11d85ffdbbc6bc30eb7fc",
+  "browser_verified": true,
+  "browser_summary": "11/11 browser workflow checks and 12/12 injected EIP-1193 wallet integration checks passed in isolated headless Microsoft Edge with browser-local Ganache. No real wallet extension or public blockchain acceptance was performed.",
+  "screenshots": [
+    "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/final-project/community-treasury/evidence/browser/04-payment-completed.png",
+    "/Users/zhuxuanze/Documents/ChatGPT/程序设计基础/final-project/community-treasury/evidence/browser/05-mobile.png"
+  ],
+  "contract_tests_passed": 29,
+  "external_blockchain_deployment": false,
+  "team_names": "TBA",
+  "external_deployment_requirements": "Pending instructor confirmation; course documents differ on one versus two additional cloud blockchain platforms."
+}

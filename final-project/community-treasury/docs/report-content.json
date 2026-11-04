@@ -1,0 +1,124 @@
+{
+  "title": "Shared Treasury for Open Source Communities",
+  "subtitle": "Final Project Report",
+  "course": "Introduction to Ethereum and Cloud Blockchain Solutions Engineering",
+  "instructor": "Jean-Claude Franchitti",
+  "date": "4 November 2026",
+  "abstract": "Small open source communities need a clear way to approve shared expenses and review how funds are used. This project implements an Ethereum application in which three designated owner addresses manage one treasury and two distinct approvals are required before a payment can be executed. A browser interface supports deposits, payment requests, confirmation, revocation, execution, and review of contract records. The contract holds native ether and enforces the approval threshold independently of the interface. Payment descriptions remain in browser storage, while their hashes bind each description to an immutable on-chain request. The implementation includes an isolated Ganache browser sandbox for repeatable demonstrations and a wallet mode for interaction with a separately deployed contract. Automated tests exercise authorization, approval accounting, execution failures, and repeated or reentrant execution attempts. The evaluation concerns the recorded local environment; it does not establish security for production custody. The project applies an established multisignature pattern to a narrow community workflow. Its main outcome is a working, inspectable prototype and a reproducible set of checks. Fixed membership, dependence on description availability, and the need for human judgment about expenses remain explicit limitations. Public-network and cloud-blockchain deployments remain incomplete, with the exact course targets awaiting instructor confirmation.",
+  "sections": [
+    {
+      "title": "1 Introduction",
+      "paragraphs": [
+        "A small open source project may receive contributions and later pay for maintenance, documentation, or other agreed work. If one person alone controls the account, other members can review records but cannot necessarily prevent an unauthorized payment. We investigate a narrower arrangement: the community chooses three fund managers, and at least two of them must authorize each transfer from a shared treasury. The relevant users are communities willing to hold and pay funds in ether. The application does not connect directly to bank accounts or payment platforms.",
+        "Ethereum distinguishes accounts controlled through private keys from contract accounts whose behavior follows deployed code [1]. This distinction gives the project a concrete purpose for using a blockchain: approval records and the permission to release the treasury's ether are coupled in the contract. A website administrator cannot make a valid transfer merely by changing a page or a local database entry. The approach still depends on the deployed contract, owner keys, network operation, and owners' judgment. We therefore keep the application small enough to examine these dependencies directly."
+      ]
+    },
+    {
+      "title": "2 Research Problems and Scope",
+      "paragraphs": [
+        "The engineering question is whether a small web application can make a two-of-three spending policy understandable to users and enforce it at the contract boundary. Three subsidiary questions guide implementation: can an owner contribute more than one counted approval to the same request; can a request transfer funds before the threshold is reached or after it has already executed; and can displayed purpose text be checked against the purpose approved on chain? These questions are addressed through executable checks and interface behavior, rather than a claim that the multisignature idea is new.",
+        "The minimum viable prototype contains one treasury, three fixed nonzero and distinct owner addresses, a threshold of two, and native ETH payments. The proposer, recipient, amount, and description hash are fixed at submission. Owners may revoke their own confirmations before execution. The prototype provides no owner replacement, threshold change, upgrade mechanism, cancellation state, token issuance, or arbitrary transaction-data execution. These decisions constrain the implementation and the demonstration. An unexecuted request can remain pending, and a changed payment requires a new request. Pending requests do not reserve a portion of the balance."
+      ]
+    },
+    {
+      "title": "3 Related Work and Technical Foundations",
+      "paragraphs": [
+        "Ethereum documentation describes multisignature contracts as accounts that require a threshold of valid approvals before executing a transaction [2]. Safe provides a mature application of this approach. Its smart-account architecture supports owners and an approval threshold, and also offers capabilities such as owner management, modules, and more general execution [3]. Our project retains the threshold concept while implementing a much smaller interface for learning and inspection. Safe is the stronger reference for real treasury administration; this project does not claim comparable audit coverage or operational maturity.",
+        "A centralized approval website is a useful alternative when members already trust the operator and use conventional payment rails. It can manage requests and preserve an audit log with less wallet friction. Our design is relevant when approval must directly constrain ETH held by the contract. This is an architectural trade-off, not evidence that every community should adopt blockchain payments. A practical comparison would need user studies, operational costs, recovery procedures, and deployment evidence that this course prototype does not supply.",
+        "The Solidity security guidance motivates checks before state changes and external interactions, especially when a payment recipient can execute code during receipt [4]. OpenZeppelin documents a reentrancy guard as a means of restricting nested calls [5]. Our contract applies the checks-effects-interactions ordering and uses a small execution guard; it does not import OpenZeppelin's implementation. We evaluate the resulting behavior with malicious receiver contracts. EIP-1193 defines the JavaScript provider interface and account or chain change events used by wallet integrations [6]. Ethers supplies the client-side provider and contract abstractions [7]. Ganache supplies the isolated EVM environment used for development and demonstration [8]. These components support implementation, but their inclusion does not establish the safety of the application built on them."
+      ]
+    },
+    {
+      "title": "4 Solution Design",
+      "paragraphs": [
+        "The system separates the interface from the source of authorization. The browser displays the balance, payment requests, owner confirmations, and transaction activity. The Solidity contract stores the owner set and request data, receives ETH, and controls outgoing transfers. A request contains its proposer, recipient, amount in wei, description hash, executed flag, and confirmation count. A separate mapping records whether each owner has confirmed that request. This mapping makes the count auditable as approvals from distinct addresses. Distinct addresses do not prove that different people control the keys.",
+        "The payment workflow begins when an owner submits an immutable request. Submission does not automatically count as approval. Each owner can confirm at most once and can revoke that confirmation while the request remains unexecuted. Two current confirmations make the request eligible for execution. An owner must then submit a separate execution transaction; the second approval does not automatically send funds. Execution checks the threshold, the current balance, and the unexecuted state. A successful execution records completion and transfers the specified amount once.",
+        "Supporters may send ETH to the treasury without becoming owners. A supporter can review records but cannot submit, confirm, revoke, or execute requests. Owners decide whether work deserves payment; the contract checks their authorization and cannot establish the quality or existence of the work. Two owners can still approve an inappropriate expense. If fewer than two usable owner keys remain, payments can become permanently unavailable because this version has no recovery or owner-replacement function. These are consequences of the chosen governance scope.",
+        "Purpose text remains off chain in browser local storage. For a new request, the interface trims leading and trailing whitespace, hashes the resulting UTF-8 text with Keccak-256, and includes that value in the submission. Description recovery checks the exact original committed text, including any whitespace, against the stored hash. Before displaying a stored description as verified, it recomputes the hash and compares it with the contract value. This detects changed text, but the hash does not supply missing text or prove its truth. Storage is scoped to the network and contract. Other browsers may lack the description even while they can inspect the payment's on-chain fields."
+      ]
+    },
+    {
+      "title": "5 Solution Implementation",
+      "paragraphs": [
+        "The contract exposes submission, confirmation, revocation, execution, request reads, and owner reads. Deposits and request actions emit events so that a client can reconstruct activity from contract logs. The constructor rejects zero or duplicate owner addresses. Submission rejects invalid payment data. Execution marks the request before interacting with the recipient and uses a guard against nested execution. If the recipient rejects the transfer, the transaction reverts, restoring the previous request state and treasury balance. An approved request may therefore be retried when the underlying failure can be resolved.",
+        "The compilation configuration pins Solidity 0.8.30, enables the optimizer with 200 runs, and targets the Shanghai EVM for compatibility with the selected Ganache environment. The generated artifact contains the ABI, creation and runtime bytecode, compiler settings, and source hash. The application uses Ethers 6.15.0 and Ganache 7.9.2. Package versions and the lockfile are retained so that another team member can reproduce the environment. Ganache is an archived development project [8]; it serves the bounded demonstration environment rather than a recommended production infrastructure choice.",
+        "The frontend uses ordinary HTML, CSS, and JavaScript with locally bundled dependencies. It has two explicit modes. The sandbox creates an isolated Ganache EVM in the browser, deploys the compiled contract, and uses demonstration accounts with nonvaluable ETH. A role selector lets the presenter exercise the owner and supporter perspectives. Wallet mode connects an injected Ethereum provider to an existing contract address. Wallet users sign their own operations. The interface reports pending operations separately from confirmed receipts, and refreshing state reads current contract data.",
+        "Description persistence uses browser storage rather than a shared server database. This keeps the demonstration self-contained and satisfies the separation between large explanatory text and compact on-chain commitments. It also limits portability: deployment of the website does not create shared description storage, and a new browser cannot recover another browser's local descriptions. Static web hosting, a locally simulated blockchain, and a public Ethereum deployment are separate system components. The delivered evidence identifies which of these were exercised."
+      ]
+    },
+    {
+      "title": "6 Evaluation and Results",
+      "paragraphs": [
+        "The evaluation uses automated contract tests and a browser walkthrough of the payment lifecycle. Contract tests send calls and transactions from owners and nonowners, inspect request state, and examine balance changes or reverts. They cover both permitted actions and attempts to violate the policy. Receiver contracts exercise rejected transfers and attempted reentrancy. The browser checks concern the visible workflow and its connection to the same compiled Solidity contract. Test execution records are supplied with the source; a successful screen alone is not treated as proof that every contract property holds.",
+        "{{CONTRACT_RESULT}}",
+        "{{BROWSER_RESULT}}",
+        "{{GAS_RESULT}}",
+        "These results support the tested scenarios in the recorded local configuration. They do not constitute a formal proof, an independent security audit, a public-network performance benchmark, or a user study. The application has not been evaluated with real community funds. Network delays, wallet-specific behavior, and concurrent requests across multiple users require further testing before an operational deployment. In particular, total pending request amounts may exceed the balance: each execution checks the balance available at that moment."
+      ]
+    },
+    {
+      "title": "7 Lessons Learned and Next Steps",
+      "paragraphs": [
+        "Separating authorization from execution makes the workflow easier to explain and inspect. A request can have enough approvals while remaining unpaid, so the interface must communicate eligibility and completion separately. Revocation matters because a prior approval may no longer reflect an owner's decision. Contract checks remain necessary even when buttons are hidden or disabled: any caller can bypass the interface and attempt the underlying contract operation. The tests therefore target contract entry points directly as well as the user-visible flow.",
+        "Keeping descriptions off chain reduces the amount of explanatory text held by the contract, but shifts availability to another component. Our implementation demonstrates integrity checking without claiming durable, shared access. A later version could use a shared content service with backups and controlled publication. That change would need its own access, privacy, and availability design. Sensitive or low-entropy descriptions should not be assumed private merely because the contract stores a hash. Recipients, amounts, owner actions, and other public-chain transaction fields remain observable.",
+        "The most important production decisions concern governance and recovery. A real group would need rules for replacing unavailable owners, handling compromised keys, determining appropriate thresholds, and reviewing expenses. Those additions should be assessed against a mature multisignature solution before expanding this educational contract. The next course steps are to confirm the required Ethereum network and cloud-blockchain environments with the instructor, carry out the authorized deployments, preserve transaction receipts and addresses, and repeat the critical checks in each environment. Team names, contribution statements, and signatures must be completed by the actual members."
+      ]
+    },
+    {
+      "title": "8 Conclusion",
+      "paragraphs": [
+        "This project implements a limited shared treasury for a small open source community. Its core rule requires two distinct owner approvals before an owner can execute a specified ETH payment. The interface connects that rule to deposits, requests, confirmation, revocation, transaction records, and purpose-hash verification. The local evaluation records how the implementation behaves under permitted operations and selected failure cases. The result is an inspectable course prototype with reproducible source and evidence. Its contribution is the integration and evaluation of an established pattern within a clear scope. Broader claims about custody security, user acceptance, recovery, or cloud-blockchain deployment require additional evidence."
+      ]
+    }
+  ],
+  "references": [
+    {
+      "id": 1,
+      "title": "Ethereum accounts",
+      "author": "Ethereum.org contributors",
+      "url": "https://ethereum.org/developers/docs/accounts/"
+    },
+    {
+      "id": 2,
+      "title": "Introduction to smart contracts",
+      "author": "Ethereum.org contributors",
+      "url": "https://ethereum.org/developers/docs/smart-contracts/"
+    },
+    {
+      "id": 3,
+      "title": "How do Safe Smart Accounts work",
+      "author": "Safe",
+      "url": "https://docs.safe.global/advanced/smart-account-overview"
+    },
+    {
+      "id": 4,
+      "title": "Security Considerations for Solidity 0.8.30",
+      "author": "Solidity contributors",
+      "url": "https://docs.soliditylang.org/en/v0.8.30/security-considerations.html"
+    },
+    {
+      "id": 5,
+      "title": "Utilities and ReentrancyGuard",
+      "author": "OpenZeppelin",
+      "url": "https://docs.openzeppelin.com/contracts/5.x/api/utils#ReentrancyGuard"
+    },
+    {
+      "id": 6,
+      "title": "EIP 1193 Ethereum Provider JavaScript API",
+      "author": "F. Vogelsteller, R. Ghods, V. Maia, M. Garreau, and E. Marks",
+      "url": "https://eips.ethereum.org/EIPS/eip-1193"
+    },
+    {
+      "id": 7,
+      "title": "Ethers version 6 Provider API",
+      "author": "Ethers",
+      "url": "https://docs.ethers.org/v6/api/providers/"
+    },
+    {
+      "id": 8,
+      "title": "Ganache source repository and documentation",
+      "author": "ConsenSys",
+      "url": "https://github.com/ConsenSys-archive/ganache"
+    }
+  ]
+}
