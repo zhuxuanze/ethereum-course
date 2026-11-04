@@ -4,6 +4,13 @@ A course project for **Introduction to Ethereum and Cloud Blockchain Solutions E
 
 The application runs the compiled Solidity contract on a real, temporary EVM inside the browser sandbox. Sandbox ETH has no monetary value. Wallet mode instead connects an existing deployment and verifies that its runtime bytecode exactly matches this project's compiled contract before enabling actions.
 
+## Published coursework snapshot
+
+- [Source branch](https://github.com/zhuxuanze/ethereum-course/tree/codex/final-community-treasury/final-project/community-treasury)
+- [Hosted frontend](https://community-treasury-course-20261104.zxzccn.chatgpt.site) — owner-only private access; this URL is not a public class-sharing link.
+- `evidence/publication-receipts.json` records the verified source publication and successful private frontend deployment. Mainnet and additional cloud-blockchain contract deployments remain pending instructor confirmation.
+- The downloadable course delivery package includes the built `dist/` directory and `启动本地演示.command` for local use without reinstalling app dependencies. The Git repository contains editable sources and a pinned lockfile; build instructions follow below.
+
 ## Run the complete demonstration
 
 Use Node.js 20 or later (recorded development run: Node.js 24.21.0).

@@ -1,0 +1,25 @@
+{
+  "github": {
+    "repository": "zhuxuanze/ethereum-course",
+    "branch": "codex/final-community-treasury",
+    "commit": "876a2c90b37ede811c2ed52193ddadb7bc23e5e1",
+    "readbackVerified": true,
+    "url": "https://github.com/zhuxuanze/ethereum-course/tree/codex/final-community-treasury/final-project/community-treasury"
+  },
+  "site": {
+    "id": "appgdep_6aeacf274c1081918fe70f8a5023d934",
+    "project_id": "appgprj_6aeacaef3d78819195e251def4457815",
+    "title": "Community Treasury",
+    "version_id": "appgprj_6aeacaef3d78819195e251def4457815~appgver_1a33e77b4e3c8191a919fd8538aa6105",
+    "type": "publish",
+    "status": "succeeded",
+    "url": "https://community-treasury-course-20261104.zxzccn.chatgpt.site",
+    "has_mcp": false,
+    "screenshot_asset_pointer": null,
+    "provider_deployment_id": "site---6aeacaef3d78819195e251def4457815",
+    "failure_message": null,
+    "env_set_revision": 0,
+    "updated_at": "2026-11-04T06:22:44.428902+00:00"
+  },
+  "siteSourceCommit": "7adbefaf84190b3e9ef11d85ffdbbc6bc30eb7fc"
+}
