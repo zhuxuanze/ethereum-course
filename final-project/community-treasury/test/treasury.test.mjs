@@ -9,6 +9,11 @@ import { BrowserProvider, ContractFactory, ZeroAddress, ZeroHash, parseEther, ke
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const artifacts = Object.fromEntries(['CommunityTreasury', 'ToggleReceiver', 'ReentrantOwnerReceiver'].map(name => [name, JSON.parse(fs.readFileSync(path.join(ROOT, 'artifacts', `${name}.json`)))]));
+for (const artifact of Object.values(artifacts)) {
+  const source = fs.readFileSync(path.join(ROOT, artifact.sourceName));
+  const hash = createHash('sha256').update(source).digest('hex');
+  assert.equal(artifact.sourceSha256, hash, `Recompile ${artifact.sourceName} before testing ${artifact.contractName}.`);
+}
 const descriptionHash = keccak256(toUtf8Bytes('Contributor documentation reward'));
 const results = [];
 const gasObservations = [];
@@ -345,7 +350,7 @@ caseTest('canonical lifecycle records actual gas used by mined transactions', as
 }, { initialFunds: '0' });
 
 after(() => {
-  const sourceSha256 = createHash('sha256').update(fs.readFileSync(path.join(ROOT, 'contracts/CommunityTreasury.sol'))).digest('hex');
+  const sourceSha256 = artifacts.CommunityTreasury.sourceSha256;
   const environment = { chain: 'isolated in-process Ganache', chainId: 1337, hardfork: 'shanghai', compiler: artifacts.CommunityTreasury.compiler, optimizerRuns: 200, node: process.version, sourceSha256 };
   const report = { startedAt, finishedAt: new Date().toISOString(), environment,
     total: results.length, passed: results.filter(r => r.status === 'passed').length, failed: results.filter(r => r.status === 'failed').length,

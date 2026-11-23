@@ -11,7 +11,7 @@ const state = {
 };
 const names = ['Manager A', 'Manager B', 'Manager C'];
 const explorers = { '1': 'https://etherscan.io', '11155111': 'https://sepolia.etherscan.io' };
-const networkNames = { '1': 'Ethereum mainnet', '11155111': 'Sepolia', '1337': 'Local network', '31337': 'Local network' };
+let networkNames = {};
 const eq = (a, b) => String(a).toLowerCase() === String(b).toLowerCase();
 const short = (value) => value ? `${value.slice(0, 6)}…${value.slice(-4)}` : '—';
 const ownerIndex = () => state.owners.findIndex((owner) => eq(owner, state.account));
@@ -101,8 +101,15 @@ function interruptOperation() {
     : ' A wallet request may still be open. Decline it if you did not intend to continue; changing accounts or networks does not cancel a request already sent to the wallet.';
 }
 
+function clearPaymentDrafts() {
+  for (const id of ['recipient', 'payment-amount', 'purpose', 'deposit-amount']) {
+    $(id).value = '';
+  }
+}
+
 function clearSession() {
   const interruption = interruptOperation();
+  clearPaymentDrafts();
   state.epoch += 1;
   if (state.walletHandlers && window.ethereum?.removeListener) {
     window.ethereum.removeListener('accountsChanged', state.walletHandlers.accounts);
@@ -147,6 +154,8 @@ function clearSession() {
 
 function selectMode(mode) {
   if (state.busy || mode === state.mode) return;
+  if (state.mode === 'sandbox' && state.contract &&
+      !window.confirm('Leave the sandbox? Its transactions, demo funds, and drafts will be cleared. Cancel to keep this session.')) return;
   clearSession();
   state.mode = mode;
   $('sandbox-controls').hidden = mode !== 'sandbox';
@@ -187,6 +196,7 @@ async function launchSandbox() {
     const receipt = await funding.wait();
     showReceipt(receipt);
     $('demo-role').value = '0';
+    $('deposit-amount').value = '1';
     $('recipient').value = ethers.getAddress(state.accounts[4]);
     $('payment-amount').value = '0.25';
     $('purpose').value = 'Reward for improving the project documentation';
@@ -199,6 +209,17 @@ async function launchSandbox() {
     clearSession();
     announce(errorMessage(error), 'error');
   } finally { setBusy(false); }
+}
+
+async function loadWalletNetworks() {
+  const response = await fetch('./networks.json', { cache: 'no-store' });
+  if (!response.ok) throw new Error('The wallet network list could not be loaded. Check the site configuration and reconnect.');
+  const networks = await response.json();
+  if (!networks || typeof networks !== 'object' || Array.isArray(networks) ||
+      !Object.entries(networks).every(([id, name]) => /^[1-9]\d*$/.test(id) && typeof name === 'string' && name.trim())) {
+    throw new Error('The wallet network list is invalid. Check the site configuration and reconnect.');
+  }
+  return networks;
 }
 
 async function connectWallet(event) {
@@ -214,12 +235,13 @@ async function connectWallet(event) {
   announce('Waiting for your wallet connection…', 'pending');
   try {
     const artifact = await loadArtifact();
+    networkNames = await loadWalletNetworks();
     state.provider = new ethers.BrowserProvider(window.ethereum, undefined, { cacheTimeout: -1 });
     await state.provider.send('eth_requestAccounts', []);
     const network = await state.provider.getNetwork();
     state.chainId = network.chainId;
     if (!Object.hasOwn(networkNames, String(state.chainId))) {
-      throw new Error('This prototype supports Ethereum mainnet, Sepolia, and local chains 1337 or 31337. Select one of these networks before connecting.');
+      throw new Error(`This wallet network (chain ID ${state.chainId}) is not enabled. Select a network approved for this treasury.`);
     }
     state.address = ethers.getAddress(input);
     const runtimeCode = await state.provider.getCode(state.address);
@@ -240,6 +262,8 @@ async function connectWallet(event) {
     state.walletHandlers = {
       accounts: async (accounts) => {
         if (state.mode !== 'wallet') return;
+        if (accounts.length && eq(accounts[0], state.account)) return;
+        clearPaymentDrafts();
         const interruption = interruptOperation();
         const epoch = ++state.epoch;
         const provider = state.provider;
@@ -502,8 +526,14 @@ async function preflightWallet(snapshot) {
     window.ethereum.request({ method: 'eth_chainId' })
   ]);
   if (snapshot.epoch !== state.epoch) throw new Error('The connected session changed. Review the account and network before trying again.');
-  if (!accounts.length || !eq(accounts[0], snapshot.account)) throw new Error('Your selected wallet account changed. Reconnect and review the account before sending.');
-  if (BigInt(chain) !== snapshot.chainId) throw new Error('Your wallet network changed. Reconnect to the intended network before sending.');
+  const accountChanged = !accounts.length || !eq(accounts[0], snapshot.account);
+  if (accountChanged || BigInt(chain) !== snapshot.chainId) {
+    clearSession();
+    announce(accountChanged
+      ? 'Your selected wallet account changed. Reconnect and review the account before sending.'
+      : 'Your wallet network changed. Reconnect to the intended network before sending.', 'error');
+    return;
+  }
   if (!eq(state.address, snapshot.address) || !eq(state.account, snapshot.account)) throw new Error('The displayed treasury session changed. Reconnect before sending.');
 }
 

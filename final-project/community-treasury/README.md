@@ -8,7 +8,7 @@ The application runs the compiled Solidity contract on a real, temporary EVM ins
 
 - This repository publishes the application source, tests, and execution records. Course reports, presentation files, and speaker notes are maintained separately.
 - [Source branch](https://github.com/zhuxuanze/ethereum-course/tree/final-community-treasury/final-project/community-treasury)
-- [Hosted frontend](https://community-treasury-course-20261104.zxzccn.chatgpt.site) — owner-only private access; this URL is not a public class-sharing link.
+- [Hosted frontend (November 4 build)](https://community-treasury-course-20261104.zxzccn.chatgpt.site) — owner-only private access; this URL is not a public class-sharing link.
 - `evidence/publication-receipts.json` records the verified source publication and successful private frontend deployment. Mainnet and additional cloud-blockchain contract deployments remain pending instructor confirmation.
 - The downloadable course delivery package includes the built `dist/` directory and `启动本地演示.command` for local use without reinstalling app dependencies. The Git repository contains editable sources and a pinned lockfile; build instructions follow below.
 
@@ -18,7 +18,6 @@ Use Node.js 20 or later (recorded development run: Node.js 24.21.0).
 
 ```sh
 npm ci --ignore-scripts
-npm run compile
 npm test
 npm run build
 npm start
@@ -33,7 +32,7 @@ Open `http://127.0.0.1:8874`. Click **Launch sandbox**. The app creates a fresh 
 5. Select Manager C and execute the payment. The balance decreases by the exact requested amount and the request becomes paid.
 6. Select Supporter. This role can deposit and inspect records but cannot submit, approve or execute payments.
 
-Reloading or resetting replaces the sandbox blockchain. Its addresses and transaction hashes are local demonstration identifiers, not Etherscan records.
+Switching to wallet mode asks for confirmation before ending a running sandbox. Cancel keeps the balance, requests and drafts. Confirm clears the session, including the recipient, amount, purpose and deposit fields. A wallet account, network or treasury change also clears those drafts. Reloading or resetting replaces the sandbox blockchain. Its addresses and transaction hashes are local demonstration identifiers, not Etherscan records.
 
 ## What the prototype implements
 
@@ -59,11 +58,15 @@ Browser interface and purpose storage
 
 The full payment purpose stays off chain; the contract stores its hash. A hash protects integrity, not availability or confidentiality of easily guessed text. The prototype has no shared metadata server, so managers share the purpose text separately. The interface shows the latest 50 requests and the latest 20 events in its queried block range; these are not an unlimited archive.
 
+### Configure wallet networks
+
+The browser reads `web/networks.json` (served as `networks.json`) on each wallet connection. Each entry maps a positive decimal chain ID string to a display name. The default IDs are 1, 11155111, 1337 and 31337. To support a course-approved cloud EVM, confirm its chain ID with the operator and the instructor, add the ID and name, then rebuild and deploy the frontend. The interface uses ETH amounts with 18 decimals; list only networks that use that denomination. Users select the matching network in their wallet and enter the contract address deployed on that chain. The app checks the runtime bytecode, owners and threshold on the selected network. Configuring an ID does not deploy the contract. For configured chains without a built-in explorer link the receipt displays its transaction hash.
+
 ## Tests and evidence
 
-`npm test` uses isolated Ganache providers and actually deploys and calls compiled contracts. `evidence/contract-test-results.json` records the execution environment, source hash and 29 scenario results. `evidence/contract-gas.json` records receipt gas for one local canonical lifecycle. Scenarios include unauthorized actions, duplicate/missing approvals, revocation, insufficient balance and retry, exactly-once payment, a reverting receiver, competing requests and reentrant owner-recipients.
+`npm test` recompiles the Solidity sources before running the suite. The tests check the compiled artifacts against their source hashes and deploy them on isolated Ganache providers. `evidence/contract-test-results.json` records the execution environment, source hash and 29 scenario results. `evidence/contract-gas.json` records receipt gas for one local canonical lifecycle. Scenarios include unauthorized actions, duplicate/missing approvals, revocation, insufficient balance and retry, exactly-once payment, a reverting receiver, competing requests and reentrant owner-recipients.
 
-`evidence/browser-test-results.json` records the sandbox browser integration checks, with screenshots in `evidence/browser/`. Separately, `evidence/wallet-browser-test-results.json` records **12/12 passing local injected-provider integration cases**. Those cases use an isolated Ganache EVM behind a controlled EIP-1193 wallet wrapper: they exercise contract identity, allowed networks, wallet-mode deposits, account/network changes, metadata integrity and transaction tracking. They do not establish acceptance by a real wallet extension or deployment on a public network.
+`evidence/browser-test-results.json` records the sandbox browser integration checks, with screenshots in `evidence/browser/`. Separately, `evidence/wallet-browser-test-results.json` records the local injected-provider integration results. Those cases use an isolated Ganache EVM behind a controlled EIP-1193 wallet wrapper: they exercise contract identity, allowed networks, wallet-mode deposits, account/network changes, metadata integrity and transaction tracking. They do not establish acceptance by a real wallet extension or deployment on a public network.
 
 To reproduce both browser checks, install the optional Playwright dependency and start the built app. Normal app use and the contract suite do not require Playwright.
 

@@ -1,10 +1,10 @@
 {
-  "builtAt": "2026-11-04T06:14:42.476Z",
+  "builtAt": "2026-11-23T01:45:54.666Z",
   "files": [
     {
       "path": "app.js",
-      "bytes": 35454,
-      "sha256": "386bf4f82c0164bc5527a7a7b20217870185db9e2b582f7135864090a06a487e"
+      "bytes": 36584,
+      "sha256": "d08af26fba4c5c4d453b8a8e3fb4a6da4ac9b337d66dbcf5e4e962c8d0061f77"
     },
     {
       "path": "artifacts/CommunityTreasury.json",
@@ -13,8 +13,13 @@
     },
     {
       "path": "index.html",
-      "bytes": 9597,
-      "sha256": "94ee844d6410c93f6a002f56f0ce335c221071425093571285678590dc701d57"
+      "bytes": 9612,
+      "sha256": "edd29bb52f097a60c8e6af53006cfe8c7dda56f3f06a313bb7d8586fbc8633ed"
+    },
+    {
+      "path": "networks.json",
+      "bytes": 110,
+      "sha256": "cebdd22b6ccf56fb05746de31bf02ade769d653c6fff25ffd36a3f926f14bd7d"
     },
     {
       "path": "styles.css",

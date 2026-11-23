@@ -6,6 +6,7 @@
   "description": "Ethereum course final project: a two-of-three community treasury with a real EVM browser sandbox",
   "scripts": {
     "compile": "node scripts/compile.mjs",
+    "pretest": "npm run compile",
     "test": "node --test test/*.test.mjs",
     "build": "node scripts/build.mjs",
     "start": "node scripts/serve.mjs",

@@ -17,12 +17,13 @@ const output=path.join(root,'evidence/browser');fs.mkdirSync(output,{recursive:t
  const page=await browser.newPage({viewport:{width:1440,height:1000},deviceScaleFactor:1});
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  const checks=[];const receipts=[];let outcome='failed';
+ let payment;
  async function idle(){await page.waitForFunction(()=>!state.busy,{},{timeout:90000});}
  async function click(selector){await page.locator(selector).click();await idle();}
  async function role(value){await page.locator('#demo-role').selectOption(String(value));await idle();}
  async function shot(name){await page.evaluate(()=>{document.documentElement.style.scrollBehavior='auto';document.activeElement?.blur?.();window.scrollTo(0,0);});await page.waitForFunction(()=>scrollY===0);await page.screenshot({path:path.join(output,name),fullPage:true});}
  async function checkpoint(name){
-  const snapshot=await page.evaluate(()=>({address:state.address,chainId:String(state.chainId),account:state.account,balance:state.balance.toString(),pending:state.pendingCount,paid:state.paidCount,status:document.getElementById('status-text').textContent,receipt:document.getElementById('receipt-hash').textContent,requests:state.requests.map(r=>({id:r.id,value:String(r.value),confirmed:r.confirmations,executed:r.executed}))}));
+  const snapshot=await page.evaluate(()=>({address:state.address,chainId:String(state.chainId),account:state.account,balance:state.balance.toString(),pending:state.pendingCount,paid:state.paidCount,status:document.getElementById('status-text').textContent,receipt:document.getElementById('receipt').hidden ? null : document.getElementById('receipt-hash').textContent,requests:state.requests.map(r=>({id:r.id,value:String(r.value),confirmed:r.confirmations,executed:r.executed}))}));
   checks.push({name,passed:true,snapshot});
   if(snapshot.receipt&&!receipts.includes(snapshot.receipt))receipts.push(snapshot.receipt);
  }
@@ -56,7 +57,29 @@ const output=path.join(root,'evidence/browser');fs.mkdirSync(output,{recursive:t
   assert(await page.locator('[data-request-action="execute"][data-request-id="0"]').isDisabled());
   await click('[data-request-action="confirm"][data-request-id="0"]');
   await checkpoint('Revocation disables execution until two approvals are restored');
+  const balances = () => page.evaluate(async () => {
+   const recipient = state.requests.find(request => request.id === 0).to;
+   const [treasuryBalance, recipientBalance] = await Promise.all([
+    state.provider.getBalance(state.address), state.provider.getBalance(recipient)
+   ]);
+   return { treasuryETH: ethers.formatEther(treasuryBalance), recipientETH: ethers.formatEther(recipientBalance) };
+  });
+  const beforePayment = await balances();
+  assert.equal(beforePayment.treasuryETH, '11.0');
   await role(2);await click('[data-request-action="execute"][data-request-id="0"]');
+  const afterPayment = await balances();
+  const receipt = await page.evaluate(async () => {
+   const hash = document.getElementById('receipt-hash').textContent;
+   const { blockNumber, status } = await state.provider.getTransactionReceipt(hash);
+   return { hash, blockNumber, status };
+  });
+  assert.equal(receipt.status, 1);
+  assert.match(receipt.hash, /^0x[0-9a-f]{64}$/i);
+  assert.ok(receipt.blockNumber > 0);
+  assert.equal(afterPayment.treasuryETH, '10.75');
+  assert.equal(afterPayment.recipientETH, '100.25');
+  assert.equal(beforePayment.recipientETH, '100.0');
+  payment = { chainId: 1337, amountETH: '0.25', before: beforePayment, after: afterPayment, receipt };
   assert.equal(await page.locator('#balance').innerText(),'10.75');
   assert.equal(await page.locator('[data-request-action="execute"][data-request-id="0"]').count(),0);
   assert.equal(await page.locator('#executed-count').innerText(),'1');
@@ -82,7 +105,24 @@ const output=path.join(root,'evidence/browser');fs.mkdirSync(output,{recursive:t
   await shot('05-mobile.png');
   await checkpoint('390 pixel mobile viewport has no horizontal overflow');
   await page.setViewportSize({width:1440,height:1000});
+  await role(0);
+  const currentTreasury = await page.locator('#treasury-address').innerText();
+  await page.locator('#purpose').fill('Keep this draft on cancel');
+  page.once('dialog', dialog => dialog.dismiss());
   await click('#wallet-mode');
+  assert.equal(await page.locator('#sandbox-mode').getAttribute('aria-pressed'), 'true');
+  assert.equal(await page.locator('#treasury-address').innerText(), currentTreasury);
+  assert.equal(await page.locator('#balance').innerText(), '10.75');
+  assert.equal(await page.locator('#executed-count').innerText(), '1');
+  assert.equal(await page.locator('#purpose').inputValue(), 'Keep this draft on cancel');
+  await checkpoint('Cancel leaving the sandbox preserves the treasury, payment and draft');
+  page.once('dialog', dialog => dialog.accept());
+  await click('#wallet-mode');
+  assert.equal(await page.locator('#wallet-mode').getAttribute('aria-pressed'), 'true');
+  for (const id of ['recipient', 'payment-amount', 'purpose', 'deposit-amount']) {
+   assert.equal(await page.locator('#'+id).inputValue(), '');
+  }
+  await checkpoint('Confirmed mode switch clears sandbox payment and deposit drafts');
   await page.locator('#contract-address').fill('0x1111111111111111111111111111111111111111');
   await click('#connect-wallet');
   assert.match(await page.locator('#status-text').innerText(),/No Ethereum wallet/);
@@ -94,7 +134,7 @@ const output=path.join(root,'evidence/browser');fs.mkdirSync(output,{recursive:t
   checks.push({name:'Browser flow failure',passed:false,error:error.message,status:await page.locator('#status-text').innerText().catch(()=>''),pageErrors:errors});
   process.exitCode=1;
  }finally{
-  const result={recordedAt:new Date().toISOString(),status:outcome,environment:'Headless Chromium; actual compiled contract executed on browser-local Ganache EVM',publicNetwork:false,checks,receipts,pageErrors:errors};
+  const result={recordedAt:new Date().toISOString(),status:outcome,environment:'Headless Chromium; actual compiled contract executed on browser-local Ganache EVM',publicNetwork:false,payment,checks,receipts,pageErrors:errors};
   fs.writeFileSync(path.join(root,'evidence/browser-test-results.json'),JSON.stringify(result,null,2)+'\n');
   console.log(JSON.stringify({status:outcome,checks:checks.length,passed:checks.filter(x=>x.passed).length,failures:checks.filter(x=>!x.passed)},null,2));
   await browser.close();

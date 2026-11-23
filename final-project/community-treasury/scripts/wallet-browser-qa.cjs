@@ -56,17 +56,22 @@ async function normalizeConnection() {
 }
 async function sendCount() { return page.evaluate(() => window.__walletQA.sent.length); }
 
-(async () => {
-  const edge = '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge';
-  const executablePath = process.env.BROWSER_EXECUTABLE || (fs.existsSync(edge) ? edge : undefined);
-  browser = await chromium.launch({ headless: true, executablePath });
-  const context = await browser.newContext({ viewport: { width: 1440, height: 1100 } });
-  page = await context.newPage();
-  page.on('pageerror', error => pageErrors.push(String(error.message)));
-  await page.goto(process.env.QA_URL || 'http://127.0.0.1:8874', { waitUntil: 'networkidle' });
-  await page.waitForFunction(() => window.Ganache && window.ethers);
-  fixture = await page.evaluate(async ({ treasuryArtifact, fakeArtifact }) => {
-    const raw = Ganache.provider({ logging: { quiet: true }, chain: { chainId: 1337, hardfork: 'shanghai' }, wallet: { deterministic: true, totalAccounts: 6, defaultBalance: 1000 } });
+async function expectEmptyDrafts() {
+  for (const id of ['recipient', 'payment-amount', 'purpose', 'deposit-amount']) {
+    assert.equal(await page.locator('#' + id).inputValue(), '', id);
+  }
+}
+
+async function fillWalletDrafts() {
+  await page.locator('#recipient').fill(fixture.recipient);
+  await page.locator('#payment-amount').fill('0.25');
+  await page.locator('#purpose').fill('Wallet draft before context change');
+  await page.locator('#deposit-amount').fill('0.1');
+}
+
+async function installWallet(chainId) {
+  return page.evaluate(async ({ treasuryArtifact, fakeArtifact, chainId }) => {
+    const raw = Ganache.provider({ logging: { quiet: true }, chain: { chainId, hardfork: 'shanghai' }, wallet: { deterministic: true, totalAccounts: 6, defaultBalance: 1000 } });
     const direct = new ethers.BrowserProvider(raw, undefined, { cacheTimeout: -1 });
     direct.pollingInterval = 10;
     const accounts = await direct.send('eth_accounts', []);
@@ -96,9 +101,31 @@ async function sendCount() { return page.evaluate(() => window.__walletQA.sent.l
     q.emit = (event, payload) => { for (const callback of [...(handlers.get(event) || [])]) callback(payload); };
     window.__walletQA = q;
     Object.defineProperty(window, 'ethereum', { value: wrapper, configurable: true });
-    return { treasury: await treasury.getAddress(), fake: await fake.getAddress(), owners, recipient: ethers.getAddress(accounts[4]), chainId: 1337 };
-  }, { treasuryArtifact, fakeArtifact });
+    return { treasury: await treasury.getAddress(), fake: await fake.getAddress(), owners, recipient: ethers.getAddress(accounts[4]), chainId };
+  }, { treasuryArtifact, fakeArtifact, chainId });
+}
+
+(async () => {
+  const edge = '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge';
+  const executablePath = process.env.BROWSER_EXECUTABLE || (fs.existsSync(edge) ? edge : undefined);
+  browser = await chromium.launch({ headless: true, executablePath });
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1100 } });
+  page = await context.newPage();
+  page.on('pageerror', error => pageErrors.push(String(error.message)));
+  await page.goto(process.env.QA_URL || 'http://127.0.0.1:8874', { waitUntil: 'networkidle' });
+  await page.waitForFunction(() => window.Ganache && window.ethers);
+  fixture = await installWallet(1337);
+  await page.locator('#launch-demo').click(); await idle();
+  assert.match(await page.locator('#recipient').inputValue(), /^0x[0-9a-f]{40}$/i);
+  assert.equal(await page.locator('#payment-amount').inputValue(), '0.25');
+  page.once('dialog', dialog => dialog.accept());
   await page.locator('#wallet-mode').click();
+
+  await check('first wallet connection after sandbox use has blank payment and deposit fields', async () => {
+    await connect();
+    assert.equal(await page.locator('#submit-request').isEnabled(), true);
+    await expectEmptyDrafts();
+  });
 
   await check('rejects an ABI-compatible contract with different runtime bytecode', async () => {
     await connect(fixture.fake);
@@ -110,7 +137,7 @@ async function sendCount() { return page.evaluate(() => window.__walletQA.sent.l
   await check('rejects an unsupported EVM chain before enabling payments', async () => {
     await page.evaluate(() => { window.__walletQA.chainOverride = '0x89'; });
     await connect();
-    assert.match(await page.locator('#status-text').textContent(), /supports Ethereum mainnet, Sepolia, and local chains/);
+    assert.match(await page.locator('#status-text').textContent(), /chain ID 137.*not enabled/i);
     assert.equal(await page.locator('#deposit-button').isDisabled(), true);
     await page.evaluate(() => { window.__walletQA.chainOverride = null; });
   });
@@ -137,25 +164,38 @@ async function sendCount() { return page.evaluate(() => window.__walletQA.sent.l
   });
 
   await check('preflight rejects an unannounced account mismatch without broadcasting', async () => {
+    await normalizeConnection();
+    await fillWalletDrafts();
     const before = await sendCount();
     await page.evaluate(() => { const q = window.__walletQA; q.selected = q.accounts[1]; });
     await page.locator('#deposit-button').click(); await idle();
     assert.match(await page.locator('#status-text').textContent(), /selected wallet account changed/);
+    await expectEmptyDrafts();
+    assert.equal(await page.locator('#deposit-button').isDisabled(), true);
+    assert.equal(await page.locator('#submit-request').isDisabled(), true);
+    assert.equal(await page.locator('#treasury-address').innerText(), 'Not connected');
     assert.equal(await sendCount(), before);
     await page.evaluate(() => { const q = window.__walletQA; q.selected = q.accounts[0]; });
   });
 
   await check('preflight rejects an unannounced network mismatch without broadcasting', async () => {
+    await normalizeConnection();
+    await fillWalletDrafts();
     const before = await sendCount();
     await page.evaluate(() => { window.__walletQA.chainOverride = '0x7a69'; });
     await page.locator('#deposit-button').click(); await idle();
     assert.match(await page.locator('#status-text').textContent(), /wallet network changed/);
+    await expectEmptyDrafts();
+    assert.equal(await page.locator('#deposit-button').isDisabled(), true);
+    assert.equal(await page.locator('#submit-request').isDisabled(), true);
+    assert.equal(await page.locator('#treasury-address').innerText(), 'Not connected');
     assert.equal(await sendCount(), before);
     await page.evaluate(() => { window.__walletQA.chainOverride = null; });
   });
 
   await check('account-change event interrupts an open wallet request and unlocks the new account', async () => {
     await normalizeConnection();
+    await fillWalletDrafts();
     await page.evaluate(() => { window.__walletQA.pauseSend = true; });
     await page.locator('#deposit-button').click();
     await page.waitForFunction(() => Boolean(window.__walletQA.pending));
@@ -164,6 +204,7 @@ async function sendCount() { return page.evaluate(() => window.__walletQA.sent.l
     assert.equal((await page.locator('#current-account').textContent()).toLowerCase(), fixture.owners[1].toLowerCase());
     assert.equal(await page.locator('#deposit-button').isEnabled(), true);
     assert.match(await page.locator('#status-text').textContent(), /wallet request may still be open/);
+    await expectEmptyDrafts();
     await page.evaluate(() => { const q = window.__walletQA; q.pauseSend = false; q.pending.reject(Object.assign(new Error('Canceled by QA'), { code: 4001 })); q.pending = null; });
     await page.waitForTimeout(150);
     assert.equal((await page.locator('#current-account').textContent()).toLowerCase(), fixture.owners[1].toLowerCase());
@@ -171,6 +212,7 @@ async function sendCount() { return page.evaluate(() => window.__walletQA.sent.l
 
   await check('chain-change event resets the session and unlocks reconnection during an open request', async () => {
     await normalizeConnection();
+    await fillWalletDrafts();
     await page.evaluate(() => { window.__walletQA.pauseSend = true; });
     await page.locator('#deposit-button').click();
     await page.waitForFunction(() => Boolean(window.__walletQA.pending));
@@ -180,6 +222,7 @@ async function sendCount() { return page.evaluate(() => window.__walletQA.sent.l
     assert.equal(await page.locator('#deposit-button').isDisabled(), true);
     assert.equal(await page.locator('#treasury-address').textContent(), 'Not connected');
     assert.match(await page.locator('#status-text').textContent(), /wallet network changed/);
+    await expectEmptyDrafts();
     await page.evaluate(() => { const q = window.__walletQA; q.pauseSend = false; q.pending.reject(Object.assign(new Error('Canceled by QA'), { code: 4001 })); q.pending = null; q.chainOverride = null; });
     await page.waitForTimeout(150);
     assert.equal(await page.locator('#deposit-button').isDisabled(), true);
@@ -220,14 +263,13 @@ async function sendCount() { return page.evaluate(() => window.__walletQA.sent.l
       const q = window.__walletQA;
       const tx = await q.treasury.getTransaction(0);
       const key = `common-treasury:purpose:v1:1337:${(await q.treasury.getAddress()).toLowerCase()}:${tx.descriptionHash.toLowerCase()}`;
-      localStorage.setItem(key, '<img src=x onerror="window.__qaInjected=true">');
+      localStorage.setItem(key, '<strong data-qa-altered>Changed purpose</strong>');
       return { key };
     });
     await page.locator('#refresh').click(); await idle();
     const card = page.locator('article.request-card[data-request-id="0"]');
     assert.match(await card.locator('.request-fingerprint').textContent(), /Saved purpose was altered/);
-    assert.equal(await card.locator('img').count(), 0);
-    assert.equal(await page.evaluate(() => window.__qaInjected), undefined);
+    assert.equal(await card.locator('[data-qa-altered]').count(), 0);
     assert.ok(record.key);
   });
 
@@ -235,6 +277,49 @@ async function sendCount() { return page.evaluate(() => window.__walletQA.sent.l
     assert.match(await page.locator('#transaction-tracker').textContent(), /Confirmed in block/);
     assert.match(await page.locator('#transaction-tracker').textContent(), /0x[0-9a-f]{64}/i);
   });
+
+  await check('switching between two deployed treasuries clears the old wallet draft', async () => {
+    await normalizeConnection();
+    await fillWalletDrafts();
+    const otherAddress = await page.evaluate(async ({ treasuryArtifact }) => {
+      const q = window.__walletQA;
+      const factory = new ethers.ContractFactory(treasuryArtifact.abi, treasuryArtifact.bytecode, q.signer);
+      const treasury = await factory.deploy(q.accounts.slice(0, 3));
+      await treasury.waitForDeployment();
+      return treasury.getAddress();
+    }, { treasuryArtifact });
+    await connect(otherAddress);
+    assert.equal(await page.locator('#treasury-address').innerText(), otherAddress);
+    assert.equal(await page.locator('#submit-request').isEnabled(), true);
+    await expectEmptyDrafts();
+  });
+
+  await check('an isolated non-default chain connects only after its chain ID is configured', async () => {
+    await page.evaluate(() => window.__walletQA.raw.disconnect());
+    const cloudId = 46901;
+    fixture = await installWallet(cloudId);
+    await connect();
+    assert.match(await page.locator('#status-text').innerText(), /chain ID 46901.*not enabled/i);
+    assert.equal(await page.locator('#submit-request').isDisabled(), true);
+    const configRoute = '**/networks.json';
+    await page.route(configRoute, async route => {
+      const response = await route.fetch();
+      const networks = await response.json();
+      assert.equal(Object.hasOwn(networks, String(cloudId)), false);
+      await route.fulfill({ json: { ...networks, [cloudId]: 'Course test chain' } });
+    });
+    try {
+      await connect();
+      assert.equal(await page.locator('#treasury-address').innerText(), fixture.treasury);
+      assert.equal(await page.locator('#submit-request').isEnabled(), true);
+      assert.match(await page.locator('#network-badge').innerText(), /Course test chain/);
+      await expectEmptyDrafts();
+      assert.equal(await sendCount(), 0);
+    } finally {
+      await page.unroute(configRoute);
+    }
+  });
+  assert.deepEqual(pageErrors, []);
 })().catch(error => {
   results.push({ name: 'integration harness', status: 'failed', error: String(error.stack || error) });
   console.error(String(error.message));
@@ -245,7 +330,7 @@ async function sendCount() { return page.evaluate(() => window.__walletQA.sent.l
   if (browser) await browser.close();
   const report = {
     startedAt, finishedAt: new Date().toISOString(),
-    environment: { kind: 'LOCAL injected EIP-1193 wallet wrapper over an isolated browser Ganache EVM', browser: 'Headless Microsoft Edge via Playwright', url: process.env.QA_URL || 'http://127.0.0.1:8874', chainId: 1337,
+    environment: { kind: 'LOCAL injected EIP-1193 wallet wrapper over an isolated browser Ganache EVM', browser: 'Headless Microsoft Edge via Playwright', url: process.env.QA_URL || 'http://127.0.0.1:8874', localChainIds: [1337, 46901],
       servedAppSha256: crypto.createHash('sha256').update(fs.readFileSync(path.join(root, 'dist/app.js'))).digest('hex'), sourceContractSha256: treasuryArtifact.sourceSha256 },
     total: results.length, passed: results.filter(result => result.status === 'passed').length, failed: results.filter(result => result.status === 'failed').length,
     tests: results, pageErrors,
