@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#102b32">
-  <meta name="description" content="A shared treasury for open source communities. Three managers, two approvals, one shared record.">
-  <title>Common Treasury · Shared project funds</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23102b32'/%3E%3Cpath d='M12 18h24M16 18v16m8-16v16m8-16v16M12 35h24M12 15l12-7 12 7' stroke='%239ed5bf' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+  <meta name="theme-color" content="#28205a">
+  <meta name="description" content="A shared ETH treasury for open source teams. Review requests, approve payments and inspect confirmed transactions.">
+  <title>Common Treasury · Treasury overview</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%2328205a'/%3E%3Cpath d='M11 17l13-7 13 7-13 7zM11 24l13 7 13-7M11 31l13 7 13-7' fill='none' stroke='%23c9bcff' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="./styles.css">
   <script defer src="./vendor/ethers.umd.min.js"></script>
   <script defer src="./vendor/ganache.min.js"></script>
@@ -15,25 +15,39 @@
 <body>
   <a class="skip-link" href="#main">Skip to treasury</a>
   <header class="topbar">
-    <div class="brand"><span class="brand-mark" aria-hidden="true">CT</span><div>Common Treasury<small>SHARED PROJECT FUNDS</small></div></div>
-    <nav aria-label="Main navigation"><a href="#workspace" class="active">Workspace</a><a href="#activity">Activity</a><a href="#guide">How it works</a></nav>
-    <span class="network-pill" id="network-badge"><span class="status-dot"></span>Not connected</span>
+    <div class="topbar-inner">
+      <a href="#workspace" class="brand" aria-label="Common Treasury overview"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>Common Treasury</a>
+      <nav aria-label="Workspace navigation"><a href="#workspace" aria-current="location">Overview</a><a href="#queue">Requests</a><a href="#activity">Activity</a></nav>
+      <span class="network-pill" id="network-badge"><span class="status-dot"></span>Not connected</span>
+    </div>
   </header>
 
   <main id="main">
-    <section class="page-heading" id="workspace">
-      <div><p class="eyebrow">COMMUNITY GOVERNANCE</p><h1>Shared funds.<br><span>Shared decisions.</span></h1><p class="lead">Give your community a clear view of its funds.<br>Every payment needs two of three managers to agree.</p></div>
-      <aside class="policy-card" aria-label="Approval policy"><span class="policy-number">2<span>/</span>3</span><div><strong>Approvals to pay</strong><p>Fixed managers. Visible decisions.<br>No single manager can move funds alone.</p></div></aside>
+    <section id="workspace" aria-labelledby="overview-heading">
+      <div class="page-heading"><h1 id="overview-heading">Treasury overview</h1><a href="#guide" class="policy-link">2 of 3 approvals required</a></div>
+      <div class="metrics" aria-label="Treasury overview balances">
+        <article class="metric primary-metric"><div class="balance-art" aria-hidden="true"></div><div class="balance-copy"><p>Treasury balance</p><div class="metric-value"><strong id="balance">—</strong><span id="balance-unit">ETH</span></div><small id="balance-caption">Funds held by the treasury contract</small><a href="#funding" class="fund-link">Add funds</a></div></article>
+        <article class="metric summary-metric open-metric">
+          <span class="metric-glyph awaiting" aria-hidden="true"></span>
+          <div class="summary-copy"><p>Open requests</p><small>Awaiting approval or execution</small></div>
+          <div class="metric-value"><strong id="pending-count">—</strong></div>
+        </article>
+        <article class="metric summary-metric paid-metric">
+          <span class="metric-glyph complete" aria-hidden="true"></span>
+          <div class="summary-copy"><p>Payments made</p><small>Confirmed payments</small></div>
+          <div class="metric-value"><strong id="executed-count">—</strong></div>
+        </article>
+      </div>
     </section>
 
-    <section class="connection-panel" aria-label="Choose a connection">
-      <div class="mode-tabs" role="group" aria-label="Connection mode"><button id="sandbox-mode" class="mode-tab selected" aria-pressed="true">Browser sandbox</button><button id="wallet-mode" class="mode-tab" aria-pressed="false">Connect a wallet</button></div>
+    <section class="connection-panel" id="connection" aria-label="Treasury connection">
+      <div class="connection-header"><h2>Connection</h2><div class="mode-tabs" role="group" aria-label="Connection mode"><button id="sandbox-mode" class="mode-tab selected" aria-pressed="true">Browser sandbox</button><button id="wallet-mode" class="mode-tab" aria-pressed="false">Connect a wallet</button></div></div>
       <div id="sandbox-controls" class="connection-content">
-        <div class="connection-copy"><strong>Try the full approval flow</strong><p>A temporary blockchain runs in your browser. Demo ETH has no value; reloading or resetting starts over.</p></div>
+        <div class="connection-copy"><strong>Local demo treasury</strong><p>Start with 10 demo ETH and switch between three managers. Refreshing the page resets the sandbox.</p></div>
         <div class="connection-actions"><button class="button primary" id="launch-demo">Launch sandbox</button><button class="button quiet" id="reset-demo" hidden>Reset sandbox</button></div>
       </div>
       <form id="wallet-connect-form" class="connection-content" hidden>
-        <div class="connection-copy"><label for="contract-address">Existing treasury contract</label><p>Select an approved network in your wallet and enter the treasury’s deployed address.</p></div>
+        <div class="connection-copy"><label for="contract-address">Existing treasury contract</label><p>Select an approved network in your wallet, then enter its treasury address.</p></div>
         <div class="wallet-inputs"><input id="contract-address" name="contract" placeholder="0x… contract address" autocomplete="off" spellcheck="false" aria-label="Treasury contract address" required><button class="button primary" id="connect-wallet" type="submit">Connect wallet</button></div>
       </form>
       <div id="session-controls" class="session-row" hidden>
@@ -41,49 +55,46 @@
         <div class="account-detail"><span id="current-role">—</span><code id="current-account">—</code></div>
         <button id="refresh" class="button quiet small" type="button">Refresh records</button>
       </div>
+      <div class="notice" id="status" role="status" aria-live="polite"><span class="notice-mark" aria-hidden="true">i</span><span id="status-text">Launch the sandbox or connect a wallet to begin.</span></div>
+      <div class="receipt" id="receipt" hidden><strong>Latest receipt</strong><a id="receipt-link" target="_blank" rel="noopener noreferrer" hidden></a><code id="receipt-hash"></code><span id="receipt-details"></span></div>
     </section>
-
-    <div class="notice" id="status" role="status" aria-live="polite"><span class="notice-mark" aria-hidden="true">i</span><span id="status-text">Launch the sandbox or connect a wallet to begin.</span></div>
-    <div class="receipt" id="receipt" hidden><span>Latest confirmed transaction</span><a id="receipt-link" target="_blank" rel="noopener noreferrer" hidden></a><code id="receipt-hash"></code><span id="receipt-details"></span></div>
     <aside class="transaction-tracker" id="transaction-tracker" aria-live="polite" hidden></aside>
 
-    <section class="metrics" aria-label="Treasury overview">
-      <article class="metric primary-metric"><p>TREASURY BALANCE</p><div><strong id="balance">—</strong><span id="balance-unit">ETH</span></div><small id="balance-caption">Funds held by the treasury contract</small></article>
-      <article class="metric"><p>AWAITING PAYMENT</p><div><strong id="pending-count">—</strong><span>requests</span></div><small>Submitted requests not yet executed</small></article>
-      <article class="metric"><p>PAYMENTS COMPLETED</p><div><strong id="executed-count">—</strong><span>transfers</span></div><small>Confirmed on the connected blockchain</small></article>
+    <div class="workspace-columns">
+      <div class="ledger-column">
+        <section class="panel requests-panel" id="queue" aria-labelledby="requests-heading">
+          <div class="panel-heading"><h2 id="requests-heading">Payment requests</h2><a class="text-link" href="#new-payment">New request</a></div>
+          <div class="filter-buttons" role="group" aria-label="Filter requests"><button class="filter selected" data-filter="all" aria-pressed="true">All requests</button><button class="filter" data-filter="pending" aria-pressed="false">Pending</button><button class="filter" data-filter="executed" aria-pressed="false">Paid</button></div>
+          <div id="requests" class="request-list"><div class="empty-state"><h3>No payment requests yet</h3><p>Connect a treasury to view its requests.</p><a class="text-link" href="#connection">Choose a connection</a></div></div>
+          <p id="request-limit-note" class="small-note" hidden></p>
+        </section>
+        <section class="panel" id="activity" aria-labelledby="activity-heading"><div class="panel-heading"><h2 id="activity-heading">Recent activity</h2><span class="tag neutral" id="activity-network">Not connected</span></div><div id="activity-list" class="activity-list"><p class="muted">Confirmed contract events will appear here.</p></div><p class="small-note" id="activity-note"></p></section>
+    <section class="panel guide-panel" id="guide" aria-labelledby="guide-heading">
+      <div class="panel-heading"><h2 id="guide-heading">Approval policy</h2></div>
+      <ol class="workflow"><li><strong>Submit</strong><p>A manager proposes a recipient, an amount and a purpose.</p></li><li><strong>Approve</strong><p>Two different managers approve. Either can revoke before execution.</p></li><li><strong>Execute</strong><p>A manager executes the approved transfer once, if funds are available.</p></li></ol>
+      <div class="contract-details"><div class="treasury-address"><span>Treasury address</span><code id="treasury-address">Not connected</code></div><div class="manager-list" id="managers" aria-label="Designated managers"></div></div>
     </section>
-
-    <section class="work-grid" aria-label="Treasury actions">
-      <article class="panel funding-panel">
-        <div class="panel-heading"><div><p class="eyebrow">SUPPORT THE PROJECT</p><h2>Add funds</h2></div><span class="step-badge">01</span></div>
-        <p class="muted">Anyone can contribute ETH. Managers decide how the treasury spends it.</p>
-        <form id="deposit-form"><label for="deposit-amount">Contribution amount</label><div class="amount-field"><input id="deposit-amount" name="amount" inputmode="decimal" value="1" autocomplete="off" required disabled><span>ETH</span></div><button type="submit" class="button primary full" id="deposit-button" disabled>Deposit funds</button></form>
-        <div class="treasury-address"><span>Treasury address</span><code id="treasury-address">Not connected</code></div>
-        <div class="manager-list" id="managers" aria-label="Designated managers"></div>
-      </article>
-
-      <article class="panel request-panel">
-        <div class="panel-heading"><div><p class="eyebrow">MAKE A PROPOSAL</p><h2>Request a payment</h2></div><span class="step-badge">02</span></div>
-        <p class="muted" id="request-help">A manager proposes a recipient, an amount, and a purpose. The submitted details cannot be changed.</p>
-        <form id="request-form">
-          <div class="form-row"><div class="field wide"><label for="recipient">Recipient address</label><input id="recipient" name="recipient" placeholder="0x…" autocomplete="off" spellcheck="false" required disabled></div><div class="field"><label for="payment-amount">Amount in ETH</label><input id="payment-amount" name="amount" inputmode="decimal" placeholder="0.25" autocomplete="off" required disabled></div></div>
-          <label for="purpose">Payment purpose</label><textarea id="purpose" name="purpose" rows="2" maxlength="240" minlength="3" placeholder="For example, reward for improving the project documentation" required disabled></textarea>
-          <div class="form-bottom"><small>Purpose text stays in this browser; its fingerprint is stored on chain.</small><button type="submit" class="button primary" id="submit-request" disabled>Submit request</button></div>
-        </form>
-      </article>
-    </section>
-
-    <section class="panel requests-panel" aria-labelledby="requests-heading">
-      <div class="panel-heading"><div><p class="eyebrow">REVIEW TOGETHER</p><h2 id="requests-heading">Payment requests</h2></div><div class="filter-buttons" role="group" aria-label="Filter requests"><button class="filter selected" data-filter="all" aria-pressed="true">All</button><button class="filter" data-filter="pending" aria-pressed="false">Pending</button><button class="filter" data-filter="executed" aria-pressed="false">Paid</button></div></div>
-      <div id="requests" class="request-list"><div class="empty-state"><span class="empty-symbol" aria-hidden="true">↗</span><h3>Your first shared decision starts here</h3><p>Connect a treasury, then propose a payment and collect two approvals.</p></div></div>
-      <p id="request-limit-note" class="small-note" hidden></p>
-    </section>
-
-    <section class="bottom-grid">
-      <article class="panel" id="activity"><div class="panel-heading"><div><p class="eyebrow">ON THE RECORD</p><h2>Recent activity</h2></div><span class="tag neutral" id="activity-network">Not connected</span></div><div id="activity-list" class="activity-list"><p class="muted">Confirmed contract events will appear here.</p></div><p class="small-note" id="activity-note"></p></article>
-      <article class="panel guide-panel" id="guide"><p class="eyebrow">A SIMPLE WORKFLOW</p><h2>From idea to payment</h2><ol class="workflow"><li><span>1</span><div><strong>Submit a request</strong><p>A manager specifies who receives how much and why.</p></div></li><li><span>2</span><div><strong>Collect two approvals</strong><p>Two different managers approve the same request. An approval can be revoked before payment.</p></div></li><li><span>3</span><div><strong>Execute once</strong><p>A manager sends the payment transaction. The contract checks approvals and available funds.</p></div></li></ol><p class="boundary-note">Managers judge whether an expense is appropriate. The contract enforces their approval rule; it does not verify work quality.</p></article>
-    </section>
-    <footer><span>Common Treasury · Ethereum course project</span><span>One treasury · Three fixed managers · Two approvals</span></footer>
+      </div>
+      <div class="actions-column">
+        <section class="panel request-panel" id="new-payment" aria-labelledby="form-heading">
+          <div class="panel-heading"><h2 id="form-heading">Request a payment</h2></div>
+          <p class="muted" id="request-help">A manager sets the recipient, amount and purpose.</p>
+          <form id="request-form">
+            <div class="field"><label for="recipient">Recipient address</label><input id="recipient" name="recipient" placeholder="0x…" autocomplete="off" spellcheck="false" required disabled></div>
+            <div class="field"><label for="payment-amount">Payment amount</label><div class="amount-field"><input id="payment-amount" name="amount" inputmode="decimal" placeholder="0.25" autocomplete="off" required disabled><span>ETH</span></div></div>
+            <div class="field"><label for="purpose">Purpose</label><textarea id="purpose" name="purpose" rows="2" maxlength="240" minlength="3" placeholder="e.g. Documentation contribution" required disabled></textarea></div>
+            <small class="form-help">Your browser keeps the description. The contract stores its fingerprint.</small>
+            <button type="submit" class="button primary full" id="submit-request" disabled>Submit request</button>
+          </form>
+        </section>
+        <section class="panel funding-panel" id="funding" aria-labelledby="funding-heading">
+          <div class="panel-heading"><h2 id="funding-heading">Add funds</h2></div>
+          <p class="muted">Any account can contribute ETH to the treasury.</p>
+          <form id="deposit-form"><label for="deposit-amount">Contribution amount</label><div class="amount-field"><input id="deposit-amount" name="amount" inputmode="decimal" value="1" autocomplete="off" required disabled><span>ETH</span></div><button type="submit" class="button outline full" id="deposit-button" disabled>Deposit funds</button></form>
+        </section>
+      </div>
+    </div>
+    <footer><span>Common Treasury</span><a href="https://github.com/zhuxuanze/ethereum-course/tree/final-community-treasury/final-project/community-treasury" target="_blank" rel="noopener noreferrer">Project on GitHub</a></footer>
   </main>
 </body>
 </html>

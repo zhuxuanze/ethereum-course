@@ -14,7 +14,7 @@ if command -v node >/dev/null 2>&1; then
 elif command -v python3 >/dev/null 2>&1; then
   exec python3 -m http.server 8874 --bind 127.0.0.1 --directory dist
 else
-  print '请安装 Node.js 20 或以上版本，或使用已发布的私有网页。'
+  print '请安装 Node.js 20 或以上版本，或使用已发布的课堂演示网页。'
   read '?按回车退出。'
   exit 1
 fi

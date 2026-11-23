@@ -1,0 +1,88 @@
+{
+  "provider": "Tencent CloudBase Static Hosting",
+  "site": "Community Treasury",
+  "uiVersion": 3,
+  "environment": "map-of-us-trial-d9fkeswkaf1e1376",
+  "region": "ap-shanghai",
+  "prefix": "community-treasury/",
+  "access": "public classroom demo",
+  "hostingReceipt": {
+    "message": "上传完成",
+    "url": "https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com/community-treasury/",
+    "totalFiles": 13,
+    "successCount": 13,
+    "failedCount": 0,
+    "verified": true
+  },
+  "originalHomeETagUnchanged": true,
+  "remoteFiles": [
+    {
+      "path": "community-treasury/app.js",
+      "bytes": 38291,
+      "eTag": "68961362c361040fc3c34f07fde8333b"
+    },
+    {
+      "path": "community-treasury/artifacts/CommunityTreasury.json",
+      "bytes": 22208,
+      "eTag": "00d44db34cdc2d2f983a5fc0a10c5700"
+    },
+    {
+      "path": "community-treasury/assets/Instrument-Sans-OFL.txt",
+      "bytes": 4403,
+      "eTag": "07770b59315b8ff37b0d85f75de3925f"
+    },
+    {
+      "path": "community-treasury/assets/instrument-sans-latin.woff2",
+      "bytes": 29904,
+      "eTag": "e35fad09c70beb975a297c43c6af4e66"
+    },
+    {
+      "path": "community-treasury/assets/treasury-sculpture.webp",
+      "bytes": 35182,
+      "eTag": "2def58eb397ad48db11ba9ba9ff79b0f"
+    },
+    {
+      "path": "community-treasury/index.html",
+      "bytes": 9789,
+      "eTag": "a888a6ee4631a426d0d79173b8bd0517"
+    },
+    {
+      "path": "community-treasury/networks.json",
+      "bytes": 110,
+      "eTag": "876f5f2648f37cfa2177ae7d8d31aa34"
+    },
+    {
+      "path": "community-treasury/styles.css",
+      "bytes": 22917,
+      "eTag": "93865247b043cc2752c505c4b3523b4a"
+    },
+    {
+      "path": "community-treasury/vendor/ethers.LICENSE.md",
+      "bytes": 1075,
+      "eTag": "682a8b41ffe390a75897d5c40adae780"
+    },
+    {
+      "path": "community-treasury/vendor/ethers.umd.min.js",
+      "bytes": 517486,
+      "eTag": "518af9546defb8b07198e49db9d665d8"
+    },
+    {
+      "path": "community-treasury/vendor/ganache-project.LICENSE.txt",
+      "bytes": 1132,
+      "eTag": "006b6666493868c7b580367a7e73ba37"
+    },
+    {
+      "path": "community-treasury/vendor/ganache.LICENSE.txt",
+      "bytes": 1954,
+      "eTag": "23965e139437ac9d639d03dcb9ec7e7c"
+    },
+    {
+      "path": "community-treasury/vendor/ganache.min.js",
+      "bytes": 7844725,
+      "eTag": "bef7602d122671e72126ec3bbbbb53d3-8"
+    }
+  ],
+  "verifiedClassroomURL": "https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com/community-treasury/index.html",
+  "browserVerification": "cloudbase-browser-verification.json",
+  "browserVerifiedAt": "2026-11-23T02:14:45.267Z"
+}

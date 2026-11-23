@@ -1,15 +1,15 @@
 {
-  "startedAt": "2026-11-23T01:46:17.034Z",
-  "finishedAt": "2026-11-23T01:46:25.911Z",
+  "startedAt": "2026-11-23T02:02:58.295Z",
+  "finishedAt": "2026-11-23T02:03:06.348Z",
   "environment": {
     "kind": "LOCAL injected EIP-1193 wallet wrapper over an isolated browser Ganache EVM",
     "browser": "Headless Microsoft Edge via Playwright",
-    "url": "http://127.0.0.1:18965",
+    "url": "http://127.0.0.1:19237",
     "localChainIds": [
       1337,
       46901
     ],
-    "servedAppSha256": "d08af26fba4c5c4d453b8a8e3fb4a6da4ac9b337d66dbcf5e4e962c8d0061f77",
+    "servedAppSha256": "86328108ef9e8055721b20f1ac53a095840f3ad66597ab5455f0835ff70aa92e",
     "sourceContractSha256": "68f52ec3c1b91c0f371b6bdc7f403ea62a868fe0b0db02d99d381f15efe080f8"
   },
   "total": 15,
@@ -19,62 +19,62 @@
     {
       "name": "first wallet connection after sandbox use has blank payment and deposit fields",
       "status": "passed",
-      "durationMs": 74
+      "durationMs": 77
     },
     {
       "name": "rejects an ABI-compatible contract with different runtime bytecode",
       "status": "passed",
-      "durationMs": 267
+      "durationMs": 77
     },
     {
       "name": "rejects an unsupported EVM chain before enabling payments",
       "status": "passed",
-      "durationMs": 935
+      "durationMs": 68
     },
     {
       "name": "connects the exact contract on local chain 1337 and displays its three owners",
       "status": "passed",
-      "durationMs": 935
+      "durationMs": 82
     },
     {
       "name": "wallet-mode deposit produces a mined local transaction and exact displayed balance",
       "status": "passed",
-      "durationMs": 63
+      "durationMs": 418
     },
     {
       "name": "preflight rejects an unannounced account mismatch without broadcasting",
       "status": "passed",
-      "durationMs": 394
+      "durationMs": 649
     },
     {
       "name": "preflight rejects an unannounced network mismatch without broadcasting",
       "status": "passed",
-      "durationMs": 700
+      "durationMs": 667
     },
     {
       "name": "account-change event interrupts an open wallet request and unlocks the new account",
       "status": "passed",
-      "durationMs": 878
+      "durationMs": 871
     },
     {
       "name": "chain-change event resets the session and unlocks reconnection during an open request",
       "status": "passed",
-      "durationMs": 667
+      "durationMs": 1000
     },
     {
       "name": "account disconnect clears payment controls without blocking reconnection",
       "status": "passed",
-      "durationMs": 95
+      "durationMs": 294
     },
     {
       "name": "exact raw purpose text including surrounding whitespace verifies against an external commitment",
       "status": "passed",
-      "durationMs": 429
+      "durationMs": 604
     },
     {
       "name": "altered local purpose metadata is rejected and never rendered as trusted content",
       "status": "passed",
-      "durationMs": 85
+      "durationMs": 76
     },
     {
       "name": "previous confirmed transaction hashes remain visible after session changes",
@@ -84,12 +84,12 @@
     {
       "name": "switching between two deployed treasuries clears the old wallet draft",
       "status": "passed",
-      "durationMs": 418
+      "durationMs": 549
     },
     {
       "name": "an isolated non-default chain connects only after its chain ID is configured",
       "status": "passed",
-      "durationMs": 685
+      "durationMs": 235
     }
   ],
   "pageErrors": [],

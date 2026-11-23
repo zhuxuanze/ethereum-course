@@ -1,5 +1,5 @@
 {
-  "recordedAt": "2026-11-23T01:46:18.219Z",
+  "recordedAt": "2026-11-23T02:03:01.066Z",
   "status": "passed",
   "environment": "Headless Chromium; actual compiled contract executed on browser-local Ganache EVM",
   "publicNetwork": false,
@@ -15,7 +15,7 @@
       "recipientETH": "100.25"
     },
     "receipt": {
-      "hash": "0x636b156d39612f84bc486c8e46351494fdc99da7e23fd1216fdbc068eb569e3d",
+      "hash": "0x332264bac1371c35916464fe69f6e5303b189693dbccb55d96954afa1a4f26ba",
       "blockNumber": 9,
       "status": 1
     }
@@ -25,14 +25,14 @@
       "name": "Compiled Solidity contract deployed and treasury funded in browser EVM",
       "passed": true,
       "snapshot": {
-        "address": "0xa4F0D039Be7851964159AAdeD0ccC687e8bDa68C",
+        "address": "0x73AA7D0dE55F1D1581f29Ec72674bC3C4dF47C3a",
         "chainId": "1337",
-        "account": "0x74d089Ce25C20F743B2Bd41a8253cCE14853B658",
+        "account": "0x1d46C7e92C38f6a4Ed858f17c08AAA6fc535736C",
         "balance": "10000000000000000000",
         "pending": 0,
         "paid": 0,
         "status": "Sandbox ready: 10 demo ETH deposited. Create a request, then switch managers to collect two approvals.",
-        "receipt": "0x45b90ffdc4e7fb6ca4ed547d62d56d103450ae5defe65d3f02677939b524a5d4",
+        "receipt": "0x723cbb63773ce330090b7d9e5c1653f1e8370a23300b16822acfc09a1a6ed72a",
         "requests": []
       }
     },
@@ -40,14 +40,14 @@
       "name": "Supporter can deposit and cannot submit payment requests",
       "passed": true,
       "snapshot": {
-        "address": "0xa4F0D039Be7851964159AAdeD0ccC687e8bDa68C",
+        "address": "0x73AA7D0dE55F1D1581f29Ec72674bC3C4dF47C3a",
         "chainId": "1337",
-        "account": "0xd9ed37A12765c008A10060C3800Ba1DF05B50D95",
+        "account": "0x8f455733e482750F683CC12Bba46ED5f2c4a0c79",
         "balance": "11000000000000000000",
         "pending": 0,
         "paid": 0,
         "status": "Deposit confirmed in block 3.",
-        "receipt": "0xb2f64b0d95d3405394af2a2d6750c83bcae0a23b828147690e1c4411e36305a8",
+        "receipt": "0x4d5102b055cdb8ca10090ff37d158cc7580357ce82f5d87aff56ac62a26ee309",
         "requests": []
       }
     },
@@ -55,14 +55,14 @@
       "name": "Submission records recipient amount and purpose without implicit approval",
       "passed": true,
       "snapshot": {
-        "address": "0xa4F0D039Be7851964159AAdeD0ccC687e8bDa68C",
+        "address": "0x73AA7D0dE55F1D1581f29Ec72674bC3C4dF47C3a",
         "chainId": "1337",
-        "account": "0x74d089Ce25C20F743B2Bd41a8253cCE14853B658",
+        "account": "0x1d46C7e92C38f6a4Ed858f17c08AAA6fc535736C",
         "balance": "11000000000000000000",
         "pending": 1,
         "paid": 0,
         "status": "Payment request confirmed in block 4.",
-        "receipt": "0xd6662ba4cb9ef26577e89843c79405f57d243d92d601a805b7253dd720286e31",
+        "receipt": "0xf8c16dd0adc0e0ebdec075b8e147356245044e7e0c2d0854d227a7e7d5f21bdd",
         "requests": [
           {
             "id": 0,
@@ -77,14 +77,14 @@
       "name": "One approval does not enable execution",
       "passed": true,
       "snapshot": {
-        "address": "0xa4F0D039Be7851964159AAdeD0ccC687e8bDa68C",
+        "address": "0x73AA7D0dE55F1D1581f29Ec72674bC3C4dF47C3a",
         "chainId": "1337",
-        "account": "0x74d089Ce25C20F743B2Bd41a8253cCE14853B658",
+        "account": "0x1d46C7e92C38f6a4Ed858f17c08AAA6fc535736C",
         "balance": "11000000000000000000",
         "pending": 1,
         "paid": 0,
         "status": "Approval confirmed in block 5.",
-        "receipt": "0x685c79ff43958c9876ed72e393c489317fc22b270759a72a97013f4ea4b442c7",
+        "receipt": "0x4ac753f13f03cc8e715bc826ee6ace32a59fd54e6a88fdc9ef49a1d358f97b3a",
         "requests": [
           {
             "id": 0,
@@ -99,14 +99,14 @@
       "name": "Revocation disables execution until two approvals are restored",
       "passed": true,
       "snapshot": {
-        "address": "0xa4F0D039Be7851964159AAdeD0ccC687e8bDa68C",
+        "address": "0x73AA7D0dE55F1D1581f29Ec72674bC3C4dF47C3a",
         "chainId": "1337",
-        "account": "0x86CE124eD0982Cdc934B91FA2eb7Bd7348b3790C",
+        "account": "0x750eb9B39e65022ABd20c1A6526a0A69Af65Cba1",
         "balance": "11000000000000000000",
         "pending": 1,
         "paid": 0,
         "status": "Approval confirmed in block 8.",
-        "receipt": "0xb662a721a02ebdd58ce5aa9128f1690b8489deede10a5695e88011c814a4bcfe",
+        "receipt": "0x7b4528117fbc74e39f90f50948337f0e010d61ea5daada5315218abb73476edf",
         "requests": [
           {
             "id": 0,
@@ -121,14 +121,14 @@
       "name": "Third owner executes approved payment once with correct balance and mined receipt",
       "passed": true,
       "snapshot": {
-        "address": "0xa4F0D039Be7851964159AAdeD0ccC687e8bDa68C",
+        "address": "0x73AA7D0dE55F1D1581f29Ec72674bC3C4dF47C3a",
         "chainId": "1337",
-        "account": "0x6cE62aab43cb0f984a2c7310b9aC2cD27CEA36CD",
+        "account": "0x0845F391f25C666e786E789bd9550a527E5A469E",
         "balance": "10750000000000000000",
         "pending": 0,
         "paid": 1,
         "status": "Payment execution confirmed in block 9.",
-        "receipt": "0x636b156d39612f84bc486c8e46351494fdc99da7e23fd1216fdbc068eb569e3d",
+        "receipt": "0x332264bac1371c35916464fe69f6e5303b189693dbccb55d96954afa1a4f26ba",
         "requests": [
           {
             "id": 0,
@@ -143,14 +143,14 @@
       "name": "Sub-microether payment amount displayed without truncation",
       "passed": true,
       "snapshot": {
-        "address": "0xa4F0D039Be7851964159AAdeD0ccC687e8bDa68C",
+        "address": "0x73AA7D0dE55F1D1581f29Ec72674bC3C4dF47C3a",
         "chainId": "1337",
-        "account": "0x6cE62aab43cb0f984a2c7310b9aC2cD27CEA36CD",
+        "account": "0x0845F391f25C666e786E789bd9550a527E5A469E",
         "balance": "10750000000000000000",
         "pending": 1,
         "paid": 1,
         "status": "Payment request confirmed in block 10.",
-        "receipt": "0x03a709ce4b1c741f95636bac7c5229762a3a150d168d871a5b864fc782503497",
+        "receipt": "0xe4e25fd2378984ff4844e75768d809d7cc18ae337223a726d001d4f1f35a3dcc",
         "requests": [
           {
             "id": 1,
@@ -171,14 +171,14 @@
       "name": "Altered off-chain description rejected and exact original text recovered by hash",
       "passed": true,
       "snapshot": {
-        "address": "0xa4F0D039Be7851964159AAdeD0ccC687e8bDa68C",
+        "address": "0x73AA7D0dE55F1D1581f29Ec72674bC3C4dF47C3a",
         "chainId": "1337",
-        "account": "0x6cE62aab43cb0f984a2c7310b9aC2cD27CEA36CD",
+        "account": "0x0845F391f25C666e786E789bd9550a527E5A469E",
         "balance": "10750000000000000000",
         "pending": 1,
         "paid": 1,
         "status": "Purpose text verified and saved in this browser.",
-        "receipt": "0x03a709ce4b1c741f95636bac7c5229762a3a150d168d871a5b864fc782503497",
+        "receipt": "0xe4e25fd2378984ff4844e75768d809d7cc18ae337223a726d001d4f1f35a3dcc",
         "requests": [
           {
             "id": 1,
@@ -199,14 +199,14 @@
       "name": "Supporter has read-only payment request controls",
       "passed": true,
       "snapshot": {
-        "address": "0xa4F0D039Be7851964159AAdeD0ccC687e8bDa68C",
+        "address": "0x73AA7D0dE55F1D1581f29Ec72674bC3C4dF47C3a",
         "chainId": "1337",
-        "account": "0xd9ed37A12765c008A10060C3800Ba1DF05B50D95",
+        "account": "0x8f455733e482750F683CC12Bba46ED5f2c4a0c79",
         "balance": "10750000000000000000",
         "pending": 1,
         "paid": 1,
         "status": "Now acting as Supporter.",
-        "receipt": "0x03a709ce4b1c741f95636bac7c5229762a3a150d168d871a5b864fc782503497",
+        "receipt": "0xe4e25fd2378984ff4844e75768d809d7cc18ae337223a726d001d4f1f35a3dcc",
         "requests": [
           {
             "id": 1,
@@ -227,14 +227,14 @@
       "name": "390 pixel mobile viewport has no horizontal overflow",
       "passed": true,
       "snapshot": {
-        "address": "0xa4F0D039Be7851964159AAdeD0ccC687e8bDa68C",
+        "address": "0x73AA7D0dE55F1D1581f29Ec72674bC3C4dF47C3a",
         "chainId": "1337",
-        "account": "0xd9ed37A12765c008A10060C3800Ba1DF05B50D95",
+        "account": "0x8f455733e482750F683CC12Bba46ED5f2c4a0c79",
         "balance": "10750000000000000000",
         "pending": 1,
         "paid": 1,
         "status": "Now acting as Supporter.",
-        "receipt": "0x03a709ce4b1c741f95636bac7c5229762a3a150d168d871a5b864fc782503497",
+        "receipt": "0xe4e25fd2378984ff4844e75768d809d7cc18ae337223a726d001d4f1f35a3dcc",
         "requests": [
           {
             "id": 1,
@@ -255,14 +255,14 @@
       "name": "Cancel leaving the sandbox preserves the treasury, payment and draft",
       "passed": true,
       "snapshot": {
-        "address": "0xa4F0D039Be7851964159AAdeD0ccC687e8bDa68C",
+        "address": "0x73AA7D0dE55F1D1581f29Ec72674bC3C4dF47C3a",
         "chainId": "1337",
-        "account": "0x74d089Ce25C20F743B2Bd41a8253cCE14853B658",
+        "account": "0x1d46C7e92C38f6a4Ed858f17c08AAA6fc535736C",
         "balance": "10750000000000000000",
         "pending": 1,
         "paid": 1,
         "status": "Now acting as Manager A.",
-        "receipt": "0x03a709ce4b1c741f95636bac7c5229762a3a150d168d871a5b864fc782503497",
+        "receipt": "0xe4e25fd2378984ff4844e75768d809d7cc18ae337223a726d001d4f1f35a3dcc",
         "requests": [
           {
             "id": 1,
@@ -311,13 +311,13 @@
     }
   ],
   "receipts": [
-    "0x45b90ffdc4e7fb6ca4ed547d62d56d103450ae5defe65d3f02677939b524a5d4",
-    "0xb2f64b0d95d3405394af2a2d6750c83bcae0a23b828147690e1c4411e36305a8",
-    "0xd6662ba4cb9ef26577e89843c79405f57d243d92d601a805b7253dd720286e31",
-    "0x685c79ff43958c9876ed72e393c489317fc22b270759a72a97013f4ea4b442c7",
-    "0xb662a721a02ebdd58ce5aa9128f1690b8489deede10a5695e88011c814a4bcfe",
-    "0x636b156d39612f84bc486c8e46351494fdc99da7e23fd1216fdbc068eb569e3d",
-    "0x03a709ce4b1c741f95636bac7c5229762a3a150d168d871a5b864fc782503497"
+    "0x723cbb63773ce330090b7d9e5c1653f1e8370a23300b16822acfc09a1a6ed72a",
+    "0x4d5102b055cdb8ca10090ff37d158cc7580357ce82f5d87aff56ac62a26ee309",
+    "0xf8c16dd0adc0e0ebdec075b8e147356245044e7e0c2d0854d227a7e7d5f21bdd",
+    "0x4ac753f13f03cc8e715bc826ee6ace32a59fd54e6a88fdc9ef49a1d358f97b3a",
+    "0x7b4528117fbc74e39f90f50948337f0e010d61ea5daada5315218abb73476edf",
+    "0x332264bac1371c35916464fe69f6e5303b189693dbccb55d96954afa1a4f26ba",
+    "0xe4e25fd2378984ff4844e75768d809d7cc18ae337223a726d001d4f1f35a3dcc"
   ],
   "pageErrors": []
 }

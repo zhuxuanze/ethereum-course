@@ -1,0 +1,168 @@
+{
+  "mode": "remote static website",
+  "target": "https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com/community-treasury/index.html",
+  "startedAt": "2026-11-23T02:14:22.935Z",
+  "status": "passed",
+  "paymentEnvironment": "Ganache inside a fresh browser context",
+  "publicBlockchain": false,
+  "entry": {
+    "documents": [
+      {
+        "url": "https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com/community-treasury/index.html",
+        "status": 404
+      },
+      {
+        "url": "https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com/community-treasury/index.html",
+        "status": 200
+      }
+    ],
+    "pages": [
+      {
+        "url": "https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com/community-treasury/index.html",
+        "status": 404,
+        "title": "风险提醒",
+        "kind": "cloudbase-access-notice",
+        "initialButton": "确定访问 (3s)",
+        "excerpt": "页面访问提示 当前域名 map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com 是由腾讯云 CloudBase 提供的测试域名，仅供开发测试使用，内容可能处于未审核状态 请谨慎浏览，请勿泄露个人信息、账号密码或进行涉及财产的操作 环境ID：map-of-us-trial-d9fkeswkaf1e1376 页面路径：/community-treasury/index.html 我是开发者，如何去掉当前页面？ 确定访问 (3s)"
+      },
+      {
+        "url": "https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com/community-treasury/index.html",
+        "status": 200,
+        "title": "Common Treasury · Treasury overview",
+        "kind": "treasury"
+      }
+    ],
+    "noticeClicked": true,
+    "result": "treasury",
+    "finalUrl": "https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com/community-treasury/index.html",
+    "platformDiagnostics": {
+      "http": [
+        {
+          "origin": "https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com",
+          "path": "/community-treasury/index.html",
+          "status": 404,
+          "mime": "text/html"
+        }
+      ],
+      "blockedRequests": [],
+      "networkFailures": [],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      ],
+      "pageErrors": []
+    },
+    "urlRecording": "URL query strings and fragments omitted",
+    "buttonWaitMs": 3340,
+    "newDocumentAfterClick": true
+  },
+  "http": [
+    {
+      "origin": "https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com",
+      "path": "/community-treasury/index.html",
+      "status": 200,
+      "mime": "text/html"
+    },
+    {
+      "origin": "https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com",
+      "path": "/community-treasury/styles.css",
+      "status": 200,
+      "mime": "text/css"
+    },
+    {
+      "origin": "https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com",
+      "path": "/community-treasury/vendor/ethers.umd.min.js",
+      "status": 200,
+      "mime": "application/javascript"
+    },
+    {
+      "origin": "https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com",
+      "path": "/community-treasury/assets/treasury-sculpture.webp",
+      "status": 200,
+      "mime": "image/webp"
+    },
+    {
+      "origin": "https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com",
+      "path": "/community-treasury/assets/instrument-sans-latin.woff2",
+      "status": 200,
+      "mime": "font/woff2"
+    },
+    {
+      "origin": "https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com",
+      "path": "/community-treasury/app.js",
+      "status": 200,
+      "mime": "application/javascript"
+    },
+    {
+      "origin": "https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com",
+      "path": "/community-treasury/vendor/ganache.min.js",
+      "status": 200,
+      "mime": "application/javascript"
+    },
+    {
+      "origin": "https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com",
+      "path": "/community-treasury/networks.json",
+      "status": 200,
+      "mime": "application/json"
+    },
+    {
+      "origin": "https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com",
+      "path": "/community-treasury/artifacts/CommunityTreasury.json",
+      "status": 200,
+      "mime": "application/json"
+    }
+  ],
+  "blockedRequests": [],
+  "networkFailures": [],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "checks": [
+    "HTTP 200 and browser sandbox selected without a wallet",
+    "Self-hosted font loaded, WebP decoded, chain metadata available",
+    "Fresh chain funded with 10 demo ETH and supporter deposits 1 demo ETH",
+    "Manager A and manager B approve; payment requires both",
+    "Third manager executes once with matching on-chain balances and successful receipt",
+    "Required assets return HTTP 200, expected MIME, no browser errors; 390px mobile fits"
+  ],
+  "landing": "https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com/community-treasury/index.html",
+  "visualAssets": {
+    "fontStatus": [
+      {
+        "family": "Instrument Sans",
+        "status": "loaded"
+      }
+    ],
+    "image": "/community-treasury/assets/treasury-sculpture.webp",
+    "sourceSize": [
+      1050,
+      700
+    ],
+    "desktopBox": [
+      403,
+      269
+    ]
+  },
+  "chainId": 1337,
+  "payment": {
+    "amountETH": "0.25",
+    "before": {
+      "treasuryETH": "11.0",
+      "recipientETH": "100.0"
+    },
+    "after": {
+      "treasuryETH": "10.75",
+      "recipientETH": "100.25"
+    },
+    "receipt": {
+      "hash": "0x32c37beb06d03ada6940b06a74dc733781fee9a01a44db3080bb46425f9d132e",
+      "status": 1,
+      "blockNumber": 7
+    },
+    "paid": "1"
+  },
+  "mobile": {
+    "viewport": 390,
+    "content": 390,
+    "visibleArtWidth": 182
+  },
+  "finishedAt": "2026-11-23T02:14:45.267Z"
+}

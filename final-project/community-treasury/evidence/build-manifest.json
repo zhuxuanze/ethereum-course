@@ -1,10 +1,10 @@
 {
-  "builtAt": "2026-11-23T01:45:54.666Z",
+  "builtAt": "2026-11-23T02:02:41.485Z",
   "files": [
     {
       "path": "app.js",
-      "bytes": 36584,
-      "sha256": "d08af26fba4c5c4d453b8a8e3fb4a6da4ac9b337d66dbcf5e4e962c8d0061f77"
+      "bytes": 38291,
+      "sha256": "86328108ef9e8055721b20f1ac53a095840f3ad66597ab5455f0835ff70aa92e"
     },
     {
       "path": "artifacts/CommunityTreasury.json",
@@ -12,9 +12,24 @@
       "sha256": "080075086012cd8f58730a0d78b67d05f8783ce095056650998120d1a5dbe408"
     },
     {
+      "path": "assets/Instrument-Sans-OFL.txt",
+      "bytes": 4403,
+      "sha256": "9e27a72ed30eb49a08678f6a5d6ed98ec7ba5368f541637ee0683ec9134ef966"
+    },
+    {
+      "path": "assets/instrument-sans-latin.woff2",
+      "bytes": 29904,
+      "sha256": "6219bc4bfdfc5d9b2201dcdf046218b122a758f932e25ed5f168f929b7ca2311"
+    },
+    {
+      "path": "assets/treasury-sculpture.webp",
+      "bytes": 35182,
+      "sha256": "4240836946c2ccceca0d238c0e10b693265f01fd4e251ab9a9d33d0d1f5dc770"
+    },
+    {
       "path": "index.html",
-      "bytes": 9612,
-      "sha256": "edd29bb52f097a60c8e6af53006cfe8c7dda56f3f06a313bb7d8586fbc8633ed"
+      "bytes": 9789,
+      "sha256": "d3d1b294132ff75f47feca8a500c7061bb32fa059107c31842f61f1eef224631"
     },
     {
       "path": "networks.json",
@@ -23,8 +38,8 @@
     },
     {
       "path": "styles.css",
-      "bytes": 16112,
-      "sha256": "fc736a3b7f1363b3f90fa03bcb51b0e1759008b7d3b13fbeac8e0881c2ec4978"
+      "bytes": 22917,
+      "sha256": "23de200bae24e2eaed6af2af8cd07e746db30eabfe67e4a873cf7d45c61c3d2e"
     },
     {
       "path": "vendor/ethers.LICENSE.md",

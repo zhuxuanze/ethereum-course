@@ -386,7 +386,14 @@ function renderRequests() {
   list.replaceChildren();
   if (!shown.length) {
     const empty = make('div', 'empty-state');
-    empty.append(make('span', 'empty-symbol', '↗'), make('h3', '', state.contract ? 'No requests in this view' : 'Your first shared decision starts here'), make('p', '', state.contract ? 'Propose a payment to start collecting approvals.' : 'Connect a treasury, then propose a payment and collect two approvals.'));
+    const title = state.contract && state.filter !== 'all' ? 'No requests in this view' : 'No payment requests yet';
+    const hint = state.contract ? 'New proposals start with zero approvals.' : 'Connect a treasury to view its requests.';
+    empty.append(make('h3', '', title), make('p', '', hint));
+    if (!state.contract || isManager()) {
+      const link = make('a', 'text-link', state.contract ? 'Create a request' : 'Choose a connection');
+      link.href = state.contract ? '#new-payment' : '#connection';
+      empty.append(link);
+    }
     list.append(empty);
     return;
   }
@@ -414,7 +421,7 @@ function renderRequests() {
       chip.title = `${state.owners[i]} — ${request.approvals[i] ? 'approved' : 'not approved'}`;
       approvals.append(chip);
     }
-    approvals.append(make('span', 'approval-summary', `${request.confirmations}/2 required`));
+    approvals.append(make('span', 'approval-summary', request.confirmations > 2 ? '3 approvals · 2 required' : `${request.confirmations}/2 required`));
     const actions = make('div', 'request-actions');
     if (request.executed) {
       actions.append(make('span', 'tag paid', 'Paid · executed once'));
@@ -422,7 +429,7 @@ function renderRequests() {
       const index = ownerIndex();
       const ready = request.confirmations >= 2;
       const funded = state.balance >= request.value;
-      actions.append(make('span', `tag ${ready ? 'ready' : 'pending'}`, ready ? 'Approved' : 'Awaiting approvals'));
+      actions.append(make('span', `tag ${ready ? 'ready' : 'pending'}`, ready ? (funded ? 'Ready to execute' : 'Approved · awaiting funds') : 'Awaiting approvals'));
       if (index >= 0) {
         const approved = request.approvals[index];
         actions.append(actionButton(approved ? 'Revoke approval' : 'Approve', approved ? 'revoke' : 'confirm', request.id, true));
@@ -432,7 +439,12 @@ function renderRequests() {
     }
     bottom.append(approvals, actions);
     const fingerprint = make('div', `request-fingerprint${purpose.status === 'mismatch' ? ' warning' : ''}`, `${purpose.status === 'verified' ? 'Purpose verified against on-chain fingerprint' : purpose.status === 'mismatch' ? 'Saved purpose was altered and does not match the on-chain fingerprint' : 'Share the original purpose text with other managers to verify this fingerprint'} · ${request.hash}`);
-    card.append(top, meta, bottom, fingerprint);
+    const details = document.createElement('details');
+    details.className = 'request-details';
+    details.open = purpose.status !== 'verified';
+    const verificationLabel = purpose.status === 'verified' ? 'Purpose verified · View fingerprint' : purpose.status === 'mismatch' ? 'Purpose mismatch · View fingerprint' : 'Verify the purpose · View fingerprint';
+    details.append(make('summary', '', verificationLabel), fingerprint);
+    card.append(top, meta, bottom, details);
     if (purpose.status !== 'verified') {
       const verify = make('button', 'button quiet small', 'Verify purpose text');
       verify.type = 'button';
@@ -672,4 +684,28 @@ for (const button of document.querySelectorAll('[data-filter]')) button.addEvent
   }
   renderRequests();
 });
+const sectionLinks = Array.from(document.querySelectorAll('nav[aria-label="Workspace navigation"] a'));
+function highlightVisibleSection() {
+  const guideLine = Math.min(window.innerHeight * 0.32, 240);
+  let current = sectionLinks[0];
+  for (const link of sectionLinks) {
+    const section = document.getElementById(link.hash.slice(1));
+    if (section.getBoundingClientRect().top <= guideLine) current = link;
+  }
+  for (const link of sectionLinks) {
+    if (link === current) link.setAttribute('aria-current', 'location');
+    else link.removeAttribute('aria-current');
+  }
+}
+let navFrame = 0;
+function scheduleSectionHighlight() {
+  if (navFrame) return;
+  navFrame = window.requestAnimationFrame(() => {
+    navFrame = 0;
+    highlightVisibleSection();
+  });
+}
+window.addEventListener('scroll', scheduleSectionHighlight, { passive: true });
+window.addEventListener('resize', scheduleSectionHighlight);
+highlightVisibleSection();
 setBusy(false);

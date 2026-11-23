@@ -8,9 +8,13 @@ The application runs the compiled Solidity contract on a real, temporary EVM ins
 
 - This repository publishes the application source, tests, and execution records. Course reports, presentation files, and speaker notes are maintained separately.
 - [Source branch](https://github.com/zhuxuanze/ethereum-course/tree/final-community-treasury/final-project/community-treasury)
-- [Hosted frontend (November 4 build)](https://community-treasury-course-20261104.zxzccn.chatgpt.site) — owner-only private access; this URL is not a public class-sharing link.
-- `evidence/publication-receipts.json` records the verified source publication and successful private frontend deployment. Mainnet and additional cloud-blockchain contract deployments remain pending instructor confirmation.
-- The downloadable course delivery package includes the built `dist/` directory and `启动本地演示.command` for local use without reinstalling app dependencies. The Git repository contains editable sources and a pinned lockfile; build instructions follow below.
+- [Public classroom demo](https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com/community-treasury/index.html). After the CloudBase access notice, open **Browser sandbox** and select **Launch sandbox**.
+- The public frontend runs the contract in a temporary browser EVM (chain ID 1337). The receipt in `evidence/cloudbase-browser-verification.json` records a 0.25 demo ETH payment. `evidence/cloudbase-deployment.json` records the 13 verified static files.
+- The software archive includes a built `dist/` directory. The source branch includes the application, tests, build scripts, lockfile and run records.
+
+## Proposal summary
+
+Open-source communities can pool ETH to reimburse contributors or pay for documented work. A supporter funds the treasury. A manager proposes a recipient, an amount and a purpose. Two different managers must approve before one of the three managers executes a payment. The website shows the approval count, spending history and transaction receipt. The browser sandbox provides an end-to-end classroom demonstration. The contract stores a hash of each purpose, and the browser keeps the corresponding text.
 
 ## Run the complete demonstration
 
@@ -25,12 +29,11 @@ npm start
 
 Open `http://127.0.0.1:8874`. Click **Launch sandbox**. The app creates a fresh Ganache EVM, deploys the contract with three manager accounts, and deposits 10 simulated ETH. Runtime libraries are copied into `dist/`, so no CDN or wallet installation is needed for this mode after the build.
 
-1. As Manager A, submit the prefilled contributor payment. Submission creates zero approvals.
-2. Approve as Manager A. The execution button remains disabled.
-3. Select Manager B and approve. Two distinct managers now authorize payment.
-4. Optionally revoke Manager B's approval and observe that execution is disabled again; then approve again.
-5. Select Manager C and execute the payment. The balance decreases by the exact requested amount and the request becomes paid.
-6. Select Supporter. This role can deposit and inspect records but cannot submit, approve or execute payments.
+1. Launch the browser sandbox. The starting balance is 10 demo ETH. Under **Act as**, select **Supporter** and deposit 1 demo ETH.
+2. Select Manager A and submit a 0.25 demo ETH request using the prefilled recipient. A new request starts with zero approvals. Manager A then selects **Approve**.
+3. At one approval the execution control stays disabled. Switch to Manager B and approve the same request.
+4. Select Manager C and execute once. The balance falls from 11 to 10.75 demo ETH. Review **Paid**, **Recent activity** and **Latest receipt**.
+5. To repeat the exercise, use **Reset sandbox**. A page reload also starts a new browser session.
 
 Switching to wallet mode asks for confirmation before ending a running sandbox. Cancel keeps the balance, requests and drafts. Confirm clears the session, including the recipient, amount, purpose and deposit fields. A wallet account, network or treasury change also clears those drafts. Reloading or resetting replaces the sandbox blockchain. Its addresses and transaction hashes are local demonstration identifiers, not Etherscan records.
 
@@ -111,6 +114,10 @@ Cloud **web hosting** and browser-local EVM execution are different from an Ethe
 | `artifacts/` | Reproducible ABI and bytecode |
 | `evidence/` | Recorded tests, gas, browser checks and build hashes |
 | `deployments/` | Actual local or external deployment receipts, labeled by network |
+
+## Interface references
+
+The payment view draws on two open-source projects. [Safe Wallet’s signer timeline](https://github.com/safe-global/safe-wallet-monorepo/blob/c802d58f6b89b926ea3695f5a5d207f2fae9afba/apps/web/src/components/transactions/TxSigners/index.tsx#L246-L315) shows approvals and execution as distinct events. [Open Collective’s transaction table](https://github.com/opencollective/opencollective-frontend/blob/687fe2ba99d766ac68ec40b977c1e26177fb039f/components/dashboard/sections/transactions/TransactionsTable.tsx#L206-L282) gives each transaction an amount and a detailed record. These patterns informed the approval statuses and request details in this interface.
 
 ## Primary technical references
 

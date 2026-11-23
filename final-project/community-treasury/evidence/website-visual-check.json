@@ -1,0 +1,274 @@
+{
+  "date": "2026-11-23T02:03:02.147Z",
+  "chainId": 1337,
+  "firstTab": {
+    "element": "A",
+    "caption": "Skip to treasury",
+    "focusVisible": true
+  },
+  "viewports": [
+    {
+      "view": 1440,
+      "total": 1440,
+      "headings": [
+        "Treasury overview"
+      ],
+      "nav": [
+        {
+          "name": "Overview",
+          "href": "#workspace",
+          "target": true,
+          "visible": true
+        },
+        {
+          "name": "Requests",
+          "href": "#queue",
+          "target": true,
+          "visible": true
+        },
+        {
+          "name": "Activity",
+          "href": "#activity",
+          "target": true,
+          "visible": true
+        }
+      ],
+      "missingLabel": [],
+      "unnamedButtons": [],
+      "duplicateIds": [],
+      "art": [
+        {
+          "path": "/assets/treasury-sculpture.webp",
+          "visible": true,
+          "naturalWidth": 1050,
+          "naturalHeight": 700,
+          "box": [
+            403,
+            269
+          ]
+        }
+      ]
+    },
+    {
+      "view": 1280,
+      "total": 1280,
+      "headings": [
+        "Treasury overview"
+      ],
+      "nav": [
+        {
+          "name": "Overview",
+          "href": "#workspace",
+          "target": true,
+          "visible": true
+        },
+        {
+          "name": "Requests",
+          "href": "#queue",
+          "target": true,
+          "visible": true
+        },
+        {
+          "name": "Activity",
+          "href": "#activity",
+          "target": true,
+          "visible": true
+        }
+      ],
+      "missingLabel": [],
+      "unnamedButtons": [],
+      "duplicateIds": [],
+      "art": [
+        {
+          "path": "/assets/treasury-sculpture.webp",
+          "visible": true,
+          "naturalWidth": 1050,
+          "naturalHeight": 700,
+          "box": [
+            375,
+            250
+          ]
+        }
+      ]
+    },
+    {
+      "view": 768,
+      "total": 768,
+      "headings": [
+        "Treasury overview"
+      ],
+      "nav": [
+        {
+          "name": "Overview",
+          "href": "#workspace",
+          "target": true,
+          "visible": true
+        },
+        {
+          "name": "Requests",
+          "href": "#queue",
+          "target": true,
+          "visible": true
+        },
+        {
+          "name": "Activity",
+          "href": "#activity",
+          "target": true,
+          "visible": true
+        }
+      ],
+      "missingLabel": [],
+      "unnamedButtons": [],
+      "duplicateIds": [],
+      "art": [
+        {
+          "path": "/assets/treasury-sculpture.webp",
+          "visible": true,
+          "naturalWidth": 1050,
+          "naturalHeight": 700,
+          "box": [
+            222,
+            148
+          ]
+        }
+      ]
+    },
+    {
+      "view": 390,
+      "total": 390,
+      "headings": [
+        "Treasury overview"
+      ],
+      "nav": [
+        {
+          "name": "Overview",
+          "href": "#workspace",
+          "target": true,
+          "visible": true
+        },
+        {
+          "name": "Requests",
+          "href": "#queue",
+          "target": true,
+          "visible": true
+        },
+        {
+          "name": "Activity",
+          "href": "#activity",
+          "target": true,
+          "visible": true
+        }
+      ],
+      "missingLabel": [],
+      "unnamedButtons": [],
+      "duplicateIds": [],
+      "art": [
+        {
+          "path": "/assets/treasury-sculpture.webp",
+          "visible": true,
+          "naturalWidth": 1050,
+          "naturalHeight": 700,
+          "box": [
+            182,
+            121
+          ]
+        }
+      ]
+    },
+    {
+      "view": 360,
+      "total": 360,
+      "headings": [
+        "Treasury overview"
+      ],
+      "nav": [
+        {
+          "name": "Overview",
+          "href": "#workspace",
+          "target": true,
+          "visible": true
+        },
+        {
+          "name": "Requests",
+          "href": "#queue",
+          "target": true,
+          "visible": true
+        },
+        {
+          "name": "Activity",
+          "href": "#activity",
+          "target": true,
+          "visible": true
+        }
+      ],
+      "missingLabel": [],
+      "unnamedButtons": [],
+      "duplicateIds": [],
+      "art": [
+        {
+          "path": "/assets/treasury-sculpture.webp",
+          "visible": true,
+          "naturalWidth": 1050,
+          "naturalHeight": 700,
+          "box": [
+            166,
+            111
+          ]
+        }
+      ]
+    }
+  ],
+  "desktopAnchors": [
+    "#workspace",
+    "#queue",
+    "#activity",
+    "#guide",
+    "#funding",
+    "#new-payment"
+  ],
+  "startArt": [
+    {
+      "path": "/assets/treasury-sculpture.webp",
+      "visible": true,
+      "naturalWidth": 1050,
+      "naturalHeight": 700,
+      "box": [
+        403,
+        269
+      ]
+    }
+  ],
+  "startMobileArt": [
+    {
+      "path": "/assets/treasury-sculpture.webp",
+      "visible": true,
+      "naturalWidth": 1050,
+      "naturalHeight": 700,
+      "box": [
+        182,
+        121
+      ]
+    }
+  ],
+  "artMIME": "image/webp",
+  "webFontLoaded": true,
+  "payment": {
+    "before": {
+      "treasury": "10.0",
+      "recipient": "100.0"
+    },
+    "after": {
+      "treasury": "9.75",
+      "recipient": "100.25"
+    },
+    "receipt": {
+      "hash": "0x961048223b5992831cc670b237a3158874b65eb4f4acc00d49e97e583c766b27",
+      "status": 1,
+      "block": 6
+    },
+    "paid": "1"
+  },
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": []
+}
