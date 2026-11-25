@@ -9,7 +9,7 @@ The application runs the compiled Solidity contract on a real, temporary EVM ins
 - This repository publishes the application source, tests, and execution records. Course reports, presentation files, and speaker notes are maintained separately.
 - [Source branch](https://github.com/zhuxuanze/ethereum-course/tree/final-community-treasury/final-project/community-treasury)
 - [Public classroom demo](https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com/community-treasury/index.html). After the CloudBase access notice, open **Browser sandbox** and select **Launch sandbox**.
-- The public frontend runs the contract in a temporary browser EVM (chain ID 1337). The receipt in `evidence/cloudbase-browser-verification.json` records a 0.25 demo ETH payment. `evidence/cloudbase-deployment.json` records the 13 verified static files.
+- The public frontend runs the contract in a temporary browser EVM (chain ID 1337). The November 25 release uploaded 15 files. Nine browser checks on the public website covered the 0.25 demo ETH payment, its four per-request events, the Sepolia deployment page and mobile layout. The full record is in [the November 25 hosting and browser receipt](evidence/cloudbase-release-2026-11-25.json).
 - The software archive includes a built `dist/` directory. The source branch includes the application, tests, build scripts, lockfile and run records.
 
 ## Proposal summary
