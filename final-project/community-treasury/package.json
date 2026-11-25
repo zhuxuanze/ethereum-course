@@ -12,7 +12,8 @@
     "start": "node scripts/serve.mjs",
     "demo:chain": "node scripts/local-chain.mjs",
     "deploy": "node scripts/deploy.mjs",
-    "verify:deployment": "node scripts/verify-deployment.mjs"
+    "verify:deployment": "node scripts/verify-deployment.mjs",
+    "verify:payment": "node scripts/verify-payment.mjs"
   },
   "dependencies": {
     "ethers": "6.15.0",

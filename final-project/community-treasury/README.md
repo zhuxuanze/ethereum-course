@@ -32,7 +32,7 @@ Open `http://127.0.0.1:8874`. Click **Launch sandbox**. The app creates a fresh 
 1. Launch the browser sandbox. The starting balance is 10 demo ETH. Under **Act as**, select **Supporter** and deposit 1 demo ETH.
 2. Select Manager A and submit a 0.25 demo ETH request using the prefilled recipient. A new request starts with zero approvals. Manager A then selects **Approve**.
 3. At one approval the execution control stays disabled. Switch to Manager B and approve the same request.
-4. Select Manager C and execute once. The balance falls from 11 to 10.75 demo ETH. Review **Paid**, **Recent activity** and **Latest receipt**.
+4. Select Manager C and execute once. The balance falls from 11 to 10.75 demo ETH. Open **Payment history** on the request to see its submission, each approval or revocation, and the execution receipt.
 5. To repeat the exercise, use **Reset sandbox**. A page reload also starts a new browser session.
 
 Switching to wallet mode asks for confirmation before ending a running sandbox. Cancel keeps the balance, requests and drafts. Confirm clears the session, including the recipient, amount, purpose and deposit fields. A wallet account, network or treasury change also clears those drafts. Reloading or resetting replaces the sandbox blockchain. Its addresses and transaction hashes are local demonstration identifiers, not Etherscan records.
@@ -60,6 +60,8 @@ Browser interface and purpose storage
 ```
 
 The full payment purpose stays off chain; the contract stores its hash. A hash protects integrity, not availability or confidentiality of easily guessed text. The prototype has no shared metadata server, so managers share the purpose text separately. The interface shows the latest 50 requests and the latest 20 events in its queried block range; these are not an unlimited archive.
+
+Each payment card reads its own contract event logs by indexed request number. The history opens with the newest events and shows the manager address, confirmed block, transaction hash and, when available, the UTC block time. On Ethereum mainnet and Sepolia the hash links to the network's explorer. The local sandbox displays the hash directly. Use **Show earlier events** or **Load earlier blocks** to read back to the submission. The interface reads at most 1,000 blocks per query and reduces this range if the provider reports a limit. **Refresh records** reloads an open history against the latest block.
 
 ### Configure wallet networks
 
@@ -89,19 +91,21 @@ node scripts/wallet-browser-qa.cjs
 
 Both scripts use `http://127.0.0.1:8874` by default; set `QA_URL` if the local server uses another address. `PLAYWRIGHT_MODULE` can point to a separately installed Playwright package. Without that override, the scripts load the project's ordinary `playwright` package. `BROWSER_EXECUTABLE` selects an existing Chromium-compatible browser. Otherwise, the scripts use Microsoft Edge when installed in its standard macOS location, or Playwright's installed Chromium. The Chromium installation command can be omitted when using an existing compatible browser. The recorded run used Playwright 1.62.1 and headless Microsoft Edge in an isolated profile.
 
+The updated browser rehearsal includes per-request approval history. The Sepolia deployment page and payment verifier were exercised together on a local EVM in eight scenarios (see `evidence/sepolia-deployment-rehearsal.json`). The standalone public Sepolia record in `evidence/sepolia-connectivity.json` records a read-only node check.
+
 Local test pass counts are functional evidence, not an independent security audit, a claim of novel multisignature research, or proof of mainnet deployment. Gas observations depend on compiler, optimizer and EVM fork and are not USD cost estimates.
 
 ## RPC deployment
 
 See [deploy/README.md](deploy/README.md). `npm run demo:chain` starts a separate loopback development node. `npm run deploy` prints a plan without sending a transaction; `npm run deploy -- --broadcast` executes a reviewed deployment. A mined receipt and exact bytecode/owner/threshold verification are retained in `deployments/`.
 
-For an external deployment, the script requires an explicitly supplied RPC URL, expected chain ID, three owner addresses and signing key in the environment. Never place real secrets in the repository, frontend or report. The separate verifier requires expected owners on external networks. The browser only connects an existing deployment; it does not silently deploy or fund it.
+For an external deployment plan, supply the RPC URL, expected chain ID, three owner addresses and the public funding address. Use `--unsigned-file` to prepare a transaction for wallet review. A broadcast requires an authorized signer. The separate verifier requires expected owners on external networks. The wallet panel connects to an existing treasury. Its separate **Deploy on Sepolia** link opens a wallet-reviewed creation flow for three fixed manager addresses. The deployment page checks the creation transaction, runtime bytecode, owners and approval threshold before exporting its JSON record.
 
 ## Scope and limitations
 
 This project applies the established multisignature pattern to a small community's spending workflow. Managers judge whether an expense is appropriate. The contract enforces approvals and payment conditions; it cannot validate work quality. Two colluding managers can approve an inappropriate payment. Loss of two owner keys prevents further spending; owner rotation, recovery, upgrades, token governance, ERC-20 assets and automatic subscriptions are outside this fixed-owner prototype. Approved requests do not reserve funds; execution uses the balance available at that moment.
 
-Cloud **web hosting** and browser-local EVM execution are different from an Ethereum-mainnet contract or an additional cloud **blockchain** deployment. Team names and final deployment targets remain to be confirmed. The supplied course documents differ on one versus two additional cloud blockchain platforms. No deployment or submission is complete without its recorded receipt.
+Cloud **web hosting** and browser-local EVM execution are different from an Ethereum-mainnet contract or an additional cloud **blockchain** deployment. The final network targets await confirmation with the instructor. The supplied course documents differ on one versus two additional cloud blockchain platforms. No deployment or submission is complete without its recorded receipt.
 
 ## Project map
 
@@ -129,4 +133,4 @@ The payment view draws on two open-source projects. [Safe Wallet’s signer time
 6. [Ganache source and documentation](https://github.com/trufflesuite/ganache)
 7. [Safe smart account documentation](https://docs.safe.global/)
 
-The proposal, course instructions and final report describe the coursework context. The final submission requires the team's actual names and any required signatures; these must be completed by the students.
+The proposal, course instructions and final report describe the coursework context. The team records its contributions and signs its course materials separately.

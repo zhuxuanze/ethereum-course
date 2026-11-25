@@ -180,6 +180,12 @@ textarea { display: block; resize: vertical; min-height: 4.2rem; }
 .request-actions > .tag:first-child { margin-right: .18rem; }
 .request-details { border-top: 1px solid #e1dee8; margin-top: .85rem; padding-top: .55rem; color: var(--muted); }
 .request-details summary { width: fit-content; cursor: pointer; font-size: .84rem; font-weight: 580; }
+.payment-history .small-note { margin: .55rem 0; }
+.history-entries { list-style: none; padding: 0; margin: 0; }
+.history-entry { display: grid; gap: .18rem; margin: .65rem 0; padding: .1rem 0 .1rem .7rem; border-left: 2px solid #c6bedb; }
+.history-entry strong { color: var(--ink); font-size: .9rem; }
+.history-actor, .history-block, .history-hash { font-size: .78rem; overflow-wrap: anywhere; }
+.history-hash { font-family: ui-monospace, monospace; }
 .request-fingerprint { margin-top: .35rem; font-size: .8rem; overflow-wrap: anywhere; }.request-fingerprint.warning { color: var(--error); }
 .activity-list { overflow: auto; max-height: 23rem; }.activity-list > .muted { margin: 0; }
 .activity-item { display: flex; gap: .7rem; padding: .68rem 0; border-bottom: 1px solid #e4e0e6; }.activity-item:first-child { padding-top: .12rem; }.activity-item:last-child { border-bottom: 0; }

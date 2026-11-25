@@ -1,6 +1,6 @@
 {
-  "startedAt": "2026-11-23T01:44:02.538Z",
-  "finishedAt": "2026-11-23T01:44:06.243Z",
+  "startedAt": "2026-11-25T13:23:21.446Z",
+  "finishedAt": "2026-11-25T13:23:24.937Z",
   "environment": {
     "chain": "isolated in-process Ganache",
     "chainId": 1337,
@@ -17,27 +17,27 @@
     {
       "name": "constructor stores three distinct owners and a fixed threshold of two",
       "status": "passed",
-      "durationMs": 207
+      "durationMs": 212
     },
     {
       "name": "constructor rejects a zero owner",
       "status": "passed",
-      "durationMs": 62
+      "durationMs": 60
     },
     {
       "name": "constructor rejects duplicate owners",
       "status": "passed",
-      "durationMs": 68
+      "durationMs": 57
     },
     {
       "name": "any supporter can deposit ETH and the receipt emits the correct balance",
       "status": "passed",
-      "durationMs": 58
+      "durationMs": 59
     },
     {
       "name": "submission records exact payment fields and does not implicitly approve",
       "status": "passed",
-      "durationMs": 79
+      "durationMs": 80
     },
     {
       "name": "a non-owner cannot submit a request",
@@ -47,27 +47,27 @@
     {
       "name": "a non-owner cannot confirm a request",
       "status": "passed",
-      "durationMs": 73
+      "durationMs": 75
     },
     {
       "name": "a non-owner cannot revoke another owner approval",
       "status": "passed",
-      "durationMs": 88
+      "durationMs": 92
     },
     {
       "name": "a non-owner cannot execute an otherwise approved payment",
       "status": "passed",
-      "durationMs": 98
+      "durationMs": 108
     },
     {
       "name": "submission rejects the zero recipient",
       "status": "passed",
-      "durationMs": 44
+      "durationMs": 46
     },
     {
       "name": "submission rejects a zero amount",
       "status": "passed",
-      "durationMs": 45
+      "durationMs": 50
     },
     {
       "name": "submission rejects an empty description commitment",
@@ -77,87 +77,87 @@
     {
       "name": "nonexistent request identifiers are rejected by reads and all actions",
       "status": "passed",
-      "durationMs": 58
+      "durationMs": 62
     },
     {
       "name": "one owner cannot count a duplicate approval twice",
       "status": "passed",
-      "durationMs": 105
+      "durationMs": 95
     },
     {
       "name": "zero approvals cannot release funds",
       "status": "passed",
-      "durationMs": 78
+      "durationMs": 70
     },
     {
       "name": "one approval cannot release funds even in a mined transaction",
       "status": "passed",
-      "durationMs": 109
+      "durationMs": 108
     },
     {
       "name": "two distinct approvals allow exactly the requested ETH transfer",
       "status": "passed",
-      "durationMs": 147
+      "durationMs": 136
     },
     {
       "name": "the third owner can execute a payment approved by the other two",
       "status": "passed",
-      "durationMs": 144
+      "durationMs": 121
     },
     {
       "name": "revocation removes authority until a second distinct approval is restored",
       "status": "passed",
-      "durationMs": 169
+      "durationMs": 164
     },
     {
       "name": "an owner cannot revoke an approval they did not give",
       "status": "passed",
-      "durationMs": 76
+      "durationMs": 82
     },
     {
       "name": "insufficient balance rejects execution and a later deposit permits retry",
       "status": "passed",
-      "durationMs": 155
+      "durationMs": 147
     },
     {
       "name": "an executed request cannot pay twice",
       "status": "passed",
-      "durationMs": 145
+      "durationMs": 131
     },
     {
       "name": "executed requests reject further confirmations and revocations",
       "status": "passed",
-      "durationMs": 147
+      "durationMs": 120
     },
     {
       "name": "a reverting receiver rolls back execution and can be paid after recovery",
       "status": "passed",
-      "durationMs": 184
+      "durationMs": 150
     },
     {
       "name": "an owner-recipient cannot reenter the same request",
       "status": "passed",
-      "durationMs": 318
+      "durationMs": 218
     },
     {
       "name": "an owner-recipient cannot reenter a different approved request",
       "status": "passed",
-      "durationMs": 274
+      "durationMs": 285
     },
     {
       "name": "approval count matches the set of owners across revoke and reconfirm sequences",
       "status": "passed",
-      "durationMs": 326
+      "durationMs": 292
     },
     {
       "name": "competing approved requests cannot spend more than the current treasury balance",
       "status": "passed",
-      "durationMs": 173
+      "durationMs": 186
     },
     {
       "name": "canonical lifecycle records actual gas used by mined transactions",
       "status": "passed",
-      "durationMs": 136
+      "durationMs": 149
     }
   ],
   "limitations": [

@@ -1,10 +1,10 @@
 {
-  "builtAt": "2026-11-23T02:02:41.485Z",
+  "builtAt": "2026-11-25T13:23:54.099Z",
   "files": [
     {
       "path": "app.js",
-      "bytes": 38291,
-      "sha256": "86328108ef9e8055721b20f1ac53a095840f3ad66597ab5455f0835ff70aa92e"
+      "bytes": 44127,
+      "sha256": "42fe06c8e9c3cab8e53544004ac1969190406ba50da27c565916309a62627f11"
     },
     {
       "path": "artifacts/CommunityTreasury.json",
@@ -27,9 +27,19 @@
       "sha256": "4240836946c2ccceca0d238c0e10b693265f01fd4e251ab9a9d33d0d1f5dc770"
     },
     {
+      "path": "deploy-sepolia.html",
+      "bytes": 2785,
+      "sha256": "282c7df2ee5eac2ed597ffe58e548f5a25c083f0deac0652310d42b2daf862c3"
+    },
+    {
+      "path": "deploy-sepolia.js",
+      "bytes": 8859,
+      "sha256": "d0cef1e52c531b39be80eb7338c02f963ebac3b83ec276cf95296dcd23cdc0c4"
+    },
+    {
       "path": "index.html",
-      "bytes": 9789,
-      "sha256": "d3d1b294132ff75f47feca8a500c7061bb32fa059107c31842f61f1eef224631"
+      "bytes": 9854,
+      "sha256": "44973afd4ab382b4ab7aa7311af56736cdfedb3f70f88c46a82282c2be619448"
     },
     {
       "path": "networks.json",
@@ -38,8 +48,8 @@
     },
     {
       "path": "styles.css",
-      "bytes": 22917,
-      "sha256": "23de200bae24e2eaed6af2af8cd07e746db30eabfe67e4a873cf7d45c61c3d2e"
+      "bytes": 23370,
+      "sha256": "5c7f5d9c89b4880fccbf5bbcc4e611319a46a0a2b5ae6c9e8ca5b75d24b69442"
     },
     {
       "path": "vendor/ethers.LICENSE.md",

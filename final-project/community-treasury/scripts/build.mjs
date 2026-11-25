@@ -17,6 +17,8 @@ for(const [src,dest] of [
  ['node_modules/ganache/dist/web/ganache.min.js.LICENSE.txt','vendor/ganache.LICENSE.txt'],
  ['node_modules/ganache/LICENSE','vendor/ganache-project.LICENSE.txt'],
  ['node_modules/ethers/LICENSE.md','vendor/ethers.LICENSE.md'],
+ ['deploy/deploy-sepolia.html','deploy-sepolia.html'],
+ ['deploy/deploy-sepolia.js','deploy-sepolia.js'],
  ['artifacts/CommunityTreasury.json','artifacts/CommunityTreasury.json']
 ]) fs.copyFileSync(path.join(root,src),path.join(dist,dest));
 function inventory(dir,prefix=''){

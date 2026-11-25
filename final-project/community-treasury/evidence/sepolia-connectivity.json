@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-25T13:24:12.771697+00:00",
+  "network": "Ethereum Sepolia",
+  "rpcOrigin": "https://ethereum-sepolia-rpc.publicnode.com",
+  "chainId": "11155111",
+  "observedBlock": 12209807,
+  "requests": [
+    "eth_chainId",
+    "eth_blockNumber"
+  ],
+  "transactionSent": false,
+  "scope": "Read-only network connectivity"
+}

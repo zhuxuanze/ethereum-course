@@ -11,6 +11,7 @@ const state = {
 };
 const names = ['Manager A', 'Manager B', 'Manager C'];
 const explorers = { '1': 'https://etherscan.io', '11155111': 'https://sepolia.etherscan.io' };
+const eventTitles = { Deposit: 'Funds deposited', SubmitTransaction: 'Payment requested', ConfirmTransaction: 'Approval added', RevokeConfirmation: 'Approval revoked', ExecuteTransaction: 'Payment executed' };
 let networkNames = {};
 const eq = (a, b) => String(a).toLowerCase() === String(b).toLowerCase();
 const short = (value) => value ? `${value.slice(0, 6)}…${value.slice(-4)}` : '—';
@@ -382,6 +383,7 @@ function actionButton(label, action, id, available, title) {
 
 function renderRequests() {
   const list = $('requests');
+  const openHistory = list.querySelector('.payment-history[open]')?.closest('.request-card')?.dataset.requestId;
   const shown = state.requests.filter((request) => state.filter === 'all' || (state.filter === 'executed' ? request.executed : !request.executed));
   list.replaceChildren();
   if (!shown.length) {
@@ -459,8 +461,127 @@ function renderRequests() {
       });
       card.append(verify);
     }
+    card.append(paymentHistory(request.id, openHistory === String(request.id)));
     list.append(card);
   }
+}
+
+// Read the indexed request number directly. Global recent activity has a separate display limit.
+async function historyWindow(provider, address, id, end, maxBlocks) {
+  let width = Math.min(maxBlocks, end + 1);
+  while (true) {
+    const from = end - width + 1;
+    try {
+      const logs = await provider.getLogs({
+        address, fromBlock: from, toBlock: end,
+        topics: [null, null, ethers.toBeHex(id, 32)]
+      });
+      return { logs, from, width };
+    } catch (error) {
+      const reason = [error.shortMessage, error.message, error.info?.error?.message].join(' ');
+      if (width === 1 || !/block range|range .*limit|limited to|too (?:many|large)|exceed|query returned more|response size/i.test(reason)) throw error;
+      width = Math.max(1, Math.floor(width / 2));
+    }
+  }
+}
+
+function paymentHistory(id, open) {
+  const details = make('details', 'request-details payment-history');
+  details.name = 'payment-history';
+  details.open = open;
+  details.append(make('summary', '', `Payment history · Request #${id}`));
+  const status = make('p', 'small-note');
+  status.setAttribute('role', 'status');
+  const list = make('ol', 'history-entries');
+  list.setAttribute('aria-label', `Confirmed events for request #${id}, newest first`);
+  const more = make('button', 'button quiet small', 'Load earlier blocks');
+  more.type = 'button';
+  more.hidden = true;
+  details.append(status, list, more);
+  const { provider, contract, owners, address, mode, chainId, epoch } = state;
+  const explorer = mode === 'wallet' && explorers[String(chainId)];
+  let anchor, nextBlock, loading = false, pending = [], sawSubmission = false, width = 1000;
+  function current() { return details.isConnected && state.epoch === epoch; }
+
+  async function load() {
+    if (loading || !current()) return;
+    loading = true;
+    more.disabled = true;
+    status.textContent = 'Reading confirmed contract events…';
+    try {
+      if (!anchor) {
+        anchor = await provider.getBlock('latest');
+        nextBlock = anchor.number;
+      }
+      if (!pending.length && nextBlock >= 0 && !sawSubmission) {
+        const page = await historyWindow(provider, address, id, nextBlock, width);
+        const canonical = await provider.getBlock(anchor.number);
+        if (!current()) return;
+        if (!canonical || canonical.hash !== anchor.hash) {
+          list.replaceChildren();
+          anchor = null;
+          throw new Error('The chain changed. Reload this payment history.');
+        }
+        const ordered = [...page.logs].sort((a, b) => b.blockNumber - a.blockNumber || b.index - a.index);
+        pending = ordered.map(log => ({ log, event: contract.interface.parseLog(log) }));
+        sawSubmission = pending.some(({ event }) => event?.name === 'SubmitTransaction');
+        nextBlock = page.from - 1;
+        width = page.width;
+      }
+      const batch = pending.slice(0, 20);
+      const blockHashes = [...new Set(batch.map(({ log }) => log.blockHash))];
+      const blocks = new Map(await Promise.all(blockHashes.map(async hash =>
+        [hash, await provider.getBlock(hash).catch(() => null)])));
+      if (!current()) return;
+      for (const { log, event } of batch) {
+        if (!event) continue;
+        const actor = event.args.owner;
+        const manager = names[owners.findIndex(owner => eq(owner, actor))];
+        const entry = make('li', 'history-entry');
+        entry.append(make('strong', '', eventTitles[event.name]), make('span', 'history-actor', `${manager || 'Manager'} · ${actor}`));
+        const block = blocks.get(log.blockHash);
+        const when = make('span', 'history-block', `Block ${log.blockNumber}`);
+        if (block) {
+          const timestamp = new Date(block.timestamp * 1000);
+          const time = make('time', '', timestamp.toISOString().replace('T', ' ').slice(0, 19) + ' UTC');
+          time.dateTime = timestamp.toISOString();
+          when.append(' · ', time);
+        }
+        const hash = make(explorer ? 'a' : 'code', 'history-hash', log.transactionHash);
+        if (explorer) {
+          hash.href = `${explorer}/tx/${log.transactionHash}`;
+          hash.target = '_blank';
+          hash.rel = 'noopener noreferrer';
+        }
+        entry.append(when, hash);
+        list.append(entry);
+      }
+      pending = pending.slice(batch.length);
+      const complete = (sawSubmission || nextBlock < 0) && !pending.length;
+      const count = `${list.childElementCount} event${list.childElementCount === 1 ? '' : 's'}`;
+      if (complete && !sawSubmission) {
+        status.textContent = `${count} returned through block ${anchor.number}. The provider did not return this request’s submission.`;
+      } else {
+        status.textContent = complete
+          ? `All ${count} through block ${anchor.number} · newest first`
+          : `${count} shown · checked blocks ${nextBlock + 1}–${anchor.number} · newest first`;
+      }
+      more.textContent = pending.length ? 'Show earlier events' : 'Load earlier blocks';
+      more.hidden = complete;
+    } catch (error) {
+      if (!current()) return;
+      status.textContent = anchor ? 'The provider could not load this range. Earlier results are still displayed.' :
+        (list.childElementCount ? 'The provider could not load payment history.' : 'Could not verify payment history. Reload to try again.');
+      more.hidden = false;
+      more.textContent = 'Retry payment history';
+    } finally {
+      loading = false;
+      more.disabled = false;
+    }
+  }
+  details.addEventListener('toggle', () => { if (details.open && !anchor) load(); });
+  more.addEventListener('click', load);
+  return details;
 }
 
 async function refreshActivity(epoch) {
@@ -471,7 +592,6 @@ async function refreshActivity(epoch) {
     if (epoch !== state.epoch) return;
     $('activity-list').replaceChildren();
     if (!events.length) $('activity-list').append(make('p', 'muted', 'No contract events found in this range.'));
-    const titles = { Deposit: 'Funds deposited', SubmitTransaction: 'Payment requested', ConfirmTransaction: 'Approval added', RevokeConfirmation: 'Approval revoked', ExecuteTransaction: 'Payment executed' };
     for (const log of events.slice(-20).reverse()) {
       const event = log.fragment ? log : state.contract.interface.parseLog(log);
       if (!event) continue;
@@ -483,7 +603,7 @@ async function refreshActivity(epoch) {
       const detail = name === 'Deposit' ? `${label} · ${eth(args.amount)} ${state.mode === 'sandbox' ? 'demo ETH' : 'ETH'}` : `${label} · Request #${args.txIndex}`;
       const item = make('div', 'activity-item');
       const content = make('div', 'activity-main');
-      content.append(make('div', 'activity-name', titles[name] || name), make('div', 'activity-detail', detail));
+      content.append(make('div', 'activity-name', eventTitles[name] || name), make('div', 'activity-detail', detail));
       item.append(make('span', 'activity-icon', name === 'Deposit' ? '+' : name === 'ExecuteTransaction' ? '↗' : '✓'), content, make('span', 'activity-block', `Block ${log.blockNumber}`));
       item.title = `Transaction ${log.transactionHash}`;
       $('activity-list').append(item);

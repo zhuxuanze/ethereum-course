@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-11-25T13:24:52.138Z",
+  "environment": "Offline Ganache with injected test provider; headless Chromium",
+  "publicBlockchain": false,
+  "classroomWalletExtension": false,
+  "status": "passed",
+  "checks": [
+    "Wrong wallet network blocks preview and signing.",
+    "Duplicate managers block deployment.",
+    "Preview only reads chain state. A changed funding account invalidates signing.",
+    "Single wallet submission produces a verified runtime, three expected managers and threshold two.",
+    "Reload resumes verification of the existing hash without a second submission.",
+    "Read-only payment verification reconstructs deposit, proposal, approval, revocation, two approvals and execution.",
+    "A different receipt supplied as the execution hash is rejected.",
+    "Native ETH balances verified for a separate recipient and for a recipient who pays the execution gas."
+  ]
+}

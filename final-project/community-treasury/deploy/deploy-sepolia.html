@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Deploy on Sepolia · Community Treasury</title>
+  <style>
+    * { box-sizing: border-box }
+    body { margin: 0; color: #172a30; background: #f2f5f1; font: 16px/1.55 system-ui,sans-serif }
+    main { max-width: 48rem; margin: 2.5rem auto; padding: 0 1.25rem }
+    section { margin: 1rem 0; padding: 1.4rem; background: white; border: 1px solid #d2dcd5; border-radius: .75rem }
+    h1,h2 { line-height: 1.2 } h2 { font-size: 1.2rem; margin-top: 0 }
+    label { display: block; margin: .7rem 0 } input { display: block; width: 100%; padding: .6rem; font: inherit }
+    button { margin: .4rem .5rem .2rem 0; padding: .55rem .85rem; border: 1px solid #19614c; background: #165743; color: white; border-radius: .35rem; font: inherit; cursor: pointer }
+    button:disabled { color: #4b5a56; background: #e2e8e5; border-color: #b5c3bd; cursor: default }
+    a { color: #14583f } [hidden] { display: none } pre,output { white-space: pre-wrap; overflow-wrap: anywhere }
+    pre { padding: 1rem; background: #f1f4f1; font: .9rem/1.55 ui-monospace,monospace }
+  </style>
+  <script defer src="./vendor/ethers.umd.min.js"></script>
+  <script defer src="./deploy-sepolia.js"></script>
+</head>
+<body><main>
+  <a href="./index.html">Return to treasury</a>
+  <h1>Deploy a treasury on Sepolia</h1>
+  <p>This contract holds test ETH. Three manager addresses are fixed at deployment. Two different managers must approve each payment, then a manager executes it.</p>
+  <section aria-labelledby="owners"><h2 id="owners">Choose three managers</h2>
+    <form id="form">
+      <label>Manager 1<input name="owner" required placeholder="0x…" spellcheck="false" autocomplete="off"></label>
+      <label>Manager 2<input name="owner" required placeholder="0x…" spellcheck="false" autocomplete="off"></label>
+      <label>Manager 3<input name="owner" required placeholder="0x…" spellcheck="false" autocomplete="off"></label>
+      <button id="review">Connect wallet and preview deployment</button>
+    </form>
+  </section>
+  <section aria-labelledby="review-title"><h2 id="review-title">Review and sign</h2>
+    <pre id="quote" hidden></pre>
+    <button id="send" disabled>Sign deployment in wallet</button>
+    <p><output id="status" aria-live="polite">Select Sepolia in your wallet and enter three public addresses.</output></p>
+    <p id="receipt" hidden><a id="explorer" target="_blank" rel="noopener noreferrer"></a></p>
+    <button id="verify" hidden>Check deployment receipt</button>
+    <pre id="result" hidden></pre>
+    <a id="proof" download="sepolia-treasury-deployment.json" hidden>Save verified deployment record</a>
+  </section>
+</main></body></html>

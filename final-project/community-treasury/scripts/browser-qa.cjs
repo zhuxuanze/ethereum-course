@@ -17,7 +17,7 @@ const output=path.join(root,'evidence/browser');fs.mkdirSync(output,{recursive:t
  const page=await browser.newPage({viewport:{width:1440,height:1000},deviceScaleFactor:1});
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  const checks=[];const receipts=[];let outcome='failed';
- let payment;
+ let payment, paymentHistory;
  async function idle(){await page.waitForFunction(()=>!state.busy,{},{timeout:90000});}
  async function click(selector){await page.locator(selector).click();await idle();}
  async function role(value){await page.locator('#demo-role').selectOption(String(value));await idle();}
@@ -89,6 +89,50 @@ const output=path.join(root,'evidence/browser');fs.mkdirSync(output,{recursive:t
   await page.locator('#purpose').fill('Small exact-amount payment');await click('#submit-request');
   assert.match(await page.locator('.request-card[data-request-id="1"] .request-amount').innerText(),/0\.0000009/);
   await checkpoint('Sub-microether payment amount displayed without truncation');
+  // Exercise provider pagination and retry against actual local logs. Only the RPC range
+  // limit and one temporary read failure are simulated.
+  const history = page.locator('.request-card[data-request-id="0"] .payment-history');
+  await page.evaluate(() => {
+    const provider = state.provider;
+    const original = provider.getLogs;
+    let failOnce = true;
+    provider.getLogs = function(filter) {
+      if (filter.topics?.[2]) {
+        if (failOnce) { failOnce = false; throw new Error('Temporary RPC failure'); }
+        if (filter.toBlock - filter.fromBlock + 1 > 3) throw new Error('Block range exceeds provider limit');
+      }
+      return original.call(this, filter);
+    };
+    window.restoreHistoryReads = () => { provider.getLogs = original; };
+  });
+  await history.locator('summary').click();
+  await history.getByRole('button', { name: 'Retry payment history' }).click();
+  for (let pages = 0; pages < 20; pages++) {
+    await history.locator('[role="status"]').filter({ hasText: /newest first/ }).waitFor();
+    const earlier = history.getByRole('button', { name: 'Load earlier blocks' });
+    if (!await earlier.isVisible()) break;
+    await earlier.click();
+  }
+  await history.locator('[role="status"]').filter({ hasText: 'All 6 events' }).waitFor();
+  paymentHistory = await history.locator('.history-entry').evaluateAll(rows => rows.map(row => ({
+    action: row.querySelector('strong').textContent,
+    actor: row.querySelector('.history-actor').textContent,
+    block: row.querySelector('.history-block').textContent,
+    utc: row.querySelector('time').dateTime,
+    transactionHash: row.querySelector('.history-hash').textContent
+  })));
+  assert.deepEqual(paymentHistory.map(item => item.action), ['Payment executed', 'Approval added', 'Approval revoked', 'Approval added', 'Approval added', 'Payment requested']);
+  assert.deepEqual(paymentHistory.map(item => item.actor.split(' · ')[0]), ['Manager C', 'Manager B', 'Manager B', 'Manager B', 'Manager A', 'Manager A']);
+  assert.equal(paymentHistory[0].transactionHash, payment.receipt.hash);
+  assert.equal(new Set(paymentHistory.map(row => row.transactionHash)).size, 6);
+  assert(paymentHistory.every(row => /^0x[0-9a-f]{64}$/i.test(row.transactionHash) && Number.isFinite(Date.parse(row.utc))));
+  assert.equal(await history.locator('a.history-hash').count(), 0);
+  await page.evaluate(() => { window.restoreHistoryReads(); delete window.restoreHistoryReads; });
+  await click('#refresh');
+  await history.locator('[role="status"]').filter({ hasText: 'All 6 events' }).waitFor();
+  await checkpoint('Request timeline filters actual logs by request, identifies managers and execution receipt, retries and pages older blocks');
+  await shot('06-payment-history.png');
+  await history.locator('summary').click();
   await page.evaluate(()=>{const r=state.requests.find(x=>x.id===1);localStorage.setItem(metadataKey(r.hash),'Tampered purpose');});
   await click('#refresh');
   assert.match(await page.locator('.request-card[data-request-id="1"]').innerText(),/altered and does not match/);
@@ -134,7 +178,7 @@ const output=path.join(root,'evidence/browser');fs.mkdirSync(output,{recursive:t
   checks.push({name:'Browser flow failure',passed:false,error:error.message,status:await page.locator('#status-text').innerText().catch(()=>''),pageErrors:errors});
   process.exitCode=1;
  }finally{
-  const result={recordedAt:new Date().toISOString(),status:outcome,environment:'Headless Chromium; actual compiled contract executed on browser-local Ganache EVM',publicNetwork:false,payment,checks,receipts,pageErrors:errors};
+  const result={recordedAt:new Date().toISOString(),status:outcome,environment:'Headless Chromium; actual compiled contract executed on browser-local Ganache EVM',publicNetwork:false,payment,paymentHistory,checks,receipts,pageErrors:errors};
   fs.writeFileSync(path.join(root,'evidence/browser-test-results.json'),JSON.stringify(result,null,2)+'\n');
   console.log(JSON.stringify({status:outcome,checks:checks.length,passed:checks.filter(x=>x.passed).length,failures:checks.filter(x=>!x.passed)},null,2));
   await browser.close();
