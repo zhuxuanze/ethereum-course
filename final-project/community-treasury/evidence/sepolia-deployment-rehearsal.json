@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-25T13:41:41.074Z",
+  "checkedAt": "2026-11-25T13:57:07.646Z",
   "environment": "Offline Ganache with injected test provider; headless Chromium",
   "publicBlockchain": false,
   "classroomWalletExtension": false,
@@ -17,6 +17,7 @@
     "All connection, chain switching, signing and receipt requests use the selected MetaMask instance.",
     "Single wallet submission produces a verified runtime, three expected managers and threshold two.",
     "Reload resumes verification of the existing hash without a second submission.",
+    "Wallet-routed receipt fixture requires authentic treasury logs and distinguishes the logical executor from the outer fee payer.",
     "Read-only payment verification reconstructs deposit, proposal, approval, revocation, two approvals and execution.",
     "A different receipt supplied as the execution hash is rejected.",
     "Native ETH balances verified for a separate recipient and for a recipient who pays the execution gas."

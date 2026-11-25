@@ -10,16 +10,16 @@ const artifact = JSON.parse(await fs.readFile(path.join(root, 'artifacts/Communi
 async function receiptFor(provider, address, hash) {
   if (!isHexString(hash, 32)) throw new Error('Supply a 32-byte transaction hash for each step.');
   const receipt = await provider.getTransactionReceipt(hash);
-  if (!receipt || receipt.status !== 1 || receipt.to !== address) throw new Error('Missing successful direct treasury receipt.');
+  if (!receipt || receipt.status !== 1 || receipt.hash.toLowerCase() !== hash.toLowerCase() ||
+      !receipt.logs.some(log => log.address === address)) throw new Error('Missing successful receipt containing treasury events.');
   return receipt;
 }
 
 function matchingEvent(contract, receipt, name) {
-  for (const log of receipt.logs.filter(log => log.address === receipt.to)) {
-    const event = contract.interface.parseLog(log);
-    if (event?.name === name) return { event, position: log.index };
-  }
-  throw new Error('Missing treasury event: ' + name);
+  const events = receipt.logs.filter(log => log.address === contract.target)
+    .map(log => contract.interface.parseLog(log)).filter(event => event?.name === name);
+  if (events.length !== 1) throw new Error('Missing treasury event or ambiguous receipt: ' + name);
+  return { event: events[0] };
 }
 
 /** Read-only reconstruction of one payment and its funding example. */
@@ -88,7 +88,7 @@ export async function verifyPayment(provider, { chainId, address, owners, deposi
     runtimeKeccak256: keccak256(code), owners: actualOwners, threshold: Number(threshold), requestId: String(requestId),
     deposit: { from: funding.args.sender, amountWei: String(funding.args.amount), transactionHash: deposit.hash, blockHash: deposit.blockHash },
     payment: { asset: 'native ETH', recipient: request.to, amountWei: String(request.value), purposeHash: request.descriptionHash,
-      executed: true, executor: execute.from, executionReceiptHash: execute.hash, executionFeeWei: String(execute.fee) },
+      executed: true, executor: paid.args.owner, executionFeePayer: execute.from, executionReceiptHash: execute.hash, executionFeeWei: String(execute.fee) },
     balances: { beforeBlock: execute.blockNumber - 1, executionBlock: execute.blockNumber, executionBlockHash: execute.blockHash,
       executionBlockTransactionCount: executionBlock.transactions.length, treasuryBeforeWei: String(balanceBefore),
       treasuryAfterWei: String(balanceAfter), treasuryDeltaWei: String(balanceAfter - balanceBefore),

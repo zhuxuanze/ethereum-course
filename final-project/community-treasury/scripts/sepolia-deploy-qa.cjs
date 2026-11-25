@@ -193,6 +193,27 @@ async function main() {
     assert.equal(proof.balances.recipientDeltaWei, String(ethers.parseEther('0.25')));
     assert.equal(proof.balances.recipientPaidExecutionFee, false);
     await assert.rejects(verifyPayment(rpc, { ...inputs, executeHash: deposit.hash }), /Missing treasury event/);
+    // Exercise an outer wallet envelope independently of the contract's business actor.
+    // Keep the fixture's actual treasury logs and storage, and model a distinct outer fee payer.
+    const asRouted = (removeTreasuryLogs = false) => new Proxy(rpc, {
+      get(original, key) {
+        if (key !== 'getTransactionReceipt') {
+          const value = Reflect.get(original, key, original);
+          return typeof value === 'function' ? value.bind(original) : value;
+        }
+        return async hash => {
+          const receipt = await original.getTransactionReceipt(hash);
+          return {hash:receipt.hash, status:receipt.status, to:ethers.getAddress(accounts[3]), from:ethers.getAddress(accounts[3]),
+            blockNumber:receipt.blockNumber, blockHash:receipt.blockHash, index:receipt.index, fee:receipt.fee,
+            logs:removeTreasuryLogs ? [] : receipt.logs};
+        };
+      }
+    });
+    const routed = await verifyPayment(asRouted(), inputs);
+    assert.equal(routed.payment.executor, ethers.getAddress(accounts[2]));
+    assert.equal(routed.payment.executionFeePayer, ethers.getAddress(accounts[3]));
+    await assert.rejects(verifyPayment(asRouted(true), inputs), /containing treasury events/);
+    checks.push('Wallet-routed receipt fixture requires authentic treasury logs and distinguishes the logical executor from the outer fee payer.');
     const selfPaidSubmit = await (await treasury.submitTransaction(accounts[2], ethers.parseEther('0.25'), ethers.id('review'))).wait();
     await (await treasury.confirmTransaction(1)).wait();
     await (await treasury.connect(b).confirmTransaction(1)).wait();
