@@ -6,7 +6,10 @@ const storageKey = 'community-treasury-sepolia-deployment';
 const inputs = [...document.querySelectorAll('input[name=owner]')];
 let plan = null;
 let submitted = null;
-let busy = false;
+let busyAction = null;
+let walletRevision = 0;
+let selectedWallet = null;
+let detachWallet = () => {};
 let recordUrl;
 
 function ownersFrom(values) {
@@ -33,12 +36,18 @@ function showSubmitted() {
   $('verify').hidden = false;
 }
 
-async function walletProvider() {
-  if (!window.ethereum) throw new Error('Open this page in a browser with an Ethereum wallet.');
-  if (BigInt(await window.ethereum.request({ method: 'eth_chainId' })) !== chainId) {
+function ensureCurrent(wallet, revision) {
+  if (selectedWallet !== wallet || revision !== walletRevision) throw new Error('Wallet selection changed. Refresh the preview.');
+}
+
+async function walletProvider(wallet, revision) {
+  ensureCurrent(wallet, revision);
+  if (!wallet) throw new Error('Open this page in a browser with an Ethereum wallet.');
+  if (BigInt(await wallet.request({ method: 'eth_chainId' })) !== chainId) {
     throw new Error('Switch the wallet to Sepolia (chain ID 11155111), then retry.');
   }
-  return new ethers.BrowserProvider(window.ethereum, undefined, { cacheTimeout: -1 });
+  ensureCurrent(wallet, revision);
+  return new ethers.BrowserProvider(wallet, undefined, { cacheTimeout: -1 });
 }
 
 async function loadArtifact() {
@@ -47,31 +56,57 @@ async function loadArtifact() {
   return response.json();
 }
 
+function updateActions() {
+  inputs.forEach(field => { field.disabled = Boolean(busyAction || submitted); });
+  $('review').disabled = Boolean(busyAction || submitted);
+  $('send').disabled = Boolean(busyAction || submitted || !plan);
+  $('verify').disabled = Boolean(busyAction);
+}
+
 async function run(action) {
-  if (busy) return;
-  busy = true;
-  $('send').disabled = $('review').disabled = $('verify').disabled = true;
-  inputs.forEach(field => { field.disabled = true; });
+  if (busyAction) return;
+  const wallet = picker.getProvider();
+  const revision = walletRevision;
+  const operation = { action };
+  busyAction = operation;
+  updateActions();
   try {
-    await action();
+    await action(wallet, revision);
   } catch (error) {
-    $('status').textContent = error.code === 4001 || error.code === 'ACTION_REJECTED'
+    if (revision === walletRevision) $('status').textContent = error.code === 4001 || error.code === 'ACTION_REJECTED'
       ? 'The wallet request was declined.' : error.shortMessage || error.message || 'The wallet request did not complete.';
   } finally {
-    busy = false;
-    inputs.forEach(field => { field.disabled = Boolean(submitted); });
-    $('review').disabled = Boolean(submitted);
-    $('send').disabled = !plan || Boolean(submitted);
-    $('verify').disabled = false;
+    if (busyAction === operation) {
+      busyAction = null;
+      updateActions();
+    }
   }
 }
 
-async function review() {
+async function review(wallet, revision) {
   invalidate();
   const owners = ownersFrom(inputs.map(input => input.value));
-  const provider = await walletProvider();
-  const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-  if (!accounts.length) throw new Error('Select a funding account in your wallet.');
+  if (!wallet) throw new Error('Open this page in a browser with an Ethereum wallet.');
+  $('status').textContent = 'Connect the funding account to this site in your wallet.';
+  const authorized = await wallet.request({ method: 'eth_requestAccounts' });
+  ensureCurrent(wallet, revision);
+  if (!authorized.length) throw new Error('Select a funding account in your wallet.');
+  if (BigInt(await wallet.request({ method: 'eth_chainId' })) !== chainId) {
+    ensureCurrent(wallet, revision);
+    $('status').textContent = 'Confirm the switch to Sepolia in your wallet to preview deployment.';
+    try {
+      await wallet.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: ethers.toQuantity(chainId) }] });
+    } catch (error) {
+      if (error.code === 4001 || error.code === 'ACTION_REJECTED') throw new Error('Sepolia network switch declined. Click preview to try again.');
+      if (error.code === 4902) throw new Error('Enable the Sepolia test network in your wallet, then retry the preview.');
+      throw error;
+    }
+  }
+  const provider = await walletProvider(wallet, revision);
+  const accounts = await wallet.request({ method: 'eth_accounts' });
+  if (!accounts[0] || ethers.getAddress(accounts[0]) !== ethers.getAddress(authorized[0])) {
+    throw new Error('The wallet account changed. Refresh the preview.');
+  }
   const from = ethers.getAddress(accounts[0]);
   const artifact = await loadArtifact();
   const factory = new ethers.ContractFactory(artifact.abi, artifact.bytecode);
@@ -79,6 +114,7 @@ async function review() {
   const [gas, fees, balance] = await Promise.all([
     provider.estimateGas({ from, data }), provider.getFeeData(), provider.getBalance(from)
   ]);
+  ensureCurrent(wallet, revision);
   const cap = fees.maxFeePerGas ?? fees.gasPrice;
   if (cap == null) throw new Error('The connected node did not return a gas estimate.');
   const feeFields = fees.maxFeePerGas != null && fees.maxPriorityFeePerGas != null
@@ -90,33 +126,36 @@ async function review() {
     'Estimated maximum fee: ' + ethers.formatEther(gas * cap) + ' test ETH'].join('\n');
   $('quote').hidden = false;
   if (balance < gas * cap) throw new Error('Fund the deployment wallet with enough Sepolia test ETH, then refresh the preview.');
-  plan = { from, owners, createdAt: Date.now(), transaction: { chainId: ethers.toQuantity(chainId),
+  plan = { wallet, revision, from, owners, createdAt: Date.now(), transaction: { chainId: ethers.toQuantity(chainId),
     from, data, value: '0x0', gas: ethers.toQuantity(gas), ...feeFields } };
   $('status').textContent = 'Review the permanent manager addresses and estimated fee before signing.';
 }
 
-async function send() {
+async function send(wallet, revision) {
   const preview = plan;
   invalidate();
   if (!preview || Date.now() - preview.createdAt > 120000) throw new Error('Refresh the fee preview before signing.');
-  await walletProvider();
-  const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+  ensureCurrent(preview.wallet, preview.revision);
+  await walletProvider(wallet, revision);
+  const accounts = await wallet.request({ method: 'eth_accounts' });
+  ensureCurrent(wallet, revision);
   if (!accounts[0] || ethers.getAddress(accounts[0]) !== preview.from) throw new Error('The wallet account changed. Refresh the preview.');
   $('status').textContent = 'Review the contract creation in your wallet.';
-  const hash = await window.ethereum.request({ method: 'eth_sendTransaction', params: [preview.transaction] });
+  const hash = await wallet.request({ method: 'eth_sendTransaction', params: [preview.transaction] });
   if (!ethers.isHexString(hash, 32)) throw new Error('The wallet returned an invalid transaction hash. Check the wallet activity before retrying.');
   submitted = { from: preview.from, owners: preview.owners, hash };
   try { sessionStorage.setItem(storageKey, JSON.stringify(submitted)); } catch { /* Wallet activity also retains the hash. */ }
   showSubmitted();
   $('status').textContent = 'Transaction submitted. Check the receipt after it is mined.';
-  await verifyReceipt();
+  if (revision === walletRevision) await verifyReceipt(wallet, revision);
 }
 
-async function verifyReceipt() {
-  const provider = await walletProvider();
+async function verifyReceipt(wallet, revision) {
+  const provider = await walletProvider(wallet, revision);
   const [receipt, tx, artifact] = await Promise.all([
     provider.getTransactionReceipt(submitted.hash), provider.getTransaction(submitted.hash), loadArtifact()
   ]);
+  ensureCurrent(wallet, revision);
   if (!receipt) { $('status').textContent = 'The transaction is waiting for a block. Check the receipt again after confirmation.'; return; }
   if (receipt.status === 0) {
     try { sessionStorage.removeItem(storageKey); } catch {}
@@ -133,6 +172,7 @@ async function verifyReceipt() {
   const [code, threshold, ...owners] = await Promise.all([
     provider.getCode(address), contract.REQUIRED_CONFIRMATIONS(), ...[0, 1, 2].map(i => contract.owners(i))
   ]);
+  ensureCurrent(wallet, revision);
   if (code.toLowerCase() !== artifact.deployedBytecode.toLowerCase() || threshold !== 2n ||
       owners.some((owner, i) => owner !== submitted.owners[i])) throw new Error('Contract bytecode or manager verification failed.');
   const record = { verifiedAt: new Date().toISOString(), chainId: String(chainId), address, deployer: tx.from,
@@ -152,12 +192,23 @@ $('form').addEventListener('submit', event => { event.preventDefault(); run(revi
 $('send').addEventListener('click', () => run(send));
 $('verify').addEventListener('click', () => run(verifyReceipt));
 inputs.forEach(input => input.addEventListener('input', invalidate));
-for (const event of ['accountsChanged', 'chainChanged']) {
-  window.ethereum?.on?.(event, () => {
+const picker = window.TreasuryWallets.bind($('wallet-choice'), wallet => {
+  detachWallet();
+  walletRevision++;
+  selectedWallet = wallet;
+  invalidate();
+  $('result').hidden = $('proof').hidden = true;
+  if (busyAction?.action !== send) busyAction = null;
+  updateActions();
+  $('status').textContent = submitted ? 'Check the submitted transaction with the selected wallet.' : 'Select Sepolia and preview deployment with this wallet.';
+  const handleChange = () => {
+    if (wallet !== selectedWallet) return;
     invalidate();
-    if (!submitted) $('status').textContent = 'Wallet settings changed. Refresh the preview.';
-  });
-}
+    if (!busyAction && !submitted) $('status').textContent = 'Wallet settings changed. Refresh the preview.';
+  };
+  for (const event of ['accountsChanged', 'chainChanged']) wallet?.on?.(event, handleChange);
+  detachWallet = () => { for (const event of ['accountsChanged', 'chainChanged']) wallet?.removeListener?.(event, handleChange); };
+});
 try {
   const saved = JSON.parse(sessionStorage.getItem(storageKey));
   if (saved && ethers.isHexString(saved.hash, 32)) {

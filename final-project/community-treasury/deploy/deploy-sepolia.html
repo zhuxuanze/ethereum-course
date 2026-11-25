@@ -10,14 +10,15 @@
     main { max-width: 48rem; margin: 2.5rem auto; padding: 0 1.25rem }
     section { margin: 1rem 0; padding: 1.4rem; background: white; border: 1px solid #d2dcd5; border-radius: .75rem }
     h1,h2 { line-height: 1.2 } h2 { font-size: 1.2rem; margin-top: 0 }
-    label { display: block; margin: .7rem 0 } input { display: block; width: 100%; padding: .6rem; font: inherit }
+    label { display: block; margin: .7rem 0 } input,select { display: block; width: 100%; padding: .6rem; font: inherit }
     button { margin: .4rem .5rem .2rem 0; padding: .55rem .85rem; border: 1px solid #19614c; background: #165743; color: white; border-radius: .35rem; font: inherit; cursor: pointer }
     button:disabled { color: #4b5a56; background: #e2e8e5; border-color: #b5c3bd; cursor: default }
     a { color: #14583f } [hidden] { display: none } pre,output { white-space: pre-wrap; overflow-wrap: anywhere }
     pre { padding: 1rem; background: #f1f4f1; font: .9rem/1.55 ui-monospace,monospace }
   </style>
   <script defer src="./vendor/ethers.umd.min.js"></script>
-  <script defer src="./deploy-sepolia.js"></script>
+  <script defer src="./wallet-providers.js?v=1"></script>
+  <script defer src="./deploy-sepolia.js?v=3"></script>
 </head>
 <body><main>
   <a href="./index.html">Return to treasury</a>
@@ -25,6 +26,7 @@
   <p>This contract holds test ETH. Three manager addresses are fixed at deployment. Two different managers must approve each payment, then a manager executes it.</p>
   <section aria-labelledby="owners"><h2 id="owners">Choose three managers</h2>
     <form id="form">
+      <label>Funding wallet<select id="wallet-choice" aria-label="Funding wallet"></select></label>
       <label>Manager 1<input name="owner" required placeholder="0x…" spellcheck="false" autocomplete="off"></label>
       <label>Manager 2<input name="owner" required placeholder="0x…" spellcheck="false" autocomplete="off"></label>
       <label>Manager 3<input name="owner" required placeholder="0x…" spellcheck="false" autocomplete="off"></label>

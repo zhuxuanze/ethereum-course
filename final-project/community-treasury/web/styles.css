@@ -120,6 +120,10 @@ main, .topbar-inner { width: min(100% - clamp(2rem, 7vw, 7rem), 80rem); margin-i
 .connection-copy p { font-size: .91rem; color: var(--muted); max-width: 43rem; margin: .12rem 0 0; }
 .connection-actions { flex-shrink: 0; }
 .wallet-inputs { display: flex; gap: .5rem; align-items: center; min-width: 42%; }
+.wallet-choice { align-self: start; flex: 1; min-width: 0; }
+.wallet-contract { flex: 2; min-width: 0; }
+.wallet-choice label, .wallet-contract label { display: block; margin-bottom: .3rem; }
+@media (max-width: 46rem) { .wallet-choice, .wallet-contract { width: 100%; } }
 .wallet-inputs input { min-width: 0; flex: 1; }.wallet-inputs button { white-space: nowrap; }
 .session-row { display: flex; flex-wrap: wrap; align-items: center; gap: .65rem 1.2rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
 #role-switch-wrap { display: flex; align-items: center; gap: .5rem; }

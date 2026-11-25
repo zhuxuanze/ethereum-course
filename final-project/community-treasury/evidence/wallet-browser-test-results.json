@@ -1,80 +1,80 @@
 {
-  "startedAt": "2026-11-25T13:24:06.729Z",
-  "finishedAt": "2026-11-25T13:24:16.150Z",
+  "startedAt": "2026-11-25T13:43:00.558Z",
+  "finishedAt": "2026-11-25T13:43:13.068Z",
   "environment": {
     "kind": "LOCAL injected EIP-1193 wallet wrapper over an isolated browser Ganache EVM",
     "browser": "Headless Microsoft Edge via Playwright",
-    "url": "http://127.0.0.1:18876",
+    "url": "http://127.0.0.1:18878",
     "localChainIds": [
       1337,
       46901
     ],
-    "servedAppSha256": "42fe06c8e9c3cab8e53544004ac1969190406ba50da27c565916309a62627f11",
+    "servedAppSha256": "a039059b942b0b726a564adca0f22862b499be322300aad60aeb00a98e5fca90",
     "sourceContractSha256": "68f52ec3c1b91c0f371b6bdc7f403ea62a868fe0b0db02d99d381f15efe080f8"
   },
-  "total": 15,
-  "passed": 15,
+  "total": 18,
+  "passed": 18,
   "failed": 0,
   "tests": [
     {
       "name": "first wallet connection after sandbox use has blank payment and deposit fields",
       "status": "passed",
-      "durationMs": 71
+      "durationMs": 79
     },
     {
       "name": "rejects an ABI-compatible contract with different runtime bytecode",
       "status": "passed",
-      "durationMs": 65
+      "durationMs": 58
     },
     {
       "name": "rejects an unsupported EVM chain before enabling payments",
       "status": "passed",
-      "durationMs": 64
+      "durationMs": 67
     },
     {
       "name": "connects the exact contract on local chain 1337 and displays its three owners",
       "status": "passed",
-      "durationMs": 70
+      "durationMs": 69
     },
     {
       "name": "wallet-mode deposit produces a mined local transaction and exact displayed balance",
       "status": "passed",
-      "durationMs": 436
+      "durationMs": 417
     },
     {
       "name": "preflight rejects an unannounced account mismatch without broadcasting",
       "status": "passed",
-      "durationMs": 1189
+      "durationMs": 1195
     },
     {
       "name": "preflight rejects an unannounced network mismatch without broadcasting",
       "status": "passed",
-      "durationMs": 1196
+      "durationMs": 1246
     },
     {
       "name": "account-change event interrupts an open wallet request and unlocks the new account",
       "status": "passed",
-      "durationMs": 1371
+      "durationMs": 1401
     },
     {
       "name": "chain-change event resets the session and unlocks reconnection during an open request",
       "status": "passed",
-      "durationMs": 1362
+      "durationMs": 1381
     },
     {
       "name": "account disconnect clears payment controls without blocking reconnection",
       "status": "passed",
-      "durationMs": 281
+      "durationMs": 295
     },
     {
       "name": "exact raw purpose text including surrounding whitespace verifies against an external commitment",
       "status": "passed",
-      "durationMs": 617
+      "durationMs": 595
     },
     {
       "name": "altered local purpose metadata is rejected and never rendered as trusted content",
       "status": "passed",
-      "durationMs": 80
+      "durationMs": 66
     },
     {
       "name": "previous confirmed transaction hashes remain visible after session changes",
@@ -84,12 +84,27 @@
     {
       "name": "switching between two deployed treasuries clears the old wallet draft",
       "status": "passed",
-      "durationMs": 548
+      "durationMs": 552
     },
     {
       "name": "an isolated non-default chain connects only after its chain ID is configured",
       "status": "passed",
-      "durationMs": 252
+      "durationMs": 250
+    },
+    {
+      "name": "announced MetaMask can connect, preflight and sign a local deposit without touching a different global default wallet",
+      "status": "passed",
+      "durationMs": 817
+    },
+    {
+      "name": "wallet selection invalidates a pending send, clears its draft, and ignores events from the old provider",
+      "status": "passed",
+      "durationMs": 569
+    },
+    {
+      "name": "a delayed connection approval cannot restore the previously selected wallet",
+      "status": "passed",
+      "durationMs": 532
     }
   ],
   "pageErrors": [],

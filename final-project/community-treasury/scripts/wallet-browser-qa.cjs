@@ -99,8 +99,10 @@ async function installWallet(chainId) {
       removeListener(event, callback) { handlers.get(event)?.delete(callback); return wrapper; }
     };
     q.emit = (event, payload) => { for (const callback of [...(handlers.get(event) || [])]) callback(payload); };
+    q.provider = wrapper;
     window.__walletQA = q;
     Object.defineProperty(window, 'ethereum', { value: wrapper, configurable: true });
+    window.dispatchEvent(new Event('ethereum#initialized'));
     return { treasury: await treasury.getAddress(), fake: await fake.getAddress(), owners, recipient: ethers.getAddress(accounts[4]), chainId };
   }, { treasuryArtifact, fakeArtifact, chainId });
 }
@@ -318,6 +320,96 @@ async function installWallet(chainId) {
     } finally {
       await page.unroute(configRoute);
     }
+  });
+  await page.evaluate(() => window.__walletQA.raw.disconnect());
+  await page.reload({ waitUntil:'networkidle' });
+  fixture = await installWallet(1337);
+  await page.locator('#wallet-mode').click();
+  await page.evaluate(() => {
+    const q = window.__walletQA;
+    q.otherCalls = [];
+    const otherHandlers = new Map();
+    const other = {
+      request({method, params}) {
+        q.otherCalls.push(method);
+        if (method === 'eth_accounts' || method === 'eth_requestAccounts') return Promise.resolve([q.accounts[3]]);
+        if (method === 'eth_sendTransaction') throw new Error('Unexpected write through the secondary provider.');
+        return q.raw.request({method, params:params || []});
+      },
+      on(event, callback) { if (!otherHandlers.has(event)) otherHandlers.set(event,new Set()); otherHandlers.get(event).add(callback); },
+      removeListener(event, callback) { otherHandlers.get(event)?.delete(callback); }
+    };
+    q.emitOther = (event, payload) => { for (const callback of [...(otherHandlers.get(event) || [])]) callback(payload); };
+    Object.defineProperty(window, 'ethereum', {value:other, configurable:true});
+    for (const [name, uuid, rdns, provider] of [
+      ['Binance Wallet','b8291092-01c2-4718-b0fb-fd04d900d994','com.binance.wallet',other],
+      ['MetaMask','60e6b54c-1bd9-4fda-8cf3-212655c7ed99','io.metamask',q.provider]
+    ]) {
+      window.dispatchEvent(new CustomEvent('eip6963:announceProvider', {detail:{info:{name,uuid,rdns},provider}}));
+    }
+  });
+  await check('announced MetaMask can connect, preflight and sign a local deposit without touching a different global default wallet', async () => {
+    assert.equal(await page.locator('#wallet-provider option:checked').textContent(),'MetaMask');
+    assert.equal(await page.locator('#wallet-provider option').count(),2);
+    await page.setViewportSize({width:390,height:844});
+    assert.equal(await page.locator('#wallet-provider').isVisible(),true);
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),true);
+    await page.setViewportSize({width:1440,height:1100});
+    await connect();
+    await page.locator('#deposit-amount').fill('0.01');
+    await page.locator('#deposit-button').click(); await idle();
+    assert.equal(await page.locator('#balance').textContent(),'0.01');
+    assert.equal(await sendCount(),1);
+    assert.deepEqual(await page.evaluate(() => window.__walletQA.otherCalls),[]);
+  });
+  await check('wallet selection invalidates a pending send, clears its draft, and ignores events from the old provider', async () => {
+    await fillWalletDrafts();
+    await page.evaluate(() => { window.__walletQA.pauseSend = true; });
+    await page.locator('#deposit-button').click();
+    await page.waitForFunction(() => Boolean(window.__walletQA.pending));
+    await page.locator('#wallet-provider').selectOption({label:'Binance Wallet'});
+    await idle();
+    assert.equal(await page.locator('#deposit-button').isDisabled(),true);
+    assert.equal(await page.locator('#treasury-address').textContent(),'Not connected');
+    assert.equal(await page.locator('#contract-address').inputValue(),'');
+    assert.match(await page.locator('#status-text').textContent(),/wallet request may still be open/i);
+    await expectEmptyDrafts();
+    assert.deepEqual(await page.evaluate(() => window.__walletQA.otherCalls),[]);
+    await connect();
+    await page.evaluate(() => {
+      const q=window.__walletQA;
+      q.pending.reject(Object.assign(new Error('User canceled the previous wallet prompt'), {code:4001}));
+      q.pending = null; q.pauseSend = false;
+      q.emit('accountsChanged', []); q.emit('chainChanged','0x1'); q.emit('disconnect',{code:4900});
+    });
+    await idle();
+    assert.equal(await page.locator('#treasury-address').textContent(),fixture.treasury);
+    assert.equal(await page.locator('#current-role').textContent(),'Supporter · view & contribute');
+    assert.equal(await sendCount(),1);
+    await page.evaluate(() => window.__walletQA.emitOther('disconnect',{code:4900}));
+    assert.equal(await page.locator('#deposit-button').isDisabled(),true);
+    assert.match(await page.locator('#status-text').textContent(),/wallet disconnected/i);
+  });
+  await check('a delayed connection approval cannot restore the previously selected wallet', async () => {
+    await page.locator('#wallet-provider').selectOption({label:'MetaMask'});
+    await page.evaluate(() => {
+      const q=window.__walletQA;
+      const original=q.provider.request.bind(q.provider);
+      q.provider.request=async (req) => {
+        if (req.method==='eth_requestAccounts') await new Promise(resolve => { q.resumeConnection=resolve; });
+        return original(req);
+      };
+    });
+    await page.locator('#contract-address').fill(fixture.treasury);
+    await page.locator('#connect-wallet').click();
+    await page.waitForFunction(() => Boolean(window.__walletQA.resumeConnection));
+    await page.locator('#wallet-provider').selectOption({label:'Binance Wallet'});
+    await connect();
+    await page.evaluate(() => window.__walletQA.resumeConnection());
+    await idle();
+    assert.equal(await page.locator('#wallet-provider option:checked').textContent(),'Binance Wallet');
+    assert.equal(await page.locator('#current-role').textContent(),'Supporter · view & contribute');
+    assert.equal(await page.locator('#submit-request').isDisabled(),true);
   });
   assert.deepEqual(pageErrors, []);
 })().catch(error => {

@@ -9,7 +9,8 @@ The application runs the compiled Solidity contract on a real, temporary EVM ins
 - This repository publishes the application source, tests, and execution records. Course reports, presentation files, and speaker notes are maintained separately.
 - [Source branch](https://github.com/zhuxuanze/ethereum-course/tree/final-community-treasury/final-project/community-treasury)
 - [Public classroom demo](https://map-of-us-trial-d9fkeswkaf1e1376-1518430773.tcloudbaseapp.com/community-treasury/index.html). After the CloudBase access notice, open **Browser sandbox** and select **Launch sandbox**.
-- The public frontend runs the contract in a temporary browser EVM (chain ID 1337). The November 25 release uploaded 15 files. Nine browser checks on the public website covered the 0.25 demo ETH payment, its four per-request events, the Sepolia deployment page and mobile layout. The full record is in [the November 25 hosting and browser receipt](evidence/cloudbase-release-2026-11-25.json).
+- The public frontend runs the contract in a temporary browser EVM (chain ID 1337). The November 25 release uploaded 16 files. Eleven browser checks on the public website covered the 0.25 demo ETH payment, its four per-request events, both wallet selectors, the Sepolia deployment page and mobile layout. The browser verified all 16 public file hashes against the build. See [the hosting and browser receipt](evidence/cloudbase-release-2026-11-25.json).
+- On November 25 the team deployed the treasury on Ethereum Sepolia (chain ID 11155111) at `0xad162de88c8919187A88cA8eC8D7384f09948297`. The successful creation receipt is in block 12209921. Independent checks matched the creation data and deployed bytecode to the project build and verified all three expected managers and the two-approval threshold. The dashboard connected through MetaMask on localhost and read 0 ETH, zero open requests and zero payments. A complete payment on Sepolia is still pending. [Verified deployment record](evidence/sepolia-deployment-2026-11-25.json) · [Sepolia creation transaction](https://sepolia.etherscan.io/tx/0x599086f638e33b371dc05b74472118cbd5a818db8d98ee803d12834150ea442b)
 - The software archive includes a built `dist/` directory. The source branch includes the application, tests, build scripts, lockfile and run records.
 
 ## Proposal summary
@@ -65,6 +66,10 @@ Each payment card reads its own contract event logs by indexed request number. T
 
 ### Configure wallet networks
 
+The **Browser wallet** selector lists installed wallets that announce their provider (EIP-6963), with a fallback for a single injected browser wallet. Select the desired wallet before connecting. Changing the wallet extension clears the previous treasury connection and payment drafts. Enter the treasury address again to connect with the new wallet. All account checks, confirmations and signing requests use the selected provider.
+
+The CloudBase site hosts the classroom sandbox. During the live wallet check, MetaMask flagged the hosted domain and the connection was canceled. If your wallet displays a risk warning for that domain, cancel the request. To connect a wallet for Sepolia signing, build the verified source locally and run `npm start`, or launch the verified classroom bundle. Open the loopback URL printed by the launcher, select your wallet, and review the network, treasury address and transaction details in the wallet before signing.
+
 The browser reads `web/networks.json` (served as `networks.json`) on each wallet connection. Each entry maps a positive decimal chain ID string to a display name. The default IDs are 1, 11155111, 1337 and 31337. To support a course-approved cloud EVM, confirm its chain ID with the operator and the instructor, add the ID and name, then rebuild and deploy the frontend. The interface uses ETH amounts with 18 decimals; list only networks that use that denomination. Users select the matching network in their wallet and enter the contract address deployed on that chain. The app checks the runtime bytecode, owners and threshold on the selected network. Configuring an ID does not deploy the contract. For configured chains without a built-in explorer link the receipt displays its transaction hash.
 
 ## Tests and evidence
@@ -91,7 +96,7 @@ node scripts/wallet-browser-qa.cjs
 
 Both scripts use `http://127.0.0.1:8874` by default; set `QA_URL` if the local server uses another address. `PLAYWRIGHT_MODULE` can point to a separately installed Playwright package. Without that override, the scripts load the project's ordinary `playwright` package. `BROWSER_EXECUTABLE` selects an existing Chromium-compatible browser. Otherwise, the scripts use Microsoft Edge when installed in its standard macOS location, or Playwright's installed Chromium. The Chromium installation command can be omitted when using an existing compatible browser. The recorded run used Playwright 1.62.1 and headless Microsoft Edge in an isolated profile.
 
-The updated browser rehearsal includes per-request approval history. The Sepolia deployment page and payment verifier were exercised together on a local EVM in eight scenarios (see `evidence/sepolia-deployment-rehearsal.json`). The standalone public Sepolia record in `evidence/sepolia-connectivity.json` records a read-only node check.
+The browser sandbox passed 14 checks, including per-request approval history. Eighteen injected-wallet checks covered wallet selection, account changes and transaction tracking. The Sepolia deployment page and payment verifier passed 15 local scenarios. [Deployment rehearsal](evidence/sepolia-deployment-rehearsal.json)
 
 Local test pass counts are functional evidence, not an independent security audit, a claim of novel multisignature research, or proof of mainnet deployment. Gas observations depend on compiler, optimizer and EVM fork and are not USD cost estimates.
 

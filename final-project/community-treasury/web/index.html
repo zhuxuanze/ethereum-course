@@ -7,10 +7,11 @@
   <meta name="description" content="A shared ETH treasury for open source teams. Review requests, approve payments and inspect confirmed transactions.">
   <title>Common Treasury · Treasury overview</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%2328205a'/%3E%3Cpath d='M11 17l13-7 13 7-13 7zM11 24l13 7 13-7M11 31l13 7 13-7' fill='none' stroke='%23c9bcff' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./styles.css?v=wallet-picker-1">
   <script defer src="./vendor/ethers.umd.min.js"></script>
   <script defer src="./vendor/ganache.min.js"></script>
-  <script defer src="./app.js"></script>
+  <script defer src="./wallet-providers.js?v=1"></script>
+  <script defer src="./app.js?v=wallet-picker-1"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to treasury</a>
@@ -47,8 +48,8 @@
         <div class="connection-actions"><button class="button primary" id="launch-demo">Launch sandbox</button><button class="button quiet" id="reset-demo" hidden>Reset sandbox</button></div>
       </div>
       <form id="wallet-connect-form" class="connection-content" hidden>
-        <div class="connection-copy"><label for="contract-address">Existing treasury contract</label><p>Select the matching network and enter your existing treasury address. <a href="./deploy-sepolia.html">Deploy a new Sepolia test treasury</a></p></div>
-        <div class="wallet-inputs"><input id="contract-address" name="contract" placeholder="0x… contract address" autocomplete="off" spellcheck="false" aria-label="Treasury contract address" required><button class="button primary" id="connect-wallet" type="submit">Connect wallet</button></div>
+        <div class="wallet-choice"><label for="wallet-provider">Browser wallet</label><select id="wallet-provider"></select></div>
+        <div class="connection-copy wallet-contract"><label for="contract-address">Existing treasury contract</label><div class="wallet-inputs"><input id="contract-address" name="contract" placeholder="0x… contract address" autocomplete="off" spellcheck="false" aria-label="Treasury contract address" required><button class="button primary" id="connect-wallet" type="submit">Connect wallet</button></div><p>Use the network where this treasury is deployed. <a href="./deploy-sepolia.html">Deploy a new Sepolia test treasury</a></p></div>
       </form>
       <div id="session-controls" class="session-row" hidden>
         <div id="role-switch-wrap"><label for="demo-role">Act as</label><select id="demo-role"><option value="0">Manager A</option><option value="1">Manager B</option><option value="2">Manager C</option><option value="3">Supporter</option></select></div>

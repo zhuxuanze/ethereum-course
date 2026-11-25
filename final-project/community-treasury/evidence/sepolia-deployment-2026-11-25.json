@@ -1,0 +1,33 @@
+{
+  "verifiedAt": "2026-11-25T13:47:46.162Z",
+  "network": "Ethereum Sepolia",
+  "chainId": "11155111",
+  "contractAddress": "0xad162de88c8919187A88cA8eC8D7384f09948297",
+  "deploymentTransactionHash": "0x599086f638e33b371dc05b74472118cbd5a818db8d98ee803d12834150ea442b",
+  "blockNumber": 12209921,
+  "blockHash": "0x105ad1b8be6a58bd7202dfd670469b8a780f38eb6825689e4731ad9b69e16310",
+  "receiptStatus": 1,
+  "gasUsed": "5075024",
+  "actualFeeWei": "5075024076125360",
+  "sourceSha256": "68f52ec3c1b91c0f371b6bdc7f403ea62a868fe0b0db02d99d381f15efe080f8",
+  "runtimeKeccak256": "0x6a5c0394b9160a7918a1427b7e1a2daeb79bf9b8dd95c62ce9f73f81b990b3d2",
+  "creationDataMatches": true,
+  "runtimeMatches": true,
+  "expectedOwnersChecked": true,
+  "ownerCount": 3,
+  "requiredConfirmations": 2,
+  "explorer": "https://sepolia.etherscan.io/tx/0x599086f638e33b371dc05b74472118cbd5a818db8d98ee803d12834150ea442b",
+  "walletDashboardReadback": {
+    "observedAt": "2026-11-25T13:49:08.208640+00:00",
+    "client": "Microsoft Edge and MetaMask",
+    "frontend": "Reviewed static build, served on loopback",
+    "networkLabel": "Sepolia",
+    "contractAddressMatched": true,
+    "recognizedRole": "Manager A",
+    "managerRows": 3,
+    "treasuryBalanceETH": "0",
+    "openRequests": 0,
+    "paymentsMade": 0,
+    "actions": "Connected and read the initial state. No deposit or payment was made."
+  }
+}

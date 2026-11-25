@@ -6,7 +6,7 @@ const state = {
   mode: 'sandbox', provider: null, engine: null, contract: null, signer: null,
   artifact: null, address: null, chainId: null, account: null, owners: [], accounts: [],
   balance: 0n, requests: [], totalCount: 0, pendingCount: 0, paidCount: 0,
-  filter: 'all', busy: false, epoch: 0, walletHandlers: null,
+  filter: 'all', busy: false, epoch: 0, wallet: null, walletHandlers: null,
   activeOperation: null, broadcasts: []
 };
 const names = ['Manager A', 'Manager B', 'Manager C'];
@@ -112,11 +112,13 @@ function clearSession() {
   const interruption = interruptOperation();
   clearPaymentDrafts();
   state.epoch += 1;
-  if (state.walletHandlers && window.ethereum?.removeListener) {
-    window.ethereum.removeListener('accountsChanged', state.walletHandlers.accounts);
-    window.ethereum.removeListener('chainChanged', state.walletHandlers.chain);
+  if (state.walletHandlers && state.wallet?.removeListener) {
+    for (const [event, handler] of Object.entries(state.walletHandlers)) {
+      state.wallet.removeListener(event, handler);
+    }
   }
   state.walletHandlers = null;
+  state.wallet = null;
   if (state.engine?.disconnect) {
     try { Promise.resolve(state.engine.disconnect()).catch(() => {}); } catch (_) { /* Already disconnected. */ }
   }
@@ -141,6 +143,8 @@ function clearSession() {
   $('pending-count').textContent = '—';
   $('executed-count').textContent = '—';
   $('treasury-address').textContent = 'Not connected';
+  $('current-account').textContent = '—';
+  $('current-role').textContent = '—';
   $('managers').replaceChildren();
   $('activity-list').replaceChildren(make('p', 'muted', 'Confirmed contract events will appear here.'));
   $('activity-network').textContent = 'Not connected';
@@ -226,43 +230,52 @@ async function loadWalletNetworks() {
 async function connectWallet(event) {
   event.preventDefault();
   if (state.busy) return;
-  if (!window.ethereum) return announce('No Ethereum wallet was found. Open this page in a wallet-enabled browser, or use the sandbox.', 'error');
+  const wallet = walletPicker.getProvider();
+  if (!wallet) return announce('No Ethereum wallet was found. Open this page in a wallet-enabled browser, or use the sandbox.', 'error');
   if (!window.ethers) return announce('The wallet library could not load. Refresh this page.', 'error');
   const input = $('contract-address').value.trim();
   if (!ethers.isAddress(input) || eq(input, ethers.ZeroAddress)) return announce('Enter a valid treasury contract address.', 'error');
   clearSession();
   const epoch = state.epoch;
+  state.wallet = wallet;
   setBusy(true);
   announce('Waiting for your wallet connection…', 'pending');
   try {
     const artifact = await loadArtifact();
-    networkNames = await loadWalletNetworks();
-    state.provider = new ethers.BrowserProvider(window.ethereum, undefined, { cacheTimeout: -1 });
-    await state.provider.send('eth_requestAccounts', []);
-    const network = await state.provider.getNetwork();
-    state.chainId = network.chainId;
-    if (!Object.hasOwn(networkNames, String(state.chainId))) {
-      throw new Error(`This wallet network (chain ID ${state.chainId}) is not enabled. Select a network approved for this treasury.`);
+    const networks = await loadWalletNetworks();
+    if (epoch !== state.epoch) return;
+    const provider = new ethers.BrowserProvider(wallet, undefined, { cacheTimeout: -1 });
+    const [approved] = await provider.send('eth_requestAccounts', []);
+    if (epoch !== state.epoch) return;
+    if (!approved) throw new Error('The selected wallet did not provide an account.');
+    const { chainId } = await provider.getNetwork();
+    if (!Object.hasOwn(networks, String(chainId))) {
+      throw new Error(`This wallet network (chain ID ${chainId}) is not enabled. Select a network approved for this treasury.`);
     }
-    state.address = ethers.getAddress(input);
-    const runtimeCode = await state.provider.getCode(state.address);
+    const address = ethers.getAddress(input);
+    const runtimeCode = await provider.getCode(address);
     if (runtimeCode === '0x') throw new Error('No contract exists at this address on the selected network. Check the address and wallet network.');
     if (!artifact.deployedBytecode || runtimeCode.toLowerCase() !== artifact.deployedBytecode.toLowerCase()) {
       throw new Error('This address does not contain the verified course treasury contract. Check the address and selected network before connecting.');
     }
-    state.contract = new ethers.Contract(state.address, artifact.abi, state.provider);
-    const threshold = await state.contract.REQUIRED_CONFIRMATIONS();
+    const contract = new ethers.Contract(address, artifact.abi, provider);
+    const threshold = await contract.REQUIRED_CONFIRMATIONS();
     if (threshold !== 2n) throw new Error('This treasury does not use the required two-approval policy.');
-    state.owners = await Promise.all([0, 1, 2].map((index) => state.contract.owners(index)));
-    if (new Set(state.owners.map((owner) => owner.toLowerCase())).size !== 3) throw new Error('This treasury does not expose three distinct managers.');
-    state.signer = await state.provider.getSigner();
-    state.account = await state.signer.getAddress();
+    const owners = await Promise.all([0, 1, 2].map((index) => contract.owners(index)));
+    if (new Set(owners.map((owner) => owner.toLowerCase())).size !== 3) throw new Error('This treasury does not expose three distinct managers.');
     if (epoch !== state.epoch) return;
-    updateConnection();
-    await refreshData();
+    const signer = await provider.getSigner(approved);
+    const account = await signer.getAddress();
+    const [activeAccounts, activeChain] = await Promise.all([
+      wallet.request({ method: 'eth_accounts' }), wallet.request({ method: 'eth_chainId' })
+    ]);
+    if (epoch !== state.epoch) return;
+    if (!eq(activeAccounts[0], account) || BigInt(activeChain) !== chainId) throw new Error('The wallet account or network changed while connecting. Reconnect to review the new selection.');
+    networkNames = networks;
+    Object.assign(state, { provider, chainId, address, contract, owners, signer, account });
     state.walletHandlers = {
-      accounts: async (accounts) => {
-        if (state.mode !== 'wallet') return;
+      accountsChanged: async (accounts) => {
+        if (state.wallet !== wallet) return;
         if (accounts.length && eq(accounts[0], state.account)) return;
         clearPaymentDrafts();
         const interruption = interruptOperation();
@@ -288,13 +301,21 @@ async function connectWallet(event) {
         } catch (error) { if (epoch === state.epoch) announce(errorMessage(error), 'error'); }
         finally { if (epoch === state.epoch) setBusy(false); }
       },
-      chain: () => {
+      chainChanged: () => {
+        if (state.wallet !== wallet) return;
         const interruption = clearSession();
         announce(`Your wallet network changed. Check the treasury address and reconnect to this network.${interruption}`);
+      },
+      disconnect: () => {
+        if (state.wallet !== wallet) return;
+        const interruption = clearSession();
+        announce(`Your wallet disconnected. Reconnect to continue.${interruption}`);
       }
     };
-    window.ethereum.on?.('accountsChanged', state.walletHandlers.accounts);
-    window.ethereum.on?.('chainChanged', state.walletHandlers.chain);
+    for (const [event, handler] of Object.entries(state.walletHandlers)) wallet.on?.(event, handler);
+    updateConnection();
+    await refreshData();
+    if (epoch !== state.epoch) return;
     announce(`Connected to ${networkNames[String(state.chainId)] || `chain ${state.chainId}`}. Transactions will require your wallet confirmation.`, 'success');
   } catch (error) {
     if (epoch === state.epoch) {
@@ -652,10 +673,10 @@ function renderBroadcasts() {
 
 async function preflightWallet(snapshot) {
   if (snapshot.mode !== 'wallet') return;
-  if (!window.ethereum) throw new Error('Your Ethereum wallet is unavailable. Reconnect before sending.');
+  if (!snapshot.wallet || snapshot.wallet !== walletPicker.getProvider()) throw new Error('Your selected wallet changed. Reconnect before sending.');
   const [accounts, chain] = await Promise.all([
-    window.ethereum.request({ method: 'eth_accounts' }),
-    window.ethereum.request({ method: 'eth_chainId' })
+    snapshot.wallet.request({ method: 'eth_accounts' }),
+    snapshot.wallet.request({ method: 'eth_chainId' })
   ]);
   if (snapshot.epoch !== state.epoch) throw new Error('The connected session changed. Review the account and network before trying again.');
   const accountChanged = !accounts.length || !eq(accounts[0], snapshot.account);
@@ -673,7 +694,7 @@ async function transact(label, send, after) {
   if (state.busy || !state.signer || !state.contract) return;
   const epoch = state.epoch;
   const snapshot = {
-    epoch, provider: state.provider, contract: state.contract, signer: state.signer,
+    epoch, wallet: state.wallet, provider: state.provider, contract: state.contract, signer: state.signer,
     address: state.address, account: state.account, chainId: state.chainId, mode: state.mode
   };
   const operation = { epoch, mode: snapshot.mode, label, hash: null, chainId: snapshot.chainId, interrupted: false };
@@ -769,6 +790,12 @@ async function requestAction(action, id) {
   await transact(namesByAction[action], (session) => session.contract.connect(session.signer)[methods[action]](id, { chainId: session.chainId }));
 }
 
+const walletPicker = window.TreasuryWallets.bind($('wallet-provider'), (wallet) => {
+  if (state.mode !== 'wallet' || !state.wallet || state.wallet === wallet) return;
+  const interruption = clearSession();
+  $('contract-address').value = '';
+  announce(`Wallet selection changed. Enter the treasury address and connect the selected wallet.${interruption}`);
+});
 $('sandbox-mode').addEventListener('click', () => selectMode('sandbox'));
 $('wallet-mode').addEventListener('click', () => selectMode('wallet'));
 $('launch-demo').addEventListener('click', launchSandbox);
